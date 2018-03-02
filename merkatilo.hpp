@@ -9,6 +9,7 @@
 #include <functional>
 #include <memory>
 #include <initializer_list>
+#include <map>
 
 namespace merkatilo {
 
@@ -49,12 +50,12 @@ namespace merkatilo {
   typedef std::shared_ptr<series> series_ptr;
 
   struct series_builder {
-    std::unordered_map<unsigned,double> collector;
+    std::map<jdate,double> collector;
     void insert(jdate,double);
     series_ptr construct();
   };
 
-  typedef const std::set<jdate> dateset;
+  typedef const std::vector<jdate> dateset;
   typedef std::shared_ptr<dateset> dateset_ptr;
 
   class dateset_builder {

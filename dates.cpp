@@ -3,7 +3,7 @@
 
 namespace merkatilo {
 
-  static dateset series_to_dateset(const series_ptr s)
+  static std::set<jdate> series_to_set(const series_ptr s)
   {
     std::set<jdate> result;
     for(auto dt = jdate::MIN_DATE; dt < jdate::MAX_DATE; dt = dt+1){
@@ -14,7 +14,7 @@ namespace merkatilo {
     return result;
   }
 
-  static dateset range_to_dateset(jdate low, jdate high)
+  static std::set<jdate> range_to_set(jdate low, jdate high)
   {
     std::set<jdate> result;
     while(low <= high){
@@ -24,12 +24,12 @@ namespace merkatilo {
     return result;
   }
 
-  dateset_builder::dateset_builder(dateset_ptr ds) : _so_far(*ds) {}
+  dateset_builder::dateset_builder(dateset_ptr ds) : _so_far(ds->begin(),ds->end()) {}
 
-  dateset_builder::dateset_builder(series_ptr s) : _so_far(series_to_dateset(s)) {}
+  dateset_builder::dateset_builder(series_ptr s) : _so_far(series_to_set(s)) {}
 
   dateset_builder::dateset_builder(jdate low, jdate high)
-    : _so_far(range_to_dateset(low,high)), _low(low), _high(high) {}
+    : _so_far(range_to_set(low,high)), _low(low), _high(high) {}
 
 
   static std::set<jdate> _intersect(std::set<jdate> initial, std::function<bool(jdate)> f)
@@ -44,7 +44,8 @@ namespace merkatilo {
   }
 
   dateset_builder& dateset_builder::intersect(dateset_ptr ds){
-    _so_far = _intersect(_so_far, [&](jdate dt){ return ds->find(dt) != ds->end(); });
+    auto s = std::set<jdate>(ds->begin(),ds->end());
+    _so_far = _intersect(_so_far, [&](jdate dt){ return s.find(dt) != s.end(); });
     return *this;
   }
 
@@ -79,7 +80,7 @@ namespace merkatilo {
   }
 
   dateset dateset_builder::construct() {
-    return _so_far;
+    return std::vector<jdate>(_so_far.begin(), _so_far.end());
   }
 
 }

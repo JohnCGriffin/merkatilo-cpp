@@ -8,28 +8,38 @@ namespace merkatilo {
 
   void series_builder::insert(jdate jd, double value){
     if(!std::isnan(value)){
-      this->collector.insert({jd.julian(),value});
+      this->collector.insert({jd,value});
     }
   }
 
   struct series_builder_series : public series {
-    using mtype_t = std::unordered_map<unsigned,double>;
-    using mptype_t = std::shared_ptr<mtype_t>;
-    mptype_t sp;
-    series_builder_series(mptype_t sp):sp(sp){}
+    const std::vector<std::optional<double>> v;
+    jdate fd;
+    jdate ld;
+    series_builder_series(const std::vector<std::optional<double>>& v, jdate fd, jdate ld)
+      : v(v), fd(fd), ld(ld) {}
     std::optional<double> at(jdate jd) const override {
-      auto p = sp->find(jd.julian());
-      if(p == sp->end()){
+      if(jd < fd || ld < jd){
 	return {};
       }
-      return p->second;
+      return v.at(jd - fd);
     }
   };
 
   std::shared_ptr<series> series_builder::construct()
   {
-    auto p = std::make_shared<series_builder_series::mtype_t>(this->collector);
-    return std::make_shared<series_builder_series>(p);
+    auto fd = collector.begin()->first;
+    auto ld = collector.rbegin()->first;
+    std::vector<std::optional<double>> v;
+    for(auto dt = fd; dt <= ld; dt = dt+1){
+      auto it = collector.find(dt);
+      if(it == collector.end()){
+	v.push_back({});
+      } else {
+	v.push_back(it->second);
+      }
+    }
+    return std::make_shared<series_builder_series>(v,fd,ld);
   }
   
 }
