@@ -1,9 +1,9 @@
 
 CXX=g++
 CXXFLAGS=-no-pie -g -pg --std=c++17 
-CXXFLAGS=-O2 --std=c++17 
+CXXFLAGS=-O2 --std=c++17 -fmax-errors=1
 
-OBS = jdate.o dates.o lo.o current_dates.o dump.o series_builder.o ema.o sma.o
+OBS = jdate.o dates.o lo.o current_dates.o dump.o series_builder.o ema.o sma.o series.o
 
 main: merkatilo.hpp.gch main.o $(OBS)
 	$(CXX) $(CXXFLAGS) main.o $(OBS) -o main

@@ -25,7 +25,7 @@ namespace merkatilo {
     return result;
   }
 
-  static series default_loader(std::string id)
+  static series_ptr default_loader(std::string id)
   {
     std::ostringstream oss;
     oss << getenv("HOME") << "/TIME_SERIES";
@@ -51,9 +51,9 @@ namespace merkatilo {
     return id;
   }
 
-  static thread_local std::function<series(std::string)> loader = default_loader;
+  static thread_local std::function<series_ptr(std::string)> loader = default_loader;
 
-  series lo(std::string id)
+  series_ptr lo(std::string id)
   {
     return loader(normalize_id(id));
   }

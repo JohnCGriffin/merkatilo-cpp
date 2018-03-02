@@ -12,12 +12,12 @@ namespace merkatilo {
     }
   }
 
-  struct series_builder_series {
+  struct series_builder_series : public series {
     using mtype_t = std::unordered_map<unsigned,double>;
     using mptype_t = std::shared_ptr<mtype_t>;
     mptype_t sp;
     series_builder_series(mptype_t sp):sp(sp){}
-    std::optional<double> operator()(jdate jd) const {
+    std::optional<double> at(jdate jd) const override {
       auto p = sp->find(jd.julian());
       if(p == sp->end()){
 	return {};
@@ -26,10 +26,10 @@ namespace merkatilo {
     }
   };
 
-  series series_builder::construct()
+  std::shared_ptr<series> series_builder::construct()
   {
     auto p = std::make_shared<series_builder_series::mtype_t>(this->collector);
-    return series_builder_series(p);
+    return std::make_shared<series_builder_series>(p);
   }
   
 }

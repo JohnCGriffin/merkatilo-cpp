@@ -19,7 +19,7 @@ int main()
   auto IBM = lo("IBM");
 
   for(auto dt = today()-20; dt<today(); dt = dt+1){
-    auto val = IBM(dt);
+    auto val = IBM->at(dt);
     if(val){
       std::cout << dt << " " << (*val) << "\n";
     }
@@ -28,14 +28,15 @@ int main()
   auto ds = dateset_builder(IBM).construct();
 
   for(auto dt : ds){
-    std::cout << dt << " " << IBM(dt).value() << "\n";
+    std::cout << dt << " " << IBM->at(dt).value() << "\n";
   }
 
   current_dates active(IBM);
   dump({IBM, ema(IBM,20), sma(IBM,20) });
 
   for(int i=0; i<1000; i++){
-    ema(IBM,20);
+    sma(IBM,i+2);
+    ema(IBM,i+2);
   }
   
 }

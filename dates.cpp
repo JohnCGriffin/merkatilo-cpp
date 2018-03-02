@@ -3,11 +3,11 @@
 
 namespace merkatilo {
 
-  static dateset series_to_dateset(const series& s)
+  static dateset series_to_dateset(const series_ptr s)
   {
     std::set<jdate> result;
     for(auto dt = jdate::MIN_DATE; dt < jdate::MAX_DATE; dt = dt+1){
-      if (s(dt)){
+      if (s->at(dt)){
 	result.insert(dt);
       }
     }
@@ -24,9 +24,9 @@ namespace merkatilo {
     return result;
   }
 
-  dateset_builder::dateset_builder(dateset& ds) : _so_far(ds) {}
+  dateset_builder::dateset_builder(dateset_ptr ds) : _so_far(*ds) {}
 
-  dateset_builder::dateset_builder(series& s) : _so_far(series_to_dateset(s)) {}
+  dateset_builder::dateset_builder(series_ptr s) : _so_far(series_to_dateset(s)) {}
 
   dateset_builder::dateset_builder(jdate low, jdate high)
     : _so_far(range_to_dateset(low,high)), _low(low), _high(high) {}
@@ -43,18 +43,18 @@ namespace merkatilo {
     return result;
   }
 
-  dateset_builder& dateset_builder::intersect(dateset& ds){
-    _so_far = _intersect(_so_far, [&](jdate dt){ return ds.find(dt) != ds.end(); });
+  dateset_builder& dateset_builder::intersect(dateset_ptr ds){
+    _so_far = _intersect(_so_far, [&](jdate dt){ return ds->find(dt) != ds->end(); });
     return *this;
   }
 
-  dateset_builder& dateset_builder::intersect(series& s){
-    _so_far = _intersect(_so_far, [&](jdate jd){ return s(jd) ? true : false; });
+  dateset_builder& dateset_builder::intersect(series_ptr s){
+    _so_far = _intersect(_so_far, [&](jdate jd){ return s->at(jd) ? true : false; });
     return *this;
   }
 
-  dateset_builder& dateset_builder::add(dateset& ds){
-    for(auto jd : ds){
+  dateset_builder& dateset_builder::add(dateset_ptr ds){
+    for(auto jd : *ds){
       if(_low && jd < *_low){
 	continue;
       }
@@ -66,11 +66,11 @@ namespace merkatilo {
     return *this;
   }
 
-  dateset_builder& dateset_builder::add(series& s){
+  dateset_builder& dateset_builder::add(series_ptr s){
     auto low = _low ? *_low : jdate::MIN_DATE;
     auto high = _high ? *_high : jdate::MAX_DATE;
     while (low <= high){
-      if(s(low)){
+      if(s->at(low)){
 	_so_far.insert(low);
       }
       low = low + 1;

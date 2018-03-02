@@ -5,7 +5,7 @@
 
 namespace merkatilo {
   
-  void dump(std::initializer_list<series> seriesz)
+  void dump(std::initializer_list<series_ptr> seriesz)
   {
     for(auto dt : current_dates::active()){
       bool valid_row = false;
@@ -15,7 +15,7 @@ namespace merkatilo {
 	oss << " ";
 	oss.width(12);
 	oss.precision(4);
-	auto val = s(dt);
+	auto val = s->at(dt);
 	if(val){
 	  valid_row = true;
 	  oss << std::fixed << val.value();

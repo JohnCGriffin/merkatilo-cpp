@@ -3,8 +3,9 @@
 
 namespace merkatilo {
 
-  series sma(series s, unsigned N)
+  series_ptr sma(series_ptr s, unsigned N)
   {
+    auto sp = s.get();
     double total = 0;
     unsigned count = 0;
     double cycle[N];
@@ -13,7 +14,7 @@ namespace merkatilo {
 
     for (auto dt : current_dates::active()){
       
-      auto val = s(dt);
+      auto val = sp->at(dt);
       
       if(!val){
 	total = count = 0;
