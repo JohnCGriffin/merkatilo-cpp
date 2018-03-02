@@ -49,9 +49,18 @@ namespace merkatilo {
 
   typedef std::shared_ptr<series> series_ptr;
 
+  struct observation {
+    jdate dt;
+    double val;
+    bool operator<(const observation& another){
+      return dt.julian() < another.dt.julian();
+    }
+  };
+  
   struct series_builder {
-    std::map<jdate,double> collector;
-    void insert(jdate,double);
+    bool ordered = true;
+    std::vector<observation> obs;
+    void insert(observation);
     series_ptr construct();
   };
 

@@ -20,7 +20,7 @@ namespace merkatilo {
 	prev = val;
       }
       if(prev){
-	builder.insert(dt, prev.value());
+	builder.insert({dt, prev.value()});
       }
     }
     return builder.construct();

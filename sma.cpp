@@ -28,7 +28,7 @@ namespace merkatilo {
 	  total -= cycle[slot];
 	}
 	cycle[slot] = v;
-	builder.insert(dt,(total/N));
+	builder.insert({dt,(total/N)});
       }
     }
     return builder.construct();

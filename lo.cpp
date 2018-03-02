@@ -38,7 +38,7 @@ namespace merkatilo {
     series_builder builder;
     while(ifs >> date_token >> value){
       auto jd = jdate(date_token);
-      builder.insert(jd,value);
+      builder.insert({jd,value});
     }
     return builder.construct();
   }

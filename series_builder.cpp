@@ -6,10 +6,12 @@
 
 namespace merkatilo {
 
-  void series_builder::insert(jdate jd, double value){
-    if(!std::isnan(value)){
-      this->collector.insert({jd,value});
+  void series_builder::insert(observation ob){
+    auto sz = obs.size();
+    if(sz && ob.dt <= obs.at(sz-1).dt){
+      ordered = false;
     }
+    obs.push_back(ob);
   }
 
   struct series_builder_series : public series {
@@ -28,16 +30,18 @@ namespace merkatilo {
 
   std::shared_ptr<series> series_builder::construct()
   {
-    auto fd = collector.begin()->first;
-    auto ld = collector.rbegin()->first;
+    if(!ordered){
+      std::sort(obs.begin(), obs.end());
+    }
+    auto fd = obs.begin()->dt;
+    auto ld = obs.rbegin()->dt;
     std::vector<std::optional<double>> v;
     for(auto dt = fd; dt <= ld; dt = dt+1){
-      auto it = collector.find(dt);
-      if(it == collector.end()){
-	v.push_back({});
-      } else {
-	v.push_back(it->second);
-      }
+      v.push_back({});
+    }
+    for(auto ob : obs){
+      int slot = ob.dt - fd;
+      v.at(slot) = ob.val;
     }
     return std::make_shared<series_builder_series>(v,fd,ld);
   }
