@@ -16,13 +16,13 @@ namespace merkatilo {
     for (auto ob : *obs){
       auto dt = ob.dt;
       auto val = ob.val;
-      if(val && prev){
-	prev = new_fraction * val.value() + old_fraction * prev.value();
+      if(valid(val) && valid(prev)){
+	prev = new_fraction * valueof(val) + old_fraction * valueof(prev);
       } else {
 	prev = val;
       }
-      if(prev){
-	builder.insert({dt, prev.value()});
+      if(valid(prev)){
+	builder.insert({dt, valueof(prev)});
       }
     }
     return builder.construct();

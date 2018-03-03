@@ -17,12 +17,16 @@ namespace merkatilo {
     inline opt_double(double v) : _d(v) {}
     inline operator bool() const { return _d == _d; }
     inline double operator*() const { return _d; }
-    inline double value() const { return _d; }
+    //inline double value() const { return _d; }
   };
 
-  typedef std::vector<opt_double> opt_double_v;
-  typedef std::shared_ptr<opt_double_v> opt_double_v_ptr;
+  typedef opt_double value_type;
+  typedef std::vector<value_type> value_type_v;
+  typedef std::shared_ptr<value_type_v> value_type_v_ptr;
 
+  inline bool valid(value_type v){ return v ? true : false; }
+  inline double valueof(value_type v) { return *v; }
+  
   typedef unsigned jdate;
 
   jdate ymd_to_jdate(int y,int m, int d);
@@ -42,7 +46,7 @@ namespace merkatilo {
 
   struct observation {
     jdate dt;
-    opt_double val;
+    value_type val;
     bool operator<(const observation& another) const {
       return dt < another.dt;
     }
@@ -54,7 +58,7 @@ namespace merkatilo {
   class series {
   public:
     virtual ~series();
-    virtual opt_double at(jdate) const;
+    virtual value_type at(jdate) const;
     virtual observations_ptr observations_by_date (jdate_v_ptr dates);
   };
 

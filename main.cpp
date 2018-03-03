@@ -20,15 +20,15 @@ int main()
 
   for(auto dt = today()-20; dt<today(); dt = dt+1){
     auto val = IBM->at(dt);
-    if(val){
-      std::cout << dt << " " << (*val) << "\n";
+    if(valid(val)){
+      std::cout << dt << " " << valueof(val) << "\n";
     }
   }
 
   auto ds = dateset_builder(IBM).construct();
 
   for(auto dt : ds){
-    std::cout << dt << " " << IBM->at(dt).value() << "\n";
+    std::cout << dt << " " << valueof(IBM->at(dt)) << "\n";
   }
 
   current_dates active(IBM);

@@ -17,9 +17,9 @@ namespace merkatilo {
 	oss.width(12);
 	oss.precision(4);
 	auto val = s->at(dt);
-	if(val){
+	if(valid(val)){
 	  valid_row = true;
-	  oss << std::fixed << val.value();
+	  oss << std::fixed << valueof(val);
 	} else {
 	  oss << "      ";
 	}

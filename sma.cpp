@@ -18,11 +18,11 @@ namespace merkatilo {
       auto dt = ob.dt;
       auto val = ob.val;
       
-      if(!val){
+      if(!valid(val)){
 	total = count = 0;
 	
       } else {
-	double v = val.value();
+	double v = valueof(val);
 	int slot = count % N;
 	count++;
 	total += v;

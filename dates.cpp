@@ -9,7 +9,7 @@ namespace merkatilo {
   {
     std::set<jdate> result;
     for(auto dt = MIN_DATE; dt < MAX_DATE; dt = dt+1){
-      if (s->at(dt)){
+      if (valid(s->at(dt))){
 	result.insert(dt);
       }
     }
@@ -40,7 +40,7 @@ namespace merkatilo {
   {
     std::set<jdate> result;
     for(auto jd : initial){
-      if(f(jd)){
+      if(valid(f(jd))){
 	result.insert(jd);
       }
     }
@@ -75,7 +75,7 @@ namespace merkatilo {
     auto low = _low ? _low : MIN_DATE;
     auto high = _high ? _high : MAX_DATE;
     while (low <= high){
-      if(s->at(low)){
+      if(valid(s->at(low))){
 	_so_far.insert(low);
       }
       low = low + 1;
