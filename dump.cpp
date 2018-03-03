@@ -11,7 +11,7 @@ namespace merkatilo {
     for(auto dt : *current_dates::active()){
       bool valid_row = false;
       std::ostringstream oss;
-      oss << dt << " ";
+      oss << jdate_to_string(dt) << " ";
       for (auto s : seriesz){
 	oss << " ";
 	oss.width(12);

@@ -1,6 +1,8 @@
 
 #include "merkatilo.hpp"
 
+#include <iostream>
+
 namespace merkatilo {
 
   series_ptr sma(series_ptr s, unsigned N)
@@ -30,7 +32,9 @@ namespace merkatilo {
 	  total -= cycle[slot];
 	}
 	cycle[slot] = v;
-	builder.insert({dt,(total/N)});
+	if(count >= N){
+		builder.insert({dt,(total/N)});
+	}
       }
     }
     return builder.construct();

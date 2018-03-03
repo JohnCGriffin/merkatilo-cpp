@@ -32,7 +32,7 @@ namespace merkatilo {
       if(jd < fd || ld < jd){
 	return default_value();
       }
-      return v[(jd - fd)];
+      return v.at(jd - fd);
     }
     observations_ptr observations_by_date (jdate_v_ptr dates) override {
       observations_ptr result;
@@ -50,10 +50,15 @@ namespace merkatilo {
     }
   };
 
+  
+
   series_ptr series_builder::construct()
   {
     if(!ordered){
       std::sort(obs.begin(), obs.end());
+    }
+    if(obs.empty()){
+      return std::make_shared<series>();
     }
     auto fd = obs.begin()->dt;
     auto ld = obs.rbegin()->dt;
