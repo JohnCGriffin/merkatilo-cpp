@@ -6,9 +6,14 @@
 
 namespace merkatilo {
 
+  static size_t last_build_size = 0;
+  
   void series_builder::insert(observation ob){
     auto sz = obs.size();
-    if(sz && ob.dt <= obs.at(sz-1).dt){
+    if(!sz && last_build_size){
+      obs.reserve(last_build_size);
+    }
+    if(sz && ob.dt <= obs[sz-1].dt){
       ordered = false;
     }
     obs.push_back(ob);
@@ -18,16 +23,16 @@ namespace merkatilo {
   
   struct series_builder_series : public series {
     std::unique_ptr<obs_cache> cache;
-    const std::vector<opt_double> v;
+    const value_type_v v;
     jdate fd;
     jdate ld;
-    series_builder_series(const std::vector<opt_double>& v, jdate fd, jdate ld)
+    series_builder_series(const value_type_v& v, jdate fd, jdate ld)
       : v(v), fd(fd), ld(ld) {}
-    opt_double at(jdate jd) const override {
+    value_type at(jdate jd) const override {
       if(jd < fd || ld < jd){
-	return {};
+	return default_value();
       }
-      return v.at(jd - fd);
+      return v[(jd - fd)];
     }
     observations_ptr observations_by_date (jdate_v_ptr dates) override {
       observations_ptr result;
@@ -52,14 +57,15 @@ namespace merkatilo {
     }
     auto fd = obs.begin()->dt;
     auto ld = obs.rbegin()->dt;
-    std::vector<opt_double> v;
+    value_type_v v;
     for(auto dt = fd; dt <= ld; dt = dt+1){
-      v.push_back({});
+      v.push_back(default_value());
     }
     for(auto ob : obs){
       int slot = ob.dt - fd;
       v.at(slot) = ob.val;
     }
+    last_build_size = obs.size();
     return std::make_shared<series_builder_series>(v,fd,ld);
   }
   

@@ -10,6 +10,10 @@
 
 namespace merkatilo {
 
+#define _USING_OPTIONAL_DOUBLE_
+
+#ifdef _USING_OPTIONAL_DOUBLE_
+
   class opt_double {
     double _d;
   public:
@@ -19,14 +23,22 @@ namespace merkatilo {
     inline double operator*() const { return _d; }
     //inline double value() const { return _d; }
   };
-
+  
   typedef opt_double value_type;
+  inline bool valid(value_type v){ return v ? true : false; }
+  inline double valueof(value_type v) { return *v; }
+  inline value_type default_value() { return opt_double(); }
+#else
+  typedef double value_type;
+  inline bool valid(value_type v){ return v == v; }
+#define valueof(x) x
+  //inline double valueof(value_type v) { return v; }
+  inline value_type default_value() { return std::numeric_limits<double>::quiet_NaN(); }
+#endif
+
   typedef std::vector<value_type> value_type_v;
   typedef std::shared_ptr<value_type_v> value_type_v_ptr;
 
-  inline bool valid(value_type v){ return v ? true : false; }
-  inline double valueof(value_type v) { return *v; }
-  
   typedef unsigned jdate;
 
   jdate ymd_to_jdate(int y,int m, int d);

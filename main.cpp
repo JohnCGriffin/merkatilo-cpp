@@ -33,7 +33,7 @@ int main()
 
   current_dates active(IBM);
   dump({IBM, ema(IBM,20), sma(IBM,20) });
-
+  
   for(int i=0; i<1000; i++){
     sma(IBM,i+2);
     ema(IBM,i+2);
