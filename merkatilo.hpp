@@ -10,10 +10,21 @@
 #include <memory>
 #include <initializer_list>
 #include <map>
+#include <limits>
 
 namespace merkatilo {
 
-  typedef std::optional<double> opt_double;
+  class opt_double {
+    double _d;
+  public:
+    inline opt_double() : _d(std::numeric_limits<double>::quiet_NaN()) {}
+    inline opt_double(double v) : _d(v) {}
+    inline operator bool() const { return _d == _d; }
+    inline double operator*() const { return _d; }
+    inline double value() const { return _d; }
+  };
+
+  //typedef std::optional<double> opt_double;
   typedef std::vector<opt_double> opt_double_v;
   typedef std::shared_ptr<opt_double_v> opt_double_v_ptr;
   

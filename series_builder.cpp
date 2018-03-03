@@ -3,7 +3,6 @@
 #include <cmath>
 #include <memory>
 
-
 namespace merkatilo {
 
   void series_builder::insert(observation ob){
@@ -18,12 +17,12 @@ namespace merkatilo {
   
   struct series_builder_series : public series {
     std::unique_ptr<obs_cache> cache;
-    const std::vector<std::optional<double>> v;
+    const std::vector<opt_double> v;
     jdate fd;
     jdate ld;
-    series_builder_series(const std::vector<std::optional<double>>& v, jdate fd, jdate ld)
+    series_builder_series(const std::vector<opt_double>& v, jdate fd, jdate ld)
       : v(v), fd(fd), ld(ld) {}
-    std::optional<double> at(jdate jd) const override {
+    opt_double at(jdate jd) const override {
       if(jd < fd || ld < jd){
 	return {};
       }
@@ -52,7 +51,7 @@ namespace merkatilo {
     }
     auto fd = obs.begin()->dt;
     auto ld = obs.rbegin()->dt;
-    std::vector<std::optional<double>> v;
+    std::vector<opt_double> v;
     for(auto dt = fd; dt <= ld; dt = dt+1){
       v.push_back({});
     }
