@@ -1,11 +1,9 @@
 
 #include "merkatilo.hpp"
 
-#include <vector>
 #include <sstream>
 #include <fstream>
-#include <map>
-#include <memory>
+#include <functional>
 
 namespace merkatilo {
   

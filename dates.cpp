@@ -1,6 +1,8 @@
 
 #include "merkatilo.hpp"
 
+#include <functional>
+
 namespace merkatilo {
 
   static std::set<jdate> series_to_set(const series_ptr s)
@@ -24,9 +26,11 @@ namespace merkatilo {
     return result;
   }
 
-  dateset_builder::dateset_builder(dateset_ptr ds) : _so_far(ds->begin(),ds->end()) {}
+  dateset_builder::dateset_builder(dateset_ptr ds)
+    : _so_far(ds->begin(),ds->end()),_low(0),_high(0) {}
 
-  dateset_builder::dateset_builder(series_ptr s) : _so_far(series_to_set(s)) {}
+  dateset_builder::dateset_builder(series_ptr s)
+    : _so_far(series_to_set(s)),_low(0),_high(0) {}
 
   dateset_builder::dateset_builder(jdate low, jdate high)
     : _so_far(range_to_set(low,high)), _low(low), _high(high) {}
@@ -56,10 +60,10 @@ namespace merkatilo {
 
   dateset_builder& dateset_builder::add(dateset_ptr ds){
     for(auto jd : *ds){
-      if(_low && jd < *_low){
+      if(_low && jd < _low){
 	continue;
       }
-      if(_high && *_high < jd){
+      if(_high && _high < jd){
 	continue;
       }
       _so_far.insert(jd); 
@@ -68,8 +72,8 @@ namespace merkatilo {
   }
 
   dateset_builder& dateset_builder::add(series_ptr s){
-    auto low = _low ? *_low : MIN_DATE;
-    auto high = _high ? *_high : MAX_DATE;
+    auto low = _low ? _low : MIN_DATE;
+    auto high = _high ? _high : MAX_DATE;
     while (low <= high){
       if(s->at(low)){
 	_so_far.insert(low);

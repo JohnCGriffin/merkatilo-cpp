@@ -2,6 +2,7 @@
 #include "merkatilo.hpp"
 #include <cmath>
 #include <memory>
+#include <algorithm>
 
 namespace merkatilo {
 

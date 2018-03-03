@@ -2,6 +2,7 @@
 #include "merkatilo.hpp"
 
 #include <sstream>
+#include <iostream>
 
 namespace merkatilo {
   

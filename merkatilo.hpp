@@ -4,13 +4,9 @@
 
 #include <set>
 #include <string>
-#include <iostream>
-#include <tuple>
-#include <functional>
 #include <memory>
-#include <initializer_list>
-#include <map>
 #include <limits>
+#include <vector>
 
 namespace merkatilo {
 
@@ -24,7 +20,6 @@ namespace merkatilo {
     inline double value() const { return _d; }
   };
 
-  //typedef std::optional<double> opt_double;
   typedef std::vector<opt_double> opt_double_v;
   typedef std::shared_ptr<opt_double_v> opt_double_v_ptr;
 
@@ -48,7 +43,7 @@ namespace merkatilo {
   struct observation {
     jdate dt;
     opt_double val;
-    bool operator<(const observation& another){
+    bool operator<(const observation& another) const {
       return dt < another.dt;
     }
   };
@@ -77,8 +72,8 @@ namespace merkatilo {
 
   class dateset_builder {
     std::set<jdate> _so_far;
-    std::optional<jdate> _low;
-    std::optional<jdate> _high;
+    jdate _low;
+    jdate _high;
   public:
     dateset_builder(dateset_ptr);
     dateset_builder(series_ptr);
