@@ -6,7 +6,7 @@ namespace merkatilo {
   static std::set<jdate> series_to_set(const series_ptr s)
   {
     std::set<jdate> result;
-    for(auto dt = jdate::MIN_DATE; dt < jdate::MAX_DATE; dt = dt+1){
+    for(auto dt = MIN_DATE; dt < MAX_DATE; dt = dt+1){
       if (s->at(dt)){
 	result.insert(dt);
       }
@@ -68,8 +68,8 @@ namespace merkatilo {
   }
 
   dateset_builder& dateset_builder::add(series_ptr s){
-    auto low = _low ? *_low : jdate::MIN_DATE;
-    auto high = _high ? *_high : jdate::MAX_DATE;
+    auto low = _low ? *_low : MIN_DATE;
+    auto high = _high ? *_high : MAX_DATE;
     while (low <= high){
       if(s->at(low)){
 	_so_far.insert(low);

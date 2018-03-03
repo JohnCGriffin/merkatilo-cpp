@@ -5,16 +5,16 @@
 int main()
 {
   using namespace merkatilo;
-  auto tdy = jdate(2018,2,27);
+  auto tdy = ymd_to_jdate(2018,2,27);
   for (int i=0; i<10; i++){
     std::cout << (tdy + i) << std::endl;
   }
 
   std::cout << "today is " << today() << std::endl;
 
-  std::cout << "today year " << today().year() << std::endl;
-  std::cout << "today month " << today().month() << std::endl;
-  std::cout << "today day " << today().day() << std::endl;
+  std::cout << "today year " << year(today()) << std::endl;
+  std::cout << "today month " << month(today()) << std::endl;
+  std::cout << "today day " << day(today()) << std::endl;
 
   auto IBM = lo("IBM");
 

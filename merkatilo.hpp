@@ -27,33 +27,20 @@ namespace merkatilo {
   //typedef std::optional<double> opt_double;
   typedef std::vector<opt_double> opt_double_v;
   typedef std::shared_ptr<opt_double_v> opt_double_v_ptr;
-  
-  class jdate {
-    jdate(unsigned jd);
-    unsigned jd;
-  public:
-    jdate(int y, int m, int d);
-    jdate(std::string s);
-    jdate(const jdate& another);
-    std::string to_string(void) const;
-    std::tuple<int,int,int> ymd(void) const;
-    int year() const;
-    int month() const;
-    int day() const;
-    jdate operator+(int offset) const;
-    jdate operator-(int offset) const;
-    int operator-(const jdate& another) const;
-    bool operator<(const jdate& another) const;
-    bool operator<=(const jdate& another) const;
-    unsigned julian() const;
-  
-    static const jdate MAX_DATE;
-    static const jdate MIN_DATE;
 
-    friend std::ostream& operator<<(std::ostream&, const jdate& jd);
-  };
+  typedef unsigned jdate;
+
+  jdate ymd_to_jdate(int y,int m, int d);
+  jdate parse_jdate(std::string);
+  std::tuple<int,int,int> ymd(jdate);
+  int year(jdate);
+  int month(jdate);
+  int day(jdate);
+  std::string jdate_to_string(jdate);
 
   jdate today(void);
+
+  extern const jdate MAX_DATE, MIN_DATE;
 
   typedef std::vector<jdate> jdate_v;
   typedef std::shared_ptr<const jdate_v> jdate_v_ptr;
@@ -62,7 +49,7 @@ namespace merkatilo {
     jdate dt;
     opt_double val;
     bool operator<(const observation& another){
-      return dt.julian() < another.dt.julian();
+      return dt < another.dt;
     }
   };
 

@@ -6,7 +6,7 @@
 
 namespace merkatilo {
   
-  static unsigned to_jd(const int year, const int month, const int day)
+  jdate ymd_to_jdate(const int year, const int month, const int day)
   {
     auto is_leap_year = [](int y){
       if(y % 4 == 0){
@@ -61,24 +61,15 @@ namespace merkatilo {
       - 32045;
   }
 
-  static int to_jd(std::string s){
+  jdate parse_jdate(std::string s){
     int y,m,d;
     if(sscanf(s.c_str(),"%d-%d-%d", &y,&m,&d) != 3){
       throw std::invalid_argument("invalid date string: " + s);
     }
-    return to_jd(y,m,d);
+    return ymd_to_jdate(y,m,d);
   }
 
-  jdate::jdate(int y, int m, int d) : jd(to_jd(y,m,d)){}
-
-  jdate::jdate(std::string s):jd(to_jd(s)){}
-
-  jdate::jdate(const jdate& another) : jd(another.jd){}
-
-  jdate::jdate(unsigned jd) : jd(jd){}
-
-  std::tuple<int,int,int> jdate::ymd() const {
-    int JD = this->jd;
+  std::tuple<int,int,int> ymd(jdate JD) {
     int L = JD + 68569;
     int N = (4 * L) / 146097;
 
@@ -93,61 +84,34 @@ namespace merkatilo {
     return {I,J,K};
   }
 
-  int jdate::year(void) const {
-    return std::get<0>(this->ymd());
+  int year(jdate jd){
+    return std::get<0>(ymd(jd));
   }
 
-  int jdate::month(void) const {
-    return std::get<1>(this->ymd());
+  int month(jdate jd){
+    return std::get<1>(ymd(jd));
   }
 
-  int jdate::day(void) const {
-    return std::get<2>(this->ymd());
+  int day(jdate jd){
+    return std::get<2>(ymd(jd));
   }
 
-  jdate jdate::operator+(int offset) const {
-    return jdate(this->jd+offset);
-  }
-
-  jdate jdate::operator-(int offset) const {
-    return jdate(this->jd-offset);
-  }
-
-  int jdate::operator-(const jdate& another) const {
-    int jd = this->jd;
-    return jd - another.jd;
-  }
-
-  bool jdate::operator<(const jdate& another) const {
-    return this->jd < another.jd;
-  }
-
-  bool jdate::operator<=(const jdate& another) const {
-    return this->jd <= another.jd;
-  }
-
-  std::string jdate::to_string() const {
-    auto ymd = this->ymd();
+  std::string jdate_to_string(jdate jd) {
+    auto tmp = ymd(jd);
     char buf[32];
-    sprintf(buf, "%04d-%02d-%02d", std::get<0>(ymd), std::get<1>(ymd), std::get<2>(ymd));
+    sprintf(buf, "%04d-%02d-%02d", std::get<0>(tmp), std::get<1>(tmp), std::get<2>(tmp));
     return std::string(buf);
   }
 
-  std::ostream& operator<<(std::ostream& os, const jdate& jd){
-    return os << jd.to_string();
-  }
 
   jdate today(void) {
     auto t = std::time(nullptr);
     std::tm* tmstr = localtime(&t);
-    return jdate(tmstr->tm_year + 1900, tmstr->tm_mon+1, tmstr->tm_mday);
+    return ymd_to_jdate(tmstr->tm_year + 1900, tmstr->tm_mon+1, tmstr->tm_mday);
   }
 
-  unsigned jdate::julian() const {
-    return this->jd;
-  }
 
-  const jdate jdate::MIN_DATE = jdate(1700,1,1);
-  const jdate jdate::MAX_DATE = jdate(2100,12,31);
+  const jdate MIN_DATE = ymd_to_jdate(1700,1,1);
+  const jdate MAX_DATE = ymd_to_jdate(2100,12,31);
 
 }
