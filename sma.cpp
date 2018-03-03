@@ -12,7 +12,7 @@ namespace merkatilo {
 
     series_builder builder;
 
-    for (auto dt : current_dates::active()){
+    for (auto dt : *current_dates::active()){
       
       auto val = sp->at(dt);
       

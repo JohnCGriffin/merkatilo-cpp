@@ -20,11 +20,11 @@ namespace merkatilo {
     _current_dateset = this->previous;
   }
 
-  const dateset& current_dates::active() {
+  const dateset_ptr current_dates::active() {
     if(!_current_dateset.get()){
       throw std::logic_error("current_dates not yet set");
     }
-    return *_current_dateset;
+    return _current_dateset;
   }
   
 }

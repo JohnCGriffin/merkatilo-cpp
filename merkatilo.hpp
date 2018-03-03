@@ -13,6 +13,9 @@
 
 namespace merkatilo {
 
+  typedef std::optional<double> opt_double;
+  typedef std::vector<opt_double> opt_double_v;
+  typedef std::shared_ptr<opt_double_v> opt_double_v_ptr;
   
   class jdate {
     jdate(unsigned jd);
@@ -41,10 +44,14 @@ namespace merkatilo {
 
   jdate today(void);
 
+  typedef std::vector<jdate> jdate_v;
+  typedef std::shared_ptr<const jdate_v> jdate_v_ptr;
+
   class series {
   public:
     virtual ~series();
-    virtual std::optional<double> at(jdate) const;
+    virtual opt_double at(jdate) const;
+    virtual opt_double_v_ptr values_of_dates (jdate_v_ptr dates) const;
   };
 
   typedef std::shared_ptr<series> series_ptr;
@@ -90,7 +97,7 @@ namespace merkatilo {
     current_dates(series_ptr s);
     current_dates(dateset_ptr ds);
     ~current_dates();
-    static const dateset& active();
+    static const dateset_ptr active();
   };
 
   series_ptr lo(std::string id);

@@ -28,7 +28,7 @@ namespace merkatilo {
     }
   };
 
-  std::shared_ptr<series> series_builder::construct()
+  series_ptr series_builder::construct()
   {
     if(!ordered){
       std::sort(obs.begin(), obs.end());

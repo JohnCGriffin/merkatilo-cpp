@@ -7,7 +7,7 @@ namespace merkatilo {
   
   void dump(std::initializer_list<series_ptr> seriesz)
   {
-    for(auto dt : current_dates::active()){
+    for(auto dt : *current_dates::active()){
       bool valid_row = false;
       std::ostringstream oss;
       oss << dt << " ";
