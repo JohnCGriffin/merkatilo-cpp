@@ -14,7 +14,10 @@ namespace merkatilo {
     obs.push_back(ob);
   }
 
+  typedef std::pair<jdate_v_ptr,observations_ptr> obs_cache;
+  
   struct series_builder_series : public series {
+    std::unique_ptr<obs_cache> cache;
     const std::vector<std::optional<double>> v;
     jdate fd;
     jdate ld;
@@ -25,6 +28,20 @@ namespace merkatilo {
 	return {};
       }
       return v.at(jd - fd);
+    }
+    observations_ptr observations_by_date (jdate_v_ptr dates) override {
+      observations_ptr result;
+      std::unique_ptr<obs_cache> retriever;
+      retriever.swap(cache);
+      auto const p = retriever.get();
+      if(p != nullptr && p->first.get() == dates.get()){
+	result = p->second;
+      } else {
+	result = series::observations_by_date(dates);
+	retriever = std::make_unique<obs_cache>(dates,result);
+      }
+      retriever.swap(cache);
+      return result;
     }
   };
 

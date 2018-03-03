@@ -11,15 +11,11 @@ namespace merkatilo {
     series_builder builder;
     opt_double prev;
 
-    const auto dates = current_dates::active();
-    const auto dates_p = dates.get();
-    const size_t len = dates->size();
-    auto vals = s->values_of_dates(dates);
-    auto vals_p = vals.get();
+    auto obs = s->observations_by_date(current_dates::active());
 
-    for(size_t i=0; i<len; i++){
-      auto dt = dates_p->at(i);
-      auto val = vals_p->at(i);
+    for (auto ob : *obs){
+      auto dt = ob.dt;
+      auto val = ob.val;
       if(val && prev){
 	prev = new_fraction * val.value() + old_fraction * prev.value();
       } else {

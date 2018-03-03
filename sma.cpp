@@ -5,16 +5,18 @@ namespace merkatilo {
 
   series_ptr sma(series_ptr s, unsigned N)
   {
-    auto sp = s.get();
     double total = 0;
     unsigned count = 0;
     double cycle[N];
 
     series_builder builder;
 
-    for (auto dt : *current_dates::active()){
-      
-      auto val = sp->at(dt);
+    auto obs = s->observations_by_date(current_dates::active());
+
+    for (auto ob : *obs){
+
+      auto dt = ob.dt;
+      auto val = ob.val;
       
       if(!val){
 	total = count = 0;
