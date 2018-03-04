@@ -7,6 +7,9 @@ namespace merkatilo {
 
   series_ptr sma(series_ptr s, unsigned N)
   {
+    if(N < 2){
+      throw std::runtime_error("sma require N > 1");
+    }
     double total = 0;
     unsigned count = 0;
     double cycle[N];
