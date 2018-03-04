@@ -118,6 +118,7 @@ namespace merkatilo {
   series_ptr ema(series_ptr, unsigned N);
   series_ptr sma(series_ptr, unsigned period);
 
+  size_t series_count(series_ptr);
 }
 
 #endif

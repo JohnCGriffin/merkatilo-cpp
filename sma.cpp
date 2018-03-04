@@ -33,7 +33,7 @@ namespace merkatilo {
 	}
 	cycle[slot] = v;
 	if(count >= N){
-		builder.insert({dt,(total/N)});
+	  builder.insert({dt,(total/N)});
 	}
       }
     }

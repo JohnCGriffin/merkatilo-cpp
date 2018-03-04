@@ -3,7 +3,10 @@ CXX=g++
 CXXFLAGS=-no-pie -g -pg --std=c++14 
 CXXFLAGS=-O2 --std=c++14 -fmax-errors=1
 
-OBS = jdate.o dates.o lo.o current_dates.o dump.o series_builder.o ema.o sma.o series.o
+OBS = jdate.o dates.o lo.o current_dates.o dump.o series_builder.o ema.o sma.o series.o series_count.o 
+
+test: testing.o $(OBS)
+	g++ testing.o $(OBS) -o testing && ./testing
 
 main: merkatilo.hpp.gch main.o $(OBS)
 	$(CXX) $(CXXFLAGS) main.o $(OBS) -o main
@@ -15,4 +18,4 @@ jdate.o: merkatilo.hpp.gch jdate.cpp
 	$(CXX) $(CXXFLAGS) -c jdate.cpp
 
 clean:
-	rm -f *.o *.out *.gch main
+	rm -f *.o *.out *.gch main testing
