@@ -18,4 +18,4 @@ jdate.o: merkatilo.hpp.gch jdate.cpp
 	$(CXX) $(CXXFLAGS) -c jdate.cpp
 
 clean:
-	rm -f *.o *.out *.gch main testing
+	rm -f *.o *.out *.gch main testing && rm -rf html

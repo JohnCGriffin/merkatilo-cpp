@@ -1,6 +1,16 @@
 
 #include "merkatilo.hpp"
 
+/**
+@file
+@brief exponential moving average
+*
+* Using N > 1, a fraction is calculated FRAC = (2 / (N+1)).  That weight
+* is given to a current value with the remainder (1-FRAC) given to the 
+* preceding date's calculation.  Observations with no immediately preceding
+* observation simply pass through the current value.
+*/
+
 namespace merkatilo {
 
   series_ptr ema(series_ptr s, unsigned N)
