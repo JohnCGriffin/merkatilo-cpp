@@ -5,6 +5,9 @@ namespace merkatilo {
 
   series_ptr ema(series_ptr s, unsigned N)
   {
+    if(N < 2){
+      throw std::runtime_error("ema require N > 1");
+    }
     double new_fraction = 2.0 / (N+1.0);
     double old_fraction = 1.0 - new_fraction;
 
