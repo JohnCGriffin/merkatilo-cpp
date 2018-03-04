@@ -127,3 +127,22 @@ TEST_CASE("MOMENTUM"){
   }
   
 }
+
+TEST_CASE("TO-SIGNALS"){
+
+  current_dates active(TEST_SERIES);
+
+  SECTION("to_signals generates known correct values"){
+    auto sigs = to_signals(mo(TEST_SERIES,240));
+    auto obs = observations {
+      { parse_jdate("2012-12-17"), 1 },
+      { parse_jdate("2013-08-30"), -1 },
+      { parse_jdate("2013-9-3"), 1},
+      { parse_jdate("2014-12-12"), -1 },
+      { parse_jdate("2014-12-19"), 1}
+    };
+    auto literal = obs_to_series(std::make_shared<observations>(obs));
+    REQUIRE(verify_equivalency(literal,sigs));
+  }
+
+}

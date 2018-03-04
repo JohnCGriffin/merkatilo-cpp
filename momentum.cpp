@@ -2,7 +2,8 @@
 #include "merkatilo.hpp"
 
 /**@file
- *@brief periodic ratio of new/old
+ *@brief periodic ratio of (new/old)-1.  Thus, a 10% gain is 0.1 and a 2% loss
+ * is -0.02.  
  */
 
 namespace merkatilo {
