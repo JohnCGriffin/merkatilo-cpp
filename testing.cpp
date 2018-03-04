@@ -19,8 +19,8 @@ bool verify_equivalency(series_ptr a, series_ptr b)
 	throw std::logic_error(("a missing data at ") + jdate_to_string(dt));
       }
     }
-    auto a_val = valueof(a->at(dt));
-    auto b_val = valueof(b->at(dt));
+    auto a_val = a->at(dt);
+    auto b_val = b->at(dt);
     if(std::abs(a_val - b_val) > 0.00001){
       throw std::logic_error(("mismatched series at ") + jdate_to_string(dt));
     }
@@ -77,5 +77,18 @@ TEST_CASE("SMA"){
   
 }
 
+TEST_CASE("MIN-MAX"){
 
+  current_dates active(TEST_SERIES);
+  auto mm = min_max_obs(TEST_SERIES);
+
+  SECTION("check max observation"){
+    REQUIRE(jdate_to_string(mm.second.dt) == "2014-09-18");
+  }
+
+  SECTION("check min observation"){
+    REQUIRE(jdate_to_string(mm.first.dt) == "2012-01-13");
+  }
+
+}
 

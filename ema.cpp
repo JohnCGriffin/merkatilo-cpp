@@ -20,12 +20,12 @@ namespace merkatilo {
       auto dt = ob.dt;
       auto val = ob.val;
       if(valid(val) && valid(prev)){
-	prev = new_fraction * valueof(val) + old_fraction * valueof(prev);
+	prev = new_fraction * val + old_fraction * prev;
       } else {
 	prev = val;
       }
       if(valid(prev)){
-	builder.insert({dt, valueof(prev)});
+	builder.insert({dt,prev});
       }
     }
     return builder.construct();

@@ -21,14 +21,14 @@ int main()
   for(auto dt = today()-20; dt<today(); dt = dt+1){
     auto val = IBM->at(dt);
     if(valid(val)){
-      std::cout << dt << " " << valueof(val) << "\n";
+      std::cout << dt << " " << val << "\n";
     }
   }
 
   auto ds = dateset_builder(IBM).construct();
 
   for(auto dt : ds){
-    std::cout << dt << " " << valueof(IBM->at(dt)) << "\n";
+    std::cout << dt << " " << IBM->at(dt) << "\n";
   }
 
   {

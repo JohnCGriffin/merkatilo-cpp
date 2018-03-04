@@ -10,31 +10,9 @@
 
 namespace merkatilo {
 
-#define _USING_OPTIONAL_DOUBLE_
-
-#ifdef _USING_OPTIONAL_DOUBLE_
-
-  class opt_double {
-    double _d;
-  public:
-    inline opt_double() : _d(std::numeric_limits<double>::quiet_NaN()) {}
-    inline opt_double(double v) : _d(v) {}
-    inline operator bool() const { return _d == _d; }
-    inline double operator*() const { return _d; }
-    //inline double value() const { return _d; }
-  };
-  
-  typedef opt_double value_type;
-  inline bool valid(value_type v){ return v ? true : false; }
-  inline double valueof(value_type v) { return *v; }
-  inline value_type default_value() { return opt_double(); }
-#else
   typedef double value_type;
   inline bool valid(value_type v){ return v == v; }
-#define valueof(x) x
-  //inline double valueof(value_type v) { return v; }
   inline value_type default_value() { return std::numeric_limits<double>::quiet_NaN(); }
-#endif
 
   typedef std::vector<value_type> value_type_v;
   typedef std::shared_ptr<value_type_v> value_type_v_ptr;
@@ -119,6 +97,7 @@ namespace merkatilo {
   series_ptr sma(series_ptr, unsigned period);
 
   size_t series_count(series_ptr);
+  std::pair<observation,observation> min_max_obs(series_ptr);
 }
 
 #endif

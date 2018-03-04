@@ -27,14 +27,13 @@ namespace merkatilo {
 	total = count = 0;
 	
       } else {
-	double v = valueof(val);
 	int slot = count % N;
 	count++;
-	total += v;
+	total += val;
 	if(count > N){
 	  total -= cycle[slot];
 	}
-	cycle[slot] = v;
+	cycle[slot] = val;
 	if(count >= N){
 	  builder.insert({dt,(total/N)});
 	}
