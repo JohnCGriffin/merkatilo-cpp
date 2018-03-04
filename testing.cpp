@@ -92,3 +92,38 @@ TEST_CASE("MIN-MAX"){
 
 }
 
+TEST_CASE("FIRST-LAST"){
+
+  dateset_builder builder(parse_jdate("2010-1-1"),today());
+  auto dts = std::make_shared<dateset>(builder.construct());
+  current_dates active(dts);
+
+  SECTION("check first observation"){
+    REQUIRE(jdate_to_string(first_ob(TEST_SERIES).dt) == "2012-01-03");
+  }
+
+  SECTION("check last observation"){
+    REQUIRE(jdate_to_string(last_ob(TEST_SERIES).dt) == "2014-12-31");
+  }
+  
+}
+
+TEST_CASE("MOMENTUM"){
+
+  auto MO_3_SERIES = test_lo("mo-3");
+  current_dates active(TEST_SERIES);
+
+  SECTION("mo generates known correct values"){
+    REQUIRE(verify_equivalency(mo(TEST_SERIES,3), MO_3_SERIES));
+  }
+
+  SECTION("sma generate len(input)-N output values"){
+    unsigned N = 10;
+    REQUIRE(series_count(mo(TEST_SERIES,N)) == series_count(TEST_SERIES)-N);
+  }
+
+  SECTION("handling bad period argument"){
+    REQUIRE_THROWS(mo(TEST_SERIES,0));
+  }
+  
+}

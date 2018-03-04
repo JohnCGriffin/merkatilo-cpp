@@ -95,9 +95,12 @@ namespace merkatilo {
 
   series_ptr ema(series_ptr, unsigned N);
   series_ptr sma(series_ptr, unsigned period);
+  series_ptr mo(series_ptr, unsigned period);
 
   size_t series_count(series_ptr);
   std::pair<observation,observation> min_max_obs(series_ptr);
+  observation first_ob(series_ptr);
+  observation last_ob(series_ptr);
 }
 
 #endif
