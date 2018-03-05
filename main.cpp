@@ -36,20 +36,22 @@ int main()
     dump({IBM, ema(IBM,20), sma(IBM,20) });
   }
   
+/*
   {
     dateset_builder builder(today()-30,today());
     auto ds = std::make_shared<dateset>(builder.construct());
     current_dates recent(ds);
     dump({IBM, ema(IBM,4), sma(IBM,4) });
-    sma(IBM,11);
   }
+*/
 
   {
     current_dates active(IBM);
-    for(int i=20; i<1000; i++){
-      sma(IBM,i+2);
-      ema(IBM,i+2);
+    for(int i=0; i<1000; i++){
+	drawdown(IBM);
     }
+    auto dd = drawdown(IBM);
+    std::cout << jdate_to_string(dd.first.dt) << " " << jdate_to_string(dd.second.dt) << std::endl;
   }
   
 }

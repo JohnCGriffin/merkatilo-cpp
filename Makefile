@@ -5,7 +5,8 @@ CXXFLAGS=-O2 --std=c++14 -fmax-errors=1
 
 OBS = jdate.o dates.o lo.o current_dates.o dump.o series_builder.o \
 	ema.o sma.o series.o series_count.o min_max.o \
-	first_last_ob.o momentum.o to_signals.o obs_series.o
+	first_last_ob.o momentum.o to_signals.o obs_series.o \
+	drawdown.o
 
 test: testing.o testing_main.o $(OBS)
 	g++ testing.o testing_main.o $(OBS) -o testing && ./testing

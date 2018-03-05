@@ -100,6 +100,7 @@ namespace merkatilo {
 
   size_t series_count(series_ptr);
   std::pair<observation,observation> min_max_obs(series_ptr);
+  std::pair<observation,observation> drawdown(series_ptr);
   observation first_ob(series_ptr);
   observation last_ob(series_ptr);
 

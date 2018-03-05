@@ -146,3 +146,22 @@ TEST_CASE("TO-SIGNALS"){
   }
 
 }
+
+TEST_CASE("DRAWDOWN"){
+
+  current_dates active(TEST_SERIES);
+
+  SECTION("drawdown generates known correct values"){
+    auto dd = drawdown(TEST_SERIES);
+    REQUIRE(jdate_to_string(dd.first.dt) == "2014-09-18");
+    REQUIRE(jdate_to_string(dd.second.dt) == "2014-12-16");
+  }
+
+}
+
+
+
+
+
+
+
