@@ -45,16 +45,18 @@ namespace merkatilo {
     };
 
     auto dd = std::make_pair(maxima.at(0),maxima.at(0));
+    auto minima_it = reversed_minima.begin();
 
     for(auto mx : maxima){
-      for(auto mn : reversed_minima){
-	if(mn.dt > mx.dt){
-	  auto test_dd = std::make_pair(mx,mn);
-	  if(dd_ratio(test_dd) < dd_ratio(dd)){
-	    dd = test_dd;
-	  }
-	  break;
-	}
+      while(minima_it != reversed_minima.end() && minima_it->dt <= mx.dt){
+	++minima_it;
+      }
+      if(minima_it == reversed_minima.end()){
+	break;
+      }
+      auto test_dd = std::make_pair(mx,*minima_it);
+      if(dd_ratio(test_dd) < dd_ratio(dd)){
+	dd = test_dd;
       }
     }
 

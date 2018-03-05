@@ -9,7 +9,12 @@
 
 using namespace merkatilo;
 
-bool verify_equivalency(series_ptr a, series_ptr b)
+static bool approximates(double a, double b, double epsilon=0.00001){
+  return std::abs(a-b) < epsilon;
+}
+
+
+static bool verify_equivalency(series_ptr a, series_ptr b)
 {
   for(auto dt : *current_dates::active()){
     if(valid(a->at(dt)) != valid(b->at(dt))){
@@ -20,19 +25,25 @@ bool verify_equivalency(series_ptr a, series_ptr b)
       }
     }
     auto a_val = a->at(dt);
+    if(!valid(a_val)){
+      continue;
+    }
     auto b_val = b->at(dt);
-    if(std::abs(a_val - b_val) > 0.00001){
-      throw std::logic_error(("mismatched series at ") + jdate_to_string(dt));
+    if(!approximates(a_val,b_val)){
+      std::ostringstream oss;
+      oss << "mismatched series at " << jdate_to_string(dt)
+	  << a_val << " vs. " << b_val;
+      throw std::logic_error(oss.str());
     }
   }
   return true;
 }
 
-series_ptr test_lo (std::string name){
+static series_ptr test_lo (std::string name){
   return lo("/tmp/merkatilo-test-data/" + name + ".txt");
 }
 
-auto TEST_SERIES = test_lo("test-series");
+static auto TEST_SERIES = test_lo("test-series");
 
 TEST_CASE("Test that load worked"){
   current_dates active(TEST_SERIES);
@@ -125,7 +136,10 @@ TEST_CASE("MOMENTUM"){
   SECTION("handling bad period argument"){
     REQUIRE_THROWS(mo(TEST_SERIES,0));
   }
-  
+
+  SECTION("mo_days generates known correct values"){
+    REQUIRE(verify_equivalency(mo_days(TEST_SERIES,200), test_lo("mo-days-200")));
+  }
 }
 
 TEST_CASE("TO-SIGNALS"){
@@ -159,7 +173,14 @@ TEST_CASE("DRAWDOWN"){
 
 }
 
+TEST_CASE("VOLATILITY"){
 
+  current_dates active(TEST_SERIES);
+
+  REQUIRE(approximates(0.038702419488645126, volatility(TEST_SERIES)));
+  REQUIRE(approximates(0.0468086666214253, volatility(TEST_SERIES, 200)));
+  
+}
 
 
 

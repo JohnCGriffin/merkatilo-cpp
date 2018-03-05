@@ -93,11 +93,14 @@ namespace merkatilo {
   series_ptr lo(std::string id);
   void dump(std::initializer_list<series_ptr>);
 
-  series_ptr ema(series_ptr, unsigned N);
-  series_ptr sma(series_ptr, unsigned period);
-  series_ptr mo(series_ptr, unsigned period);
-  series_ptr to_signals(series_ptr);
+  series_ptr ema (series_ptr, unsigned N);
+  series_ptr sma (series_ptr, unsigned period);
+  series_ptr mo (series_ptr, unsigned period);
+  series_ptr mo_days (series_ptr, unsigned days);
+  series_ptr to_signals (series_ptr);
+  series_ptr fudge (series_ptr, unsigned days=6);
 
+  double volatility (series_ptr, unsigned days=365);
   size_t series_count(series_ptr);
   std::pair<observation,observation> min_max_obs(series_ptr);
   std::pair<observation,observation> drawdown(series_ptr);

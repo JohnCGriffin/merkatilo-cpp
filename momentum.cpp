@@ -15,7 +15,7 @@ namespace merkatilo {
     return (val / old_val) - 1.0;
   }
 
-  series_ptr mo(series_ptr sp, unsigned N){
+  series_ptr mo (series_ptr sp, unsigned N) {
 
     if(N < 1){
       throw std::runtime_error("mo requires period >= 1");
@@ -42,5 +42,29 @@ namespace merkatilo {
 
     return builder.construct();
   }
+
+
+  series_ptr mo_days (series_ptr sp, unsigned days) {
+    
+    if (days < 1){
+      throw std::runtime_error("mo_days require days >= 1");
+    }
+
+    auto fs = fudge(sp);
+    auto s = fs.get();
+    series_builder builder;
+
+    for (auto dt : *current_dates::active()){
+      auto now = s->at(dt);
+      auto then = s->at(dt - days);
+      auto ratio = change(now, then);
+      if(valid(ratio)){
+	builder.insert({dt, ratio});
+      }
+    }
+    
+    return builder.construct();
+  }
+ 
 
 }
