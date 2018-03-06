@@ -204,4 +204,19 @@ TEST_CASE("REPEATED"){
 }
 
 
+TEST_CASE("WARP"){
+
+  current_dates active(TEST_SERIES);
+
+  auto wa1 = warp(TEST_SERIES,1);
+  auto back_again = warp(wa1, -1);
+
+  REQUIRE(series_count(TEST_SERIES) == series_count(back_again)+1);
+
+  current_dates active2(back_again);
+
+  REQUIRE(verify_equivalency(TEST_SERIES,back_again));
+
+}
+
 

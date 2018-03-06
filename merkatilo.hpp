@@ -99,6 +99,7 @@ namespace merkatilo {
   series_ptr mo_days (series_ptr, unsigned days);
   series_ptr to_signals (series_ptr);
   series_ptr fudge (series_ptr, unsigned days=6);
+  series_ptr warp (series_ptr, int N);
 
   series_ptr unrepeated (series_ptr);
   series_ptr repeated (series_ptr, bool repeat_last=false);
