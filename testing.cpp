@@ -19,9 +19,9 @@ static bool verify_equivalency(series_ptr a, series_ptr b)
   for(auto dt : *current_dates::active()){
     if(valid(a->at(dt)) != valid(b->at(dt))){
       if(valid(a->at(dt))){
-	throw std::logic_error(("b missing data at ") + jdate_to_string(dt));
+	throw std::logic_error(("second series  missing data at ") + jdate_to_string(dt));
       } else {
-	throw std::logic_error(("a missing data at ") + jdate_to_string(dt));
+	throw std::logic_error(("first series missing data at ") + jdate_to_string(dt));
       }
     }
     auto a_val = a->at(dt);
@@ -182,7 +182,26 @@ TEST_CASE("VOLATILITY"){
   
 }
 
+TEST_CASE("UNREPEATED"){
 
+  current_dates active(TEST_SERIES);
+
+  REQUIRE(series_count(TEST_SERIES) > series_count(unrepeated(TEST_SERIES)));
+  REQUIRE(verify_equivalency(unrepeated(TEST_SERIES),unrepeated(unrepeated(TEST_SERIES))));
+}
+
+
+TEST_CASE("REPEATED"){
+
+  current_dates active(TEST_SERIES);
+
+  auto unrptd = unrepeated(TEST_SERIES);
+
+  REQUIRE(series_count(unrptd) < series_count(TEST_SERIES));
+  REQUIRE(verify_equivalency(repeated(unrptd, true),TEST_SERIES));
+  REQUIRE(verify_equivalency(TEST_SERIES,repeated(TEST_SERIES)));
+  
+}
 
 
 

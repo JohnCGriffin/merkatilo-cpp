@@ -100,6 +100,9 @@ namespace merkatilo {
   series_ptr to_signals (series_ptr);
   series_ptr fudge (series_ptr, unsigned days=6);
 
+  series_ptr unrepeated (series_ptr);
+  series_ptr repeated (series_ptr, bool repeat_last=false);
+
   double volatility (series_ptr, unsigned days=365);
   size_t series_count(series_ptr);
   std::pair<observation,observation> min_max_obs(series_ptr);
