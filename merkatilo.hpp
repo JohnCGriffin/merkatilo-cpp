@@ -100,6 +100,7 @@ namespace merkatilo {
   series_ptr to_signals (series_ptr);
   series_ptr fudge (series_ptr, unsigned days=6);
   series_ptr warp (series_ptr, int N);
+  series_ptr constant (double N);
 
   series_ptr unrepeated (series_ptr);
   series_ptr repeated (series_ptr, bool repeat_last=false);
@@ -113,6 +114,12 @@ namespace merkatilo {
 
   series_ptr obs_to_series(observations_ptr);
   observations_ptr series_to_obs(series_ptr);
+
+  series_ptr cross(series_ptr slower, series_ptr faster,
+		   double upside_factor=1.0, double downside_factor=1.0);
+
+  
+  
 }
 
 #endif

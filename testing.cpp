@@ -219,4 +219,33 @@ TEST_CASE("WARP"){
 
 }
 
+TEST_CASE("CROSS"){
 
+  current_dates active(TEST_SERIES);
+  auto CROSS_EMA_30 = test_lo("cross-ema-30");
+
+  SECTION("cross generates known correct values"){
+    REQUIRE(verify_equivalency(cross(ema(TEST_SERIES,30), TEST_SERIES), CROSS_EMA_30));
+  }
+
+  SECTION("cross default valued parameters"){
+    REQUIRE(verify_equivalency(cross(ema(TEST_SERIES,30),TEST_SERIES),
+			       cross(ema(TEST_SERIES,30),TEST_SERIES,1.0,1.0)));
+  }
+
+  SECTION("cross checks parameter validity"){
+    REQUIRE_THROWS(cross(TEST_SERIES,TEST_SERIES,2.0,1.0));
+    REQUIRE_THROWS(cross(TEST_SERIES,TEST_SERIES,1.0,2.0));
+    REQUIRE_THROWS(cross(TEST_SERIES,TEST_SERIES,.2,1.0));
+    REQUIRE_THROWS(cross(TEST_SERIES,TEST_SERIES,1.0,.2));
+  }
+  
+}
+
+TEST_CASE("CONSTANT"){
+
+  auto test_date = parse_jdate("2000-1-1");
+  
+  REQUIRE(constant(123.456)->at(test_date) == 123.456);
+  REQUIRE_THROWS(constant(default_value()));
+}
