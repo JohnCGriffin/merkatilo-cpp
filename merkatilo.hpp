@@ -113,6 +113,7 @@ namespace merkatilo {
   series_ptr repeated (series_ptr, bool repeat_last=false);
 
   double volatility (series_ptr, unsigned days=365);
+  double gpa(series_ptr);
   size_t series_count(series_ptr);
   obpair min_max_obs(series_ptr);
   obpair drawdown(series_ptr);
@@ -130,7 +131,18 @@ namespace merkatilo {
 			 series_ptr signals,
 			 series_ptr alternate_investment = constant(1),
 			 double initial_value = 100);
-  
+
+  struct performance {
+    double volatility_residual;
+    double drawdown_residual;
+    double annualized_gain;
+    double long_ratio;
+    unsigned trades;
+  };
+
+  performance investment_performance (series_ptr s,
+				      series_ptr signals = constant(1),
+				      series_ptr alternate_investment = constant(1));
 }
 
 #endif

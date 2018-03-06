@@ -7,7 +7,8 @@ OBS = jdate.o dates.o lo.o current_dates.o dump.o series_builder.o \
 	ema.o sma.o series.o series_count.o min_max.o \
 	first_last_ob.o momentum.o to_signals.o obs_series.o \
 	drawdown.o fudge.o volatility.o unrepeated.o repeated.o  \
-	warp.o cross.o constant.o equity_line.o reversals.o
+	warp.o cross.o constant.o equity_line.o reversals.o \
+	performance.o
 
 test: testing.o testing_main.o $(OBS)
 	g++ testing.o testing_main.o $(OBS) -o testing && ./testing

@@ -55,7 +55,7 @@ namespace merkatilo {
     return reversals_worker(current_dates::active(), sp, down_factor,up_factor, false);
   }
 
-  series_ptr nostradumus(series_ptr sp,
+  series_ptr nostradamus(series_ptr sp,
 		       double down_factor,
 		       double up_factor)
   {
