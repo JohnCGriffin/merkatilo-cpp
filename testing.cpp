@@ -32,7 +32,7 @@ static bool verify_equivalency(series_ptr a, series_ptr b)
     if(!approximates(a_val,b_val)){
       std::ostringstream oss;
       oss << "mismatched series at " << jdate_to_string(dt)
-	  << a_val << " vs. " << b_val;
+	  << " " << a_val << " vs. " << b_val;
       throw std::logic_error(oss.str());
     }
   }
@@ -248,4 +248,14 @@ TEST_CASE("CONSTANT"){
   
   REQUIRE(constant(123.456)->at(test_date) == 123.456);
   REQUIRE_THROWS(constant(default_value()));
+}
+
+TEST_CASE("EQUITYLINE"){
+
+ current_dates active(TEST_SERIES);
+ auto EQUITYLINE_EMA_10 = test_lo("equityline-ema-10");
+ auto crossed = cross(ema(TEST_SERIES,10), TEST_SERIES);
+ REQUIRE(verify_equivalency(equity_line(TEST_SERIES,crossed),
+			    EQUITYLINE_EMA_10));
+
 }

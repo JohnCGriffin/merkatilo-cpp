@@ -42,6 +42,7 @@ namespace merkatilo {
     }
   };
 
+  typedef std::pair<observation,observation> obpair;
   typedef std::vector<observation> observations;
   typedef std::shared_ptr<const observations> observations_ptr;
 
@@ -107,8 +108,8 @@ namespace merkatilo {
 
   double volatility (series_ptr, unsigned days=365);
   size_t series_count(series_ptr);
-  std::pair<observation,observation> min_max_obs(series_ptr);
-  std::pair<observation,observation> drawdown(series_ptr);
+  obpair min_max_obs(series_ptr);
+  obpair drawdown(series_ptr);
   observation first_ob(series_ptr);
   observation last_ob(series_ptr);
 
@@ -118,7 +119,11 @@ namespace merkatilo {
   series_ptr cross(series_ptr slower, series_ptr faster,
 		   double upside_factor=1.0, double downside_factor=1.0);
 
-  
+
+  series_ptr equity_line(series_ptr sp,
+			 series_ptr signals,
+			 series_ptr alternate_investment = constant(1),
+			 double initial_value = 100);
   
 }
 

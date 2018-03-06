@@ -3,7 +3,7 @@
 
 namespace merkatilo {
   
-  std::pair<observation,observation> min_max_obs (series_ptr sp) {
+  obpair min_max_obs (series_ptr sp) {
 
     auto s = sp.get();
     auto min_ob = first_ob(sp);

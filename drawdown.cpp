@@ -4,7 +4,7 @@
 
 namespace merkatilo {
 
-  std::pair<observation,observation> drawdown(series_ptr sp)
+  obpair drawdown(series_ptr sp)
   {
     auto obs = series_to_obs(sp);
 
@@ -40,7 +40,7 @@ namespace merkatilo {
 	return acc;
       })();
 
-    auto dd_ratio = [](std::pair<observation,observation> dd){
+    auto dd_ratio = [](obpair dd){
       return dd.second.val / dd.first.val;
     };
 
