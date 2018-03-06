@@ -19,9 +19,15 @@ static bool verify_equivalency(series_ptr a, series_ptr b)
   for(auto dt : *current_dates::active()){
     if(valid(a->at(dt)) != valid(b->at(dt))){
       if(valid(a->at(dt))){
-	throw std::logic_error(("second series  missing data at ") + jdate_to_string(dt));
+	throw std::logic_error(("second series missing data at ")
+			       + jdate_to_string(dt)
+			       + " when first has "
+			       + std::to_string(a->at(dt)));
       } else {
-	throw std::logic_error(("first series missing data at ") + jdate_to_string(dt));
+	throw std::logic_error(("first series missing data at ")
+			       + jdate_to_string(dt)
+			       + " when second has "
+			       + std::to_string(b->at(dt)));
       }
     }
     auto a_val = a->at(dt);
@@ -259,3 +265,20 @@ TEST_CASE("EQUITYLINE"){
 			    EQUITYLINE_EMA_10));
 
 }
+
+#include <iostream>
+
+TEST_CASE("REVERSE"){
+
+  current_dates active(TEST_SERIES);
+  auto REVERSALS_95_105 = test_lo("reversals-95-105");
+  auto REVERSALS_91_109 = test_lo("reversals-91-109");
+
+  REQUIRE(verify_equivalency(reversals(TEST_SERIES,0.95,1.05),
+			     REVERSALS_95_105));
+
+  REQUIRE(verify_equivalency(reversals(TEST_SERIES,0.91,1.09),
+			     REVERSALS_91_109));
+  
+}
+

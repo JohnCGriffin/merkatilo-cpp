@@ -102,6 +102,12 @@ namespace merkatilo {
   series_ptr fudge (series_ptr, unsigned days=6);
   series_ptr warp (series_ptr, int N);
   series_ptr constant (double N);
+  series_ptr reversals (series_ptr,
+			double down_factor,
+			double up_factor);
+  series_ptr nostradamus (series_ptr,
+			  double down_factor,
+			  double up_factor);
 
   series_ptr unrepeated (series_ptr);
   series_ptr repeated (series_ptr, bool repeat_last=false);
