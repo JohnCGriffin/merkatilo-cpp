@@ -31,7 +31,7 @@ namespace merkatilo {
 	auto mx_ob = *(obs->begin());
 	observations acc;
 	acc.push_back(mx_ob);
-	for(auto ob : *obs){
+	for(const auto& ob : *obs){
 	  if(ob.val > mx_ob.val){
 	    mx_ob = ob;
 	    acc.push_back(ob);
@@ -47,7 +47,7 @@ namespace merkatilo {
     auto dd = std::make_pair(maxima.at(0),maxima.at(0));
     auto minima_it = reversed_minima.begin();
 
-    for(auto mx : maxima){
+    for(const auto& mx : maxima){
       while(minima_it != reversed_minima.end() && minima_it->dt <= mx.dt){
 	++minima_it;
       }

@@ -111,6 +111,7 @@ namespace merkatilo {
 
   series_ptr unrepeated (series_ptr);
   series_ptr repeated (series_ptr, bool repeat_last=false);
+  series_ptr conviction (series_ptr, unsigned N);
 
   double volatility (series_ptr, unsigned days=365);
   double gpa(series_ptr);

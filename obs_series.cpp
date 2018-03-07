@@ -5,7 +5,7 @@ namespace merkatilo {
 
   series_ptr obs_to_series(observations_ptr obs){
     series_builder builder;
-    for (auto ob : *obs){
+    for (const auto& ob : *obs){
       builder.insert(ob);
     }
     return builder.construct();

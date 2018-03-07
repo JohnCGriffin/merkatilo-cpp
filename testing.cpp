@@ -297,3 +297,14 @@ TEST_CASE("PERFORMANCE"){
   REQUIRE(approximates(31,magical_performance.trades));
   
 }
+
+TEST_CASE("CONVICTION"){
+
+  current_dates active(TEST_SERIES);
+  auto MO_5_CONVICTION_4 = test_lo("mo-5-conviction-4");
+
+  REQUIRE(verify_equivalency(conviction(mo(TEST_SERIES,5),4),
+			     MO_5_CONVICTION_4));
+			     
+  
+}

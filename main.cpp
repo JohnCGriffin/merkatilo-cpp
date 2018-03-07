@@ -53,5 +53,12 @@ int main()
     auto dd = drawdown(IBM);
     std::cout << jdate_to_string(dd.first.dt) << " " << jdate_to_string(dd.second.dt) << std::endl;
   }
-  
+
+  /*
+  {
+    current_dates active(IBM);
+    auto m = mo(IBM,200);
+    dump({m, conviction(m,1), conviction(m,2), conviction(m,3), conviction(m,4) });
+  }
+  */
 }
