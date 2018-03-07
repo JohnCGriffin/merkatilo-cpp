@@ -18,7 +18,7 @@ namespace merkatilo {
 
     auto obs = s->observations_by_date(current_dates::active());
 
-    for (auto ob : *obs){
+    for (const auto& ob : *obs){
 
       auto dt = ob.dt;
       auto val = ob.val;

@@ -66,7 +66,7 @@ namespace merkatilo {
     for(auto dt = fd; dt <= ld; dt = dt+1){
       v.push_back(default_value());
     }
-    for(auto ob : obs){
+    for(const auto& ob : obs){
       int slot = ob.dt - fd;
       v.at(slot) = ob.val;
     }

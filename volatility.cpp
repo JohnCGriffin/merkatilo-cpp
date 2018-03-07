@@ -7,7 +7,7 @@ namespace merkatilo {
   static double avg (const std::vector<double>& vec)
   {
     double total = 0;
-    for (auto val : vec){
+    for (const auto& val : vec){
       total += val;
     }
     return total / vec.size();
@@ -17,7 +17,7 @@ namespace merkatilo {
   {
     auto mean = avg(v);
     std::vector<double> squaredDiffs;
-    for (auto val : v){
+    for (const auto& val : v){
       auto diff = mean - val;
       squaredDiffs.push_back(diff * diff);
     }
@@ -30,7 +30,7 @@ namespace merkatilo {
     auto obs = changes->observations_by_date(current_dates::active());
 
     std::vector<double> v;
-    for (auto ob : *obs){
+    for (const auto& ob : *obs){
       if(valid(ob.val)){
 	v.push_back(ob.val);
       }

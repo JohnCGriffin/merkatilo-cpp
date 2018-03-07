@@ -26,7 +26,7 @@ namespace merkatilo {
 
     series_builder builder;
 
-    for (auto ob : obs){
+    for (const auto& ob : obs){
       if(repeat_last || ob.dt <= last_ob.dt){
 	builder.insert(ob);
       }

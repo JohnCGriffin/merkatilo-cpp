@@ -1,64 +1,39 @@
 
 #include <iostream>
 #include "merkatilo.hpp"
+#include <chrono>
+#include <functional>
+
+void timeit(std::string title, std::function<void(void)> f)
+{
+  auto start = std::chrono::system_clock::now();
+  for(int i=0; i<100; i++){
+    f();
+  }
+  auto end = std::chrono::system_clock::now();
+  std::chrono::duration<double,std::micro> d = (end - start);
+  std::cout << title << " " << (d.count()/100) << " microseconds" << std::endl;
+}
 
 int main()
 {
   using namespace merkatilo;
-  auto tdy = ymd_to_jdate(2018,2,27);
-  for (int i=0; i<10; i++){
-    std::cout << (tdy + i) << std::endl;
-  }
-
-  std::cout << "today is " << today() << std::endl;
-
-  std::cout << "today year " << year(today()) << std::endl;
-  std::cout << "today month " << month(today()) << std::endl;
-  std::cout << "today day " << day(today()) << std::endl;
 
   auto IBM = lo("IBM");
 
-  for(auto dt = today()-20; dt<today(); dt = dt+1){
-    auto val = IBM->at(dt);
-    if(valid(val)){
-      std::cout << dt << " " << val << "\n";
-    }
-  }
-
-  auto ds = dateset_builder(IBM).construct();
-
-  for(auto dt : ds){
-    std::cout << dt << " " << IBM->at(dt) << "\n";
-  }
-
   {
     current_dates active(IBM);
-    dump({IBM, ema(IBM,20), sma(IBM,20) });
-  }
-  
-/*
-  {
-    dateset_builder builder(today()-30,today());
-    auto ds = std::make_shared<dateset>(builder.construct());
-    current_dates recent(ds);
-    dump({IBM, ema(IBM,4), sma(IBM,4) });
-  }
-*/
-
-  {
-    current_dates active(IBM);
-    for(int i=0; i<10000; i++){
-	drawdown(IBM);
-    }
-    auto dd = drawdown(IBM);
-    std::cout << jdate_to_string(dd.first.dt) << " " << jdate_to_string(dd.second.dt) << std::endl;
+    timeit("drawdown", [&](){ drawdown(IBM); });
+    timeit("momentum", [&](){ mo(IBM,20); });
+    timeit("ema", [&](){ ema(IBM,20); });
+    timeit("sma", [&](){ sma(IBM,20); });
+    auto mo5 = mo(IBM,5);
+    timeit("conviction", [&](){ conviction(mo5,4); });
+    timeit("to_signals", [&](){ to_signals(mo5); });
+    auto sm200 = sma(IBM,200);
+    timeit("cross", [&](){ cross(sm200,IBM); });
+    timeit("investment_performance", [&](){ investment_performance(IBM); });
+    
   }
 
-  /*
-  {
-    current_dates active(IBM);
-    auto m = mo(IBM,200);
-    dump({m, conviction(m,1), conviction(m,2), conviction(m,3), conviction(m,4) });
-  }
-  */
 }
