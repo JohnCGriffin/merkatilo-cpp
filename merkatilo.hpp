@@ -7,6 +7,7 @@
 #include <memory>
 #include <limits>
 #include <vector>
+#include <functional>
 
 namespace merkatilo {
 
@@ -94,6 +95,40 @@ namespace merkatilo {
   series_ptr lo(std::string id);
   void dump(std::initializer_list<series_ptr>);
 
+  // NORMAL arithmetic at every date.  If the second
+  // argument is a number, it is converted with
+  // constant to make it a series.
+
+  series_ptr operator+(series_ptr a, series_ptr b);
+  series_ptr operator+(series_ptr a, double b);
+  
+  series_ptr operator-(series_ptr a, series_ptr b);
+  series_ptr operator-(series_ptr a, double b);
+
+  series_ptr operator*(series_ptr a, series_ptr b);
+  series_ptr operator*(series_ptr a, double b);
+  
+  series_ptr operator/(series_ptr a, series_ptr b);
+  series_ptr operator/(series_ptr a, double b);
+
+  // Inequalities are handy shortcuts to filtering
+  // series A if the inequality over A and B holds
+  // true.  Thus, (IBM > 100) means to copy all
+  // IBM values greater than 100.
+  
+  series_ptr operator<(series_ptr a, series_ptr b);
+  series_ptr operator<(series_ptr a, double b);
+  
+  series_ptr operator<=(series_ptr a, series_ptr b);
+  series_ptr operator<=(series_ptr a, double b);
+  
+  series_ptr operator>(series_ptr a, series_ptr b);
+  series_ptr operator>(series_ptr a, double b);
+  
+  series_ptr operator>=(series_ptr a, series_ptr b);
+  series_ptr operator>=(series_ptr a, double b);
+    
+
   series_ptr ema (series_ptr, unsigned N);
   series_ptr sma (series_ptr, unsigned period);
   series_ptr mo (series_ptr, unsigned period);
@@ -112,6 +147,8 @@ namespace merkatilo {
   series_ptr unrepeated (series_ptr);
   series_ptr repeated (series_ptr, bool repeat_last=false);
   series_ptr conviction (series_ptr, unsigned N);
+
+  series_ptr filter (series_ptr, std::function<bool(double)> predicate);
 
   double volatility (series_ptr, unsigned days=365);
   double gpa(series_ptr);

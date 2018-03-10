@@ -32,7 +32,10 @@ int main()
     timeit("to_signals", [&](){ to_signals(mo5); });
     auto sm200 = sma(IBM,200);
     timeit("cross", [&](){ cross(sm200,IBM); });
+    timeit("volatility", [&](){ volatility(IBM); });
+    timeit("mo_days", [&](){ mo_days(IBM,20); });
     timeit("investment_performance", [&](){ investment_performance(IBM); });
+    timeit("reversals", [&](){ reversals(IBM, 0.9, 1.1); });
     
   }
 

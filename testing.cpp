@@ -306,5 +306,14 @@ TEST_CASE("CONVICTION"){
   REQUIRE(verify_equivalency(conviction(mo(TEST_SERIES,5),4),
 			     MO_5_CONVICTION_4));
 			     
-  
 }
+
+
+TEST_CASE("FILTER"){
+
+  current_dates active(TEST_SERIES);
+  REQUIRE(2 == series_count(filter(TEST_SERIES, [](double val){ return val > 360;})));
+}
+
+
+
