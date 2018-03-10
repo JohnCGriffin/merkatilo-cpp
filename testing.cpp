@@ -324,11 +324,25 @@ TEST_CASE("ARITHMETIC OPERATORS"){
   auto fo = first_ob(TEST_SERIES);
 
   REQUIRE(TEST_SERIES->at(fo.dt) * 2 == doubled->at(fo.dt));
-
   REQUIRE(doubled->at(fo.dt) == times_two->at(fo.dt));
-
   REQUIRE(series_count(TEST_SERIES > 300) == 529);
 
+}
+
+
+TEST_CASE("WINDOW_SERIES"){
+
+  current_dates active(TEST_SERIES);
+  auto avg = [](const std::vector<double>& v){
+    double total = 0;
+    for(auto n : v){
+      total += n;
+    }
+    return total / v.size();
+  };
+
+  REQUIRE(verify_equivalency(sma(TEST_SERIES,20), window_series(TEST_SERIES,20,avg)));
+  
 }
 
 
