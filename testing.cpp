@@ -346,5 +346,25 @@ TEST_CASE("WINDOW_SERIES"){
 }
 
 
+TEST_CASE("SERIES_MAP"){
+
+  current_dates active(TEST_SERIES);
+  auto S = TEST_SERIES;
+  
+  auto sum = [](const std::vector<double>& nums){
+    double total=0;
+    for(auto n : nums){
+      total += n;
+    }
+    return total;
+  };
+
+  REQUIRE(verify_equivalency(series_map(sum, S), S));
+  REQUIRE(verify_equivalency(series_map(sum, S, S), S+S));
+  REQUIRE(verify_equivalency(series_map(sum, S, S, S), S*3));
+  REQUIRE(verify_equivalency(series_map(sum, S, S, S, S), S*4));
+  REQUIRE_THROWS(series_map(sum));
+}
+
 
 

@@ -160,10 +160,21 @@ namespace merkatilo {
   series_ptr conviction (series_ptr, unsigned N);
 
   series_ptr filter (series_ptr, std::function<bool(double)> predicate);
+  
   series_ptr window_series (series_ptr sp,
 			    unsigned N,
 			    std::function<double(const std::vector<double>&)> window_function,
 			    bool missing_data_permitted=false);
+
+  series_ptr series_map (std::vector<series_ptr> sps,
+			 std::function<double(const std::vector<double>&)> f,
+			 bool missing_data_permitted=false);
+
+  template <typename... Ss>
+  series_ptr series_map(std::function<double(const std::vector<double>&)> f, Ss... ss){
+    std::vector<series_ptr> v { std::forward<Ss>(ss)... };
+    return series_map(v,f);
+  }
 
   double volatility (series_ptr, unsigned days=365);
   double gpa(series_ptr);
