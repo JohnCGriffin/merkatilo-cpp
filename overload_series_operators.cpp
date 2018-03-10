@@ -20,7 +20,8 @@ namespace merkatilo {
   };
 
 
-#define ARITHMETIC(SYM){ return std::make_shared<binop_series>(a,b,[](double a, double b){ return a SYM b; }); }
+#define ARITHMETIC(SYM){ return std::make_shared<binop_series>\
+      (a,b,[](double v1, double v2){ return v1 SYM v2; }); }
 
   series_ptr operator+(series_ptr a, series_ptr b) ARITHMETIC(+)
   series_ptr operator+(series_ptr a, double b) ARITHMETIC(+)
@@ -34,16 +35,17 @@ namespace merkatilo {
   series_ptr operator/(series_ptr a, series_ptr b)
   {
     return std::make_shared<binop_series>
-      (a,b,[](double a, double b){ return b ? (a/b) : default_value(); });
+      (a,b,[](double v1, double v2){ return v2 ? (v1/v2) : default_value(); });
   }
 
   series_ptr operator/(series_ptr a, double b)
   {
     return std::make_shared<binop_series>
-      (a,b,[](double a, double b){ return b ? (a/b) : default_value(); });
+      (a,b,[](double v1, double v2){ return v2 ? (v1/v2) : default_value(); });
   }
 
-#define INEQUALITY(SYM){ return std::make_shared<binop_series>(a,b,[](double a, double b){ return (a SYM b) ? a : default_value(); }); }
+#define INEQUALITY(SYM){ return std::make_shared<binop_series>\
+			 (a,b,[](double v1, double v2){ return (v1 SYM v2) ? v1 : default_value(); }); }
 
   series_ptr operator<(series_ptr a,series_ptr b) INEQUALITY(<)
   series_ptr operator<(series_ptr a,double b) INEQUALITY(<)
@@ -56,6 +58,33 @@ namespace merkatilo {
 
   series_ptr operator>=(series_ptr a,series_ptr b) INEQUALITY(>=)
   series_ptr operator>=(series_ptr a,double b) INEQUALITY(>=)
+
+
+  series_ptr series_or (series_ptr a, series_ptr b){
+    return std::make_shared<binop_series>(a,b,[](double v1, double v2){
+	if(valid(v1)){
+	  return v1;
+	}
+	return v2;
+      });
+  }
+  
+  series_ptr series_or (series_ptr a, double b) {
+    return series_or(a, constant(b));
+  }
+
+  series_ptr series_and (series_ptr a, series_ptr b){
+    return std::make_shared<binop_series>(a,b,[](double v1,double v2){
+	if(valid(v1) && valid(v2)){
+	  return v2;
+	}
+	return default_value();
+      });
+  }
+  
+  series_ptr series_and (series_ptr a, double b){
+    return series_and(a, constant(b));
+  }
 
 
 }

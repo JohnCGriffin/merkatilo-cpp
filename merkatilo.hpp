@@ -127,7 +127,18 @@ namespace merkatilo {
   
   series_ptr operator>=(series_ptr a, series_ptr b);
   series_ptr operator>=(series_ptr a, double b);
-    
+
+  // The 'or' function composes two series, returning the first
+  // if available, else the second.  The 'and' function returns
+  // the second if the first is available.  In the same style
+  // as the arithmetic overloads, the second argument can
+  // be a number.
+
+  series_ptr series_or (series_ptr a, series_ptr b);
+  series_ptr series_or (series_ptr a, double b);
+
+  series_ptr series_and (series_ptr a, series_ptr b);
+  series_ptr series_and (series_ptr a, double b);
 
   series_ptr ema (series_ptr, unsigned N);
   series_ptr sma (series_ptr, unsigned period);

@@ -316,4 +316,21 @@ TEST_CASE("FILTER"){
 }
 
 
+TEST_CASE("ARITHMETIC OPERATORS"){
+
+  current_dates active(TEST_SERIES);
+  auto doubled = TEST_SERIES + TEST_SERIES;
+  auto times_two = TEST_SERIES * 2;
+  auto fo = first_ob(TEST_SERIES);
+
+  REQUIRE(TEST_SERIES->at(fo.dt) * 2 == doubled->at(fo.dt));
+
+  REQUIRE(doubled->at(fo.dt) == times_two->at(fo.dt));
+
+  REQUIRE(series_count(TEST_SERIES > 300) == 529);
+
+}
+
+
+
 
