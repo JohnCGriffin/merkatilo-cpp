@@ -8,6 +8,7 @@
 #include <limits>
 #include <vector>
 #include <functional>
+#include <sstream>
 
 namespace merkatilo {
 
@@ -154,6 +155,9 @@ namespace merkatilo {
   series_ptr nostradamus (series_ptr,
 			  double down_factor,
 			  double up_factor);
+
+  series_ptr read_series(std::istream& is);
+  void write_series(series_ptr, dateset_ptr, std::ostream&);
 
   series_ptr unrepeated (series_ptr);
   series_ptr repeated (series_ptr, bool repeat_last=false);

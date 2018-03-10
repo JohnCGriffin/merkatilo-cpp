@@ -32,21 +32,7 @@ namespace merkatilo {
     }
     std::string the_file = (id[0] == '/') ? id : oss.str();
     std::ifstream ifs(the_file);
-    std::string date_token;
-    double value;
-    series_builder builder;
-    std::string line;
-    while(std::getline(ifs,line)){
-      if(line.find("#") == 0){
-	continue;
-      }
-      std::istringstream iss(line);
-      if(iss >> date_token >> value){
-	auto jd = parse_jdate(date_token);
-	builder.insert({jd,value});
-      }
-    }
-    return builder.construct();
+    return read_series(ifs);
   }
 
   static std::string normalize_id(std::string id)
