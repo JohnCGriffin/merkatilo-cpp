@@ -14,8 +14,8 @@ OBS = jdate.o dates.o lo.o current_dates.o dump.o series_builder.o \
 test: testing.o testing_main.o $(OBS)
 	g++ testing.o testing_main.o $(OBS) -o testing && ./testing
 
-main: merkatilo.hpp.gch main.o $(OBS)
-	$(CXX) $(CXXFLAGS) main.o $(OBS) -o main
+benchmark: merkatilo.hpp.gch benchmark.o $(OBS)
+	$(CXX) $(CXXFLAGS) benchmark.o $(OBS) -o benchmark && ./benchmark
 
 merkatilo.hpp.gch: merkatilo.hpp
 	$(CXX) $(CXXFLAGS) -c merkatilo.hpp
