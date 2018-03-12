@@ -1,6 +1,13 @@
 
 #include "merkatilo.hpp"
 
+/**
+@file
+@brief remove contiguous repeated values.
+*
+*/
+
+
 namespace merkatilo {
 
   series_ptr unrepeated (series_ptr sp) {

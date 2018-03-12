@@ -27,4 +27,4 @@ doc:
 	doxygen
 
 clean:
-	rm -f *.o *.out *.gch main testing && rm -rf html
+	rm -f *.o *.out *.gch benchmark testing && rm -rf html

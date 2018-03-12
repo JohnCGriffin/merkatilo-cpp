@@ -3,6 +3,14 @@
 
 #include <iostream>
 
+/**
+@file
+@brief moving average
+*
+* For N > 1, calculate the average of the last N observations at each
+* date.  Any missing value with the last N periods results in NaN output.
+*/
+
 namespace merkatilo {
 
   series_ptr sma(series_ptr s, unsigned N)
