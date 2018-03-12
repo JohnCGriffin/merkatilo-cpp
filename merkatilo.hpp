@@ -10,59 +10,10 @@
 #include <functional>
 #include <sstream>
 
+#include "jdate.hpp"
+#include "series.hpp"
+
 namespace merkatilo {
-
-  typedef double value_type;
-  inline bool valid(value_type v){ return v == v; }
-  inline value_type default_value() { return std::numeric_limits<double>::quiet_NaN(); }
-
-  typedef std::vector<value_type> value_type_v;
-  typedef std::shared_ptr<value_type_v> value_type_v_ptr;
-
-  typedef unsigned jdate;
-
-  jdate ymd_to_jdate(int y,int m, int d);
-  jdate parse_jdate(std::string);
-  std::tuple<int,int,int> ymd(jdate);
-  int year(jdate);
-  int month(jdate);
-  int day(jdate);
-  std::string jdate_to_string(jdate);
-
-  jdate today(void);
-
-  extern const jdate MAX_DATE, MIN_DATE;
-
-  typedef std::vector<jdate> jdate_v;
-  typedef std::shared_ptr<const jdate_v> jdate_v_ptr;
-
-  struct observation {
-    jdate dt;
-    value_type val;
-    bool operator<(const observation& another) const {
-      return dt < another.dt;
-    }
-  };
-
-  typedef std::pair<observation,observation> obpair;
-  typedef std::vector<observation> observations;
-  typedef std::shared_ptr<const observations> observations_ptr;
-
-  class series {
-  public:
-    virtual ~series();
-    virtual value_type at(jdate) const;
-    virtual observations_ptr observations_by_date (jdate_v_ptr dates);
-  };
-
-  typedef std::shared_ptr<series> series_ptr;
-
-  struct series_builder {
-    bool ordered = true;
-    std::vector<observation> obs;
-    void insert(observation);
-    series_ptr construct();
-  };
 
   typedef const std::vector<jdate> dateset;
   typedef std::shared_ptr<dateset> dateset_ptr;
@@ -90,12 +41,12 @@ namespace merkatilo {
     current_dates(series_ptr s);
     current_dates(dateset_ptr ds);
     ~current_dates();
-    static const dateset_ptr active();
+
+    static const /* thread_local */ dateset_ptr active();
   };
 
-  series_ptr lo(std::string id);
-  void dump(std::initializer_list<series_ptr>);
 
+  
   // NORMAL arithmetic at every date.  If the second
   // argument is a number, it is converted with
   // constant to make it a series.
@@ -141,30 +92,23 @@ namespace merkatilo {
   series_ptr series_and (series_ptr a, series_ptr b);
   series_ptr series_and (series_ptr a, double b);
 
+  series_ptr fudge (series_ptr, unsigned days=6);
+  series_ptr constant (double N);
+  series_ptr read_series(std::istream& is);
+  series_ptr filter (series_ptr, std::function<bool(double)> predicate);
+
+
+
+  ///////// DATES TRAVERSING SERIES OPS //////////////
+
   series_ptr ema (series_ptr, unsigned N);
   series_ptr sma (series_ptr, unsigned period);
   series_ptr mo (series_ptr, unsigned period);
   series_ptr mo_days (series_ptr, unsigned days);
-  series_ptr to_signals (series_ptr);
-  series_ptr fudge (series_ptr, unsigned days=6);
   series_ptr warp (series_ptr, int N);
-  series_ptr constant (double N);
-  series_ptr reversals (series_ptr,
-			double down_factor,
-			double up_factor);
-  series_ptr nostradamus (series_ptr,
-			  double down_factor,
-			  double up_factor);
-
-  series_ptr read_series(std::istream& is);
-  void write_series(series_ptr, dateset_ptr, std::ostream&);
-
   series_ptr unrepeated (series_ptr);
   series_ptr repeated (series_ptr, bool repeat_last=false);
-  series_ptr conviction (series_ptr, unsigned N);
 
-  series_ptr filter (series_ptr, std::function<bool(double)> predicate);
-  
   series_ptr window_series (series_ptr sp,
 			    unsigned N,
 			    std::function<double(const std::vector<double>&)> window_function,
@@ -180,20 +124,22 @@ namespace merkatilo {
     return series_map(v,f);
   }
 
-  double volatility (series_ptr, unsigned days=365);
-  double gpa(series_ptr);
-  size_t series_count(series_ptr);
-  obpair min_max_obs(series_ptr);
-  obpair drawdown(series_ptr);
-  observation first_ob(series_ptr);
-  observation last_ob(series_ptr);
 
-  series_ptr obs_to_series(observations_ptr);
-  observations_ptr series_to_obs(series_ptr);
 
+  ////////////   SIGNAL GENERATION  ///////////////
+  
+  series_ptr to_signals (series_ptr);
+  series_ptr reversals (series_ptr,
+			double down_factor,
+			double up_factor);
+
+
+  series_ptr conviction (series_ptr, unsigned N);
   series_ptr cross(series_ptr slower, series_ptr faster,
 		   double upside_factor=1.0, double downside_factor=1.0);
 
+
+  ////////  EVALUATE SIGNAL PERFORMANCE /////////
 
   series_ptr equity_line(series_ptr sp,
 			 series_ptr signals,
@@ -211,6 +157,39 @@ namespace merkatilo {
   performance investment_performance (series_ptr s,
 				      series_ptr signals = constant(1),
 				      series_ptr alternate_investment = constant(1));
+  
+  double volatility (series_ptr, unsigned days=365);
+  double gpa(series_ptr);
+  obpair drawdown(series_ptr);
+
+
+  ////////////// MISC ////////////////
+
+  size_t series_count(series_ptr);
+  obpair min_max_obs(series_ptr);
+  observation first_ob(series_ptr);
+  observation last_ob(series_ptr);
+
+  /* nostradamus is based upon reversals except that that date of each
+     observation in the output is the local extreme that preceded the
+     reversal.  DO NOT mistake this for a trading signal. */
+  
+  series_ptr nostradamus (series_ptr,
+			  double down_factor,
+			  double up_factor);
+
+  
+  /////////////// CONVERSIONS ////////////
+  
+  series_ptr obs_to_series(observations_ptr);
+  observations_ptr series_to_obs(series_ptr);
+
+  
+  ///////////////  I/O  //////////////////
+
+  series_ptr lo(std::string id);
+  void dump(std::initializer_list<series_ptr>);
+  void write_series(series_ptr, dateset_ptr, std::ostream&);
 }
 
 #endif
