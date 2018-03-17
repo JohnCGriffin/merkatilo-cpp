@@ -194,6 +194,15 @@ namespace merkatilo {
 
   series_ptr lo(std::string id);
   void dump(std::initializer_list<series_ptr>);
+
+  /**
+     @brief handy variable args call of dump.
+  */
+  template <typename... Ss>
+  void dump(Ss... ss){
+    dump ({ std::forward<Ss>(ss)... });
+  }
+
   void write_series(series_ptr, dateset_ptr, std::ostream&);
 }
 

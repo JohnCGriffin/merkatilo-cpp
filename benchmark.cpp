@@ -36,7 +36,7 @@ int main()
     timeit("mo_days", [&](){ mo_days(IBM,20); });
     timeit("investment_performance", [&](){ investment_performance(IBM); });
     timeit("reversals", [&](){ reversals(IBM, 0.9, 1.1); });
-    
+
   }
 
 }
