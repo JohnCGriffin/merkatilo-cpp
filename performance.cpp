@@ -7,6 +7,10 @@
 
 namespace merkatilo {
 
+  /**
+     @brief annualized gain.
+  */
+
   double gpa(series_ptr s)
   {
     auto f_ob = first_ob(s);
@@ -22,6 +26,15 @@ namespace merkatilo {
     return std::pow(gain, 1.0 / years) - 1.0;
   }
 
+  /**
+     @brief return performance attributes of series traded by signals.
+     *
+     * Return the performance structure of trading based upon signals or                                                             
+     * simply return the performance of buy/hold if no signals are supplied.  Don't forgot                                           
+     * to warp the signals by one if you want realistic results of trading the day following
+     * end-of-day signals.                                    
+     */
+  
   performance investment_performance (series_ptr sp,
 				      series_ptr signals,
 				      series_ptr alternate_investment)

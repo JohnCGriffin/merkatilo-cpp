@@ -4,7 +4,16 @@
 #include <sstream>
 
 
+
 namespace merkatilo {
+
+/**
+@brief signal when faster-changing series crosses slower-changing series.
+*
+* When the faster series surpasses the slower series, a buy signal (1) fires 
+* and a sell (-1) when it goes below.  These boundaries are altered with 
+* upside-factor and downside-factor. 
+*/
 
   series_ptr cross(series_ptr slower_sp,
 		   series_ptr faster_sp,

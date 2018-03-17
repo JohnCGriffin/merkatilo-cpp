@@ -3,6 +3,10 @@
 
 namespace merkatilo {
 
+  /**
+     @brief return number of observations in series.
+  */
+
 size_t series_count(series_ptr sp)
 {
   auto p = sp.get();

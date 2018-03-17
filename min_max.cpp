@@ -2,6 +2,13 @@
 #include "merkatilo.hpp"
 
 namespace merkatilo {
+
+  /**
+     @brief return minimum and maximum valued observations.
+     * 
+     * Return a std::pair<observation,observation> respresenting
+     * the minimum observation followed by the maximum.
+     */
   
   obpair min_max_obs (series_ptr sp) {
 

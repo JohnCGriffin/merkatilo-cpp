@@ -1,7 +1,12 @@
 
 #include "merkatilo.hpp"
 
+
 namespace merkatilo {
+
+/**
+@brief return a constant value/
+*/
 
   series_ptr constant(double N){
     struct constant_series : public series {

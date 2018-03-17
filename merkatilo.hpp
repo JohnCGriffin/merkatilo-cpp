@@ -2,6 +2,8 @@
 #ifndef _MERKATILO_HPP_293487293847_
 #define _MERKATILO_HPP_293487293847_
 
+/** @file */
+
 #include <set>
 #include <string>
 #include <memory>
@@ -118,6 +120,9 @@ namespace merkatilo {
 			 std::function<double(const std::vector<double>&)> f,
 			 bool missing_data_permitted=false);
 
+  /**
+   @brief handy syntax to variable number of series.
+  */
   template <typename... Ss>
   series_ptr series_map(std::function<double(const std::vector<double>&)> f, Ss... ss){
     std::vector<series_ptr> v { std::forward<Ss>(ss)... };

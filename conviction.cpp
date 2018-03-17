@@ -1,7 +1,17 @@
 
 #include "merkatilo.hpp"
 
+
 namespace merkatilo {
+
+  /**
+     @brief Suppress unstable signal changes.
+     *
+     * The conviction operator reduces whipsaw signals by delaying the signal 
+     * then producing it only if it is not flipped with the specified number 
+     * of periods.  As a small side benefit, any practical trading strategy 
+     * receives a "heads-up" that a signal is imminent.  
+     */
 
   series_ptr conviction (series_ptr sp, unsigned N) {
 
@@ -16,7 +26,6 @@ namespace merkatilo {
 
     double sig_vals[len];
 
-    // remove too-close neighbors
     int last_sig_ndx = -1;
     for(int i=0; i<len; i++){
       auto val = s->at(dts->at(i));
@@ -29,7 +38,6 @@ namespace merkatilo {
       }
     }
 
-    // warp signals by N
     series_builder builder;
     for(int i=0; i+int(N)<len; i++){
       auto val = sig_vals[i];

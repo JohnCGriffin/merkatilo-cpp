@@ -4,6 +4,14 @@
 
 namespace merkatilo {
 
+/**
+@brief identify largest loss in equity series.
+*
+* Drawdown contains two observations, the earlier being the higher valued observation 
+* and the latter being a lesser valued observation such that that combination of 
+* observed date-value pairs represents the greatest loss in value.
+*/
+
   obpair drawdown(series_ptr sp)
   {
     auto obs = series_to_obs(sp);

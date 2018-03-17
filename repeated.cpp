@@ -4,8 +4,8 @@
 namespace merkatilo {
 
 /**
-@file
-@brief fill missing values with last valid value.  
+@brief fill missing values with last valid value
+*
 * Optionally, one can terminate at the last valid value or continue it
 * to the end of the current dateset.  If you simply need data to fit
 * together as in month-end and market data and the monthly numbers are

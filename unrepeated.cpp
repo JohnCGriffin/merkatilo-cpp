@@ -1,14 +1,12 @@
 
 #include "merkatilo.hpp"
 
-/**
-@file
-@brief remove contiguous repeated values.
-*
-*/
-
 
 namespace merkatilo {
+
+/**
+@brief remove contiguous repeated values.
+*/
 
   series_ptr unrepeated (series_ptr sp) {
     auto s = sp.get();

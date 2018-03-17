@@ -47,6 +47,17 @@ namespace merkatilo {
 
   static thread_local std::function<series_ptr(std::string)> loader = default_loader;
 
+  /**
+     @brief load a series.
+     *
+     * Pass a string request in TICKER::RECORD format to a thread_local loader to fetch
+     * a series.  The default loader looks for text-based series in ~/TIME_SERIES.  
+     *
+     * If the request is in the form of TICKER, then it is converted to TICKER::CLOSE by
+     * lo before asking the loader for the series.
+     */
+
+
   series_ptr lo(std::string id)
   {
     if(id.size() == 0){

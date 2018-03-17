@@ -5,6 +5,10 @@
 #include <iostream>
 
 namespace merkatilo {
+
+  /**
+     @brief display multiple series in spreadsheet style.
+  */
   
   void dump(std::initializer_list<series_ptr> seriesz)
   {

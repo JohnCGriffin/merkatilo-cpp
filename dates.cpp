@@ -54,7 +54,7 @@ namespace merkatilo {
   }
 
   dateset_builder& dateset_builder::intersect(series_ptr s){
-    _so_far = _intersect(_so_far, [&](jdate jd){ return s->at(jd) ? true : false; });
+    _so_far = _intersect(_so_far, [&](jdate jd){ return valid(s->at(jd)); });
     return *this;
   }
 
