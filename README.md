@@ -6,9 +6,7 @@
 The merkatilo time-series library implementations address personal
 financial computing research requirements.  This is the C++
 implementation.  As a C++ library, it's not useful interactively; for
-that, use the Python or Racket implementation.  However, because the
-routines parallel the interpreted implementations, converting from a
-script to C++ code is not difficult.
+that purpose, use the Python or Racket implementation. 
 
 The purpose of this library is financial computing research and education, 
 not trading with material funds at risk. Use it accordingly.
