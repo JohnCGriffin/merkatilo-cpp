@@ -5,7 +5,7 @@
 #include <ctime>
 
 namespace merkatilo {
-  
+
   jdate ymd_to_jdate(const int year, const int month, const int day)
   {
     auto is_leap_year = [](int y){

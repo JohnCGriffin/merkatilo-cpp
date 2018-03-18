@@ -2,6 +2,8 @@
 #ifndef _SERIES_HPP_20394872039487_
 #define _SERIES_HPP_20394872039487_
 
+/** @file */
+
 #include <vector>
 #include <memory>
 #include <limits>
@@ -29,6 +31,7 @@ namespace merkatilo {
   typedef std::vector<observation> observations;
   typedef std::shared_ptr<const observations> observations_ptr;
 
+  /// @brief date-to-value mapper
   class series {
   public:
     virtual ~series();
@@ -38,8 +41,10 @@ namespace merkatilo {
     virtual observations_ptr observations_by_date (jdate_v_ptr dates);
   };
 
+  /// @brief all series are passed by shared_ptr
   typedef std::shared_ptr<series> series_ptr;
 
+  /// @brief mutable builder of immutable series_ptr
   struct series_builder {
     bool ordered = true;
     std::vector<observation> obs;
