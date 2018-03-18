@@ -72,7 +72,7 @@ namespace merkatilo {
 	buy = !(sig_val < 0);
       }
 
-      builder.insert({dt, productinitial_value});
+      builder.insert({dt, product * initial_value});
     }
     
     return builder.construct();

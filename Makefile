@@ -15,7 +15,10 @@ test: merkatilo.hpp.gch testing.o testing_main.o $(OBS)
 	g++ testing.o testing_main.o $(OBS) -o testing && ./testing
 
 benchmark: merkatilo.hpp.gch benchmark.o $(OBS)
-	$(CXX) $(CXXFLAGS) benchmark.o $(OBS) -o benchmark && ./benchmark
+	$(CXX) $(CXXFLAGS) benchmark.o $(OBS) -o benchmark 
+
+bench: benchmark
+	./benchmark
 
 merkatilo.hpp.gch: merkatilo.hpp
 	$(CXX) $(CXXFLAGS) -c merkatilo.hpp

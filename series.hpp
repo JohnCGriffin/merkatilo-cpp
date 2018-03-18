@@ -32,7 +32,9 @@ namespace merkatilo {
   class series {
   public:
     virtual ~series();
+    /// get the double value at a date
     virtual value_type at(jdate) const;
+    /// map given dates to values
     virtual observations_ptr observations_by_date (jdate_v_ptr dates);
   };
 

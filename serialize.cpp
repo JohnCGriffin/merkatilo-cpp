@@ -3,15 +3,11 @@
 
 namespace merkatilo {
 
-/**
- @brief read series from text stream.
- *
- * Given an input stream with lines containing 
- * two space-separated fields in the form 
- * YYYY-MM-DD DOUBLE, convert into a series.
- * The input can have empty lines and comment
- * lines beginning with #.
- */
+  /// Given an input stream with lines containing 
+  /// two space-separated fields in the form 
+  /// YYYY-MM-DD DOUBLE, convert into a series.
+  /// The input can have empty lines and comment
+  /// lines beginning with #.
   
   series_ptr read_series(std::istream& is)
   {
@@ -32,12 +28,10 @@ namespace merkatilo {
     return builder.construct();
   }
 
-  /**
-   @brief write series to output stream
-   * output series, one line per observation,
-   * each line containing two fields, a YYYY-MM-DD
-   * date and a double.
-   */
+
+  /// Output series, one line per observation,
+  /// each line containing two fields, a YYYY-MM-DD
+  /// date and a double.
 
   void write_series(series_ptr sp, dateset_ptr dts, std::ostream& os)
   {

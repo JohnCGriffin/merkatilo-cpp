@@ -7,9 +7,15 @@
 
 namespace merkatilo {
 
-  /// When the faster series surpasses the slower series, a buy signal (1) fires 
-  /// and a sell (-1) when it goes below.  These boundaries are altered with 
-  /// upside-factor and downside-factor. 
+  /// When the faster series surpasses the slower series, a buy signal (1)
+  /// fires.  Likewise, a sell (-1) fires when it goes below.  These
+  /// boundaries are altered with upside-factor and downside-factor.
+  /// For instance, given a fast series FS and a slow series SS, the
+  /// following call will generate buy signals when the fast series exceeds
+  /// the slow by 3% and sell signals when it drops 2% below:
+  ///
+  /// <c>cross(SS,FS,1.03,0.98)</c>
+  
 
   series_ptr cross(series_ptr slower_sp,
 		   series_ptr faster_sp,

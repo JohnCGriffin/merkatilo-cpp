@@ -94,10 +94,35 @@ namespace merkatilo {
   series_ptr series_and (series_ptr a, series_ptr b);
   series_ptr series_and (series_ptr a, double b);
 
-  series_ptr fudge (series_ptr, unsigned days=6);
+
+  /// @brief decorate series that finds exact or nearest preceding observtion
+  /// @param s series
+  /// @param days number of days to look back for data (default 6)
+  /// @return decorated series
+  
+  series_ptr fudge (series_ptr s, unsigned days=6);
+
+
+  /// @brief series that returns N for any date
+  /// @param N the returned value for any date
+  /// @return constant series
+  
   series_ptr constant (double N);
+
+
+  /// @brief read text representaion of series
+  /// @param is input stream
+  /// @return deserialized series
+  
   series_ptr read_series(std::istream& is);
-  series_ptr filter (series_ptr, std::function<bool(double)> predicate);
+
+
+  /// @brief filter series based upon predicate
+  /// @param s series
+  /// @param predicate boolean function for filtering a double.
+  /// @return filtered series
+  
+  series_ptr filter (series_ptr s, std::function<bool(double)> predicate);
 
 
 
@@ -111,6 +136,7 @@ namespace merkatilo {
 
   series_ptr ema (series_ptr s, unsigned N, dateset_ptr dates=current_dates::active());
 
+
   /// @brief simple moving average
   /// @param s series to smooth
   /// @param period number of periods to average
@@ -118,6 +144,7 @@ namespace merkatilo {
   /// @return series containing rolling N-period averages
   
   series_ptr sma (series_ptr s, unsigned period, dateset_ptr dates=current_dates::active());
+
 
   /// @brief periodic gains or declines
   /// @param s series
@@ -127,6 +154,7 @@ namespace merkatilo {
   
   series_ptr mo (series_ptr s, unsigned period, dateset_ptr dates=current_dates::active());
 
+
   /// @brief gains or declines over specified calendar days
   /// @param s series
   /// @param days calendar days back from which to measure gain/decline
@@ -134,6 +162,7 @@ namespace merkatilo {
   /// @return series containing (new/old)-1
   
   series_ptr mo_days (series_ptr s, unsigned days, dateset_ptr dates=current_dates::active());
+
 
   /// @brief shift data backward or forward by N periods.
   /// @param s series
@@ -143,12 +172,14 @@ namespace merkatilo {
   
   series_ptr warp (series_ptr s, int N, dateset_ptr dates=current_dates::active());
 
+
   /// @brief remove repeated values
   /// @param s series
   /// @param dates dates to traverse (defaulted to current dates)
   /// @return series such that adjacent values are unique.
   
   series_ptr unrepeated (series_ptr s, dateset_ptr dates=current_dates::active());
+
 
   /// @brief fill missing values with closest preceding observation
   /// @param s initial series with missing observations to fill
@@ -157,6 +188,7 @@ namespace merkatilo {
   /// @return series with missing observation filled using previous value
   
   series_ptr repeated (series_ptr s, bool repeat_last=false, dateset_ptr dates=current_dates::active());
+
 
   /// @brief apply function to N observations
   /// @param s series
@@ -171,6 +203,7 @@ namespace merkatilo {
 			    std::function<double(const std::vector<double>&)> window_function,
 			    bool missing_data_permitted=false,
 			    dateset_ptr dates=current_dates::active());
+
 
   /// @brief convert values of one or more series into a scalar at each date
   /// @param sps vector of series
@@ -203,6 +236,7 @@ namespace merkatilo {
 
   series_ptr to_signals (series_ptr s, dateset_ptr dates=current_dates::active());
   
+
   /// @brief identify when local loss or gain has occurred
   /// @param s series
   /// @param down_factor factor to multiply by peak to indicate sell signal
@@ -215,6 +249,7 @@ namespace merkatilo {
 			double up_factor,
 			dateset_ptr dates=current_dates::active());
 
+
   /// @brief suppress unstable signal changes
   /// @param sigs signal series
   /// @param N number of periods required for conviction to endorse signals
@@ -222,6 +257,7 @@ namespace merkatilo {
   /// @return signal series delayed N periods and endorsed for N periods
 
   series_ptr conviction (series_ptr sigs, unsigned N, dateset_ptr dates=current_dates::active());
+
 
   /// @brief signal when faster-changing series crosses slower-changing series.
   /// @param slower slower moving series (e.g. an sma or ema result)
@@ -296,6 +332,7 @@ namespace merkatilo {
   /// @return annualized gain, e.g. 1.02 for 2% annual compounded gains
 
   double gpa(series_ptr s, dateset_ptr dates=current_dates::active());
+
 
   /// @brief identify largest loss in equity series.
   /// @param s series
@@ -395,7 +432,7 @@ namespace merkatilo {
     dump ({ std::forward<Ss>(ss)... });
   }
 
-  /// @brief serialize series to std::ostream
+  /// @brief write series to output stream
   
   void write_series(series_ptr, dateset_ptr, std::ostream&);
 }
