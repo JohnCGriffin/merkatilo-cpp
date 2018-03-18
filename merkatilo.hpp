@@ -103,22 +103,33 @@ namespace merkatilo {
 
   ///////// DATES TRAVERSING SERIES OPS //////////////
 
-  series_ptr ema (series_ptr, unsigned N);
-  series_ptr sma (series_ptr, unsigned period);
-  series_ptr mo (series_ptr, unsigned period);
-  series_ptr mo_days (series_ptr, unsigned days);
-  series_ptr warp (series_ptr, int N);
-  series_ptr unrepeated (series_ptr);
-  series_ptr repeated (series_ptr, bool repeat_last=false);
+/**
+@brief exponential moving average
+*
+* Using N > 1, a fraction is calculated FRAC = (2 / (N+1)).  That weight
+* is given to a current value with the remainder (1-FRAC) given to the 
+* preceding date's calculation.  Observations with no immediately preceding
+* observation simply pass through the current value.
+*/
+
+  series_ptr ema (series_ptr, unsigned N, dateset_ptr dates=current_dates::active());
+  series_ptr sma (series_ptr, unsigned period, dateset_ptr dates=current_dates::active());
+  series_ptr mo (series_ptr, unsigned period, dateset_ptr dates=current_dates::active());
+  series_ptr mo_days (series_ptr, unsigned days, dateset_ptr dates=current_dates::active());
+  series_ptr warp (series_ptr, int N, dateset_ptr dates=current_dates::active());
+  series_ptr unrepeated (series_ptr, dateset_ptr dates=current_dates::active());
+  series_ptr repeated (series_ptr, bool repeat_last=false, dateset_ptr dates=current_dates::active());
 
   series_ptr window_series (series_ptr sp,
 			    unsigned N,
 			    std::function<double(const std::vector<double>&)> window_function,
-			    bool missing_data_permitted=false);
+			    bool missing_data_permitted=false,
+			    dateset_ptr dates=current_dates::active());
 
   series_ptr series_map (std::vector<series_ptr> sps,
 			 std::function<double(const std::vector<double>&)> f,
-			 bool missing_data_permitted=false);
+			 bool missing_data_permitted=false,
+			 dateset_ptr dates=current_dates::active());
 
   /**
    @brief handy syntax to variable number of series.
@@ -133,15 +144,19 @@ namespace merkatilo {
 
   ////////////   SIGNAL GENERATION  ///////////////
   
-  series_ptr to_signals (series_ptr);
+  series_ptr to_signals (series_ptr, dateset_ptr dates=current_dates::active());
+  
   series_ptr reversals (series_ptr,
 			double down_factor,
-			double up_factor);
+			double up_factor,
+			dateset_ptr dates=current_dates::active());
 
 
-  series_ptr conviction (series_ptr, unsigned N);
+  series_ptr conviction (series_ptr, unsigned N, dateset_ptr dates=current_dates::active());
+  
   series_ptr cross(series_ptr slower, series_ptr faster,
-		   double upside_factor=1.0, double downside_factor=1.0);
+		   double upside_factor=1.0, double downside_factor=1.0,
+		   dateset_ptr dates=current_dates::active());
 
 
   ////////  EVALUATE SIGNAL PERFORMANCE /////////
@@ -149,7 +164,8 @@ namespace merkatilo {
   series_ptr equity_line(series_ptr sp,
 			 series_ptr signals,
 			 series_ptr alternate_investment = constant(1),
-			 double initial_value = 100);
+			 double initial_value = 100,
+			 dateset_ptr dates=current_dates::active());
 
   struct performance {
     double volatility_residual;
@@ -161,19 +177,20 @@ namespace merkatilo {
 
   performance investment_performance (series_ptr s,
 				      series_ptr signals = constant(1),
-				      series_ptr alternate_investment = constant(1));
+				      series_ptr alternate_investment = constant(1),
+				      dateset_ptr dates = current_dates::active());
   
-  double volatility (series_ptr, unsigned days=365);
-  double gpa(series_ptr);
-  obpair drawdown(series_ptr);
+  double volatility (series_ptr, unsigned days=365, dateset_ptr dates=current_dates::active());
+  double gpa(series_ptr, dateset_ptr dates=current_dates::active());
+  obpair drawdown(series_ptr, dateset_ptr dates=current_dates::active());
 
 
   ////////////// MISC ////////////////
 
-  size_t series_count(series_ptr);
-  obpair min_max_obs(series_ptr);
-  observation first_ob(series_ptr);
-  observation last_ob(series_ptr);
+  size_t series_count(series_ptr, dateset_ptr dates=current_dates::active());
+  obpair min_max_obs(series_ptr, dateset_ptr dates=current_dates::active());
+  observation first_ob(series_ptr, dateset_ptr dates=current_dates::active());
+  observation last_ob(series_ptr, dateset_ptr dates=current_dates::active());
 
   /* nostradamus is based upon reversals except that that date of each
      observation in the output is the local extreme that preceded the
@@ -181,13 +198,14 @@ namespace merkatilo {
   
   series_ptr nostradamus (series_ptr,
 			  double down_factor,
-			  double up_factor);
+			  double up_factor,
+			  dateset_ptr dates=current_dates::active());
 
   
   /////////////// CONVERSIONS ////////////
   
   series_ptr obs_to_series(observations_ptr);
-  observations_ptr series_to_obs(series_ptr);
+  observations_ptr series_to_obs(series_ptr, dateset_ptr dates=current_dates::active());
 
   
   ///////////////  I/O  //////////////////

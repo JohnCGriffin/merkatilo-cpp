@@ -12,7 +12,7 @@ namespace merkatilo {
 * date.  Any missing value with the last N periods results in NaN output.
 */
 
-  series_ptr sma(series_ptr s, unsigned N)
+  series_ptr sma(series_ptr s, unsigned N, dateset_ptr dates)
   {
     if(N < 2){
       throw std::runtime_error("sma require N > 1");
@@ -23,7 +23,7 @@ namespace merkatilo {
 
     series_builder builder;
 
-    auto obs = s->observations_by_date(current_dates::active());
+    auto obs = s->observations_by_date(dates);
 
     for (const auto& ob : *obs){
 

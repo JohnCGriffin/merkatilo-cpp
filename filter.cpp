@@ -16,12 +16,13 @@ namespace merkatilo {
     }
   };
   
-/**
-@brief filter series
-* Each value produced by the input series is passed to 
-* the output series unchanged if that value                                
-* passes the predicate. 
-*/
+  /**
+     @brief Filter series by predicate.
+     *
+     * Each value produced by the input series is passed to 
+     * the output series unchanged if that value                                
+     * passes the predicate. 
+     */
   series_ptr filter (series_ptr sp, std::function<bool(double)> predicate)
   {
     return std::make_shared<filter_series>(sp,predicate);

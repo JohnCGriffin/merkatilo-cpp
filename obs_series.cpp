@@ -17,10 +17,10 @@ namespace merkatilo {
   /**
      @brief convert series into vector<observation>
   */
-  observations_ptr series_to_obs(series_ptr sp){
+  observations_ptr series_to_obs(series_ptr sp, dateset_ptr dates){
     auto s = sp.get();
     observations obs;
-    for(auto dt : *current_dates::active()){
+    for(auto dt : *dates){
       auto val = s->at(dt);
       if(valid(val)){
 	obs.push_back({dt, val});

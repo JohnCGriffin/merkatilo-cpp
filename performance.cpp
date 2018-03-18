@@ -11,10 +11,10 @@ namespace merkatilo {
      @brief annualized gain.
   */
 
-  double gpa(series_ptr s)
+  double gpa(series_ptr s, dateset_ptr dates)
   {
-    auto f_ob = first_ob(s);
-    auto l_ob = last_ob(s);
+    auto f_ob = first_ob(s, dates);
+    auto l_ob = last_ob(s, dates);
 
     if(l_ob.dt == f_ob.dt){
       std::runtime_error("no data available to calculate gpa");
@@ -37,7 +37,8 @@ namespace merkatilo {
   
   performance investment_performance (series_ptr sp,
 				      series_ptr signals,
-				      series_ptr alternate_investment)
+				      series_ptr alternate_investment,
+				      dateset_ptr dates)
   {
     auto equity = equity_line(sp,signals,alternate_investment);
 
@@ -47,14 +48,14 @@ namespace merkatilo {
 	auto dd = drawdown(equity);
 	return dd.second.val / dd.first.val;
       })();
-    result.annualized_gain = gpa(equity);
+    result.annualized_gain = gpa(equity, dates);
     result.trades = series_count(signals);
     result.long_ratio = ([&](){
 	auto filled = repeated(signals, true);
 	auto f = filled.get();
 	double longs = 0;
 	double total = 0;
-	for (auto dt : *current_dates::active()){
+	for (auto dt : *dates){
 	  auto val = f->at(dt);
 	  if(!valid(val)){
 	    continue;

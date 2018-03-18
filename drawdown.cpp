@@ -12,9 +12,9 @@ namespace merkatilo {
 * observed date-value pairs represents the greatest loss in value.
 */
 
-  obpair drawdown(series_ptr sp)
+  obpair drawdown(series_ptr sp, dateset_ptr dates)
   {
-    auto obs = series_to_obs(sp);
+    auto obs = series_to_obs(sp, dates);
 
     if(obs->empty()){
       throw std::runtime_error("no observations");

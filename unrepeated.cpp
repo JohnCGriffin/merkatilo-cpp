@@ -8,11 +8,11 @@ namespace merkatilo {
 @brief remove contiguous repeated values.
 */
 
-  series_ptr unrepeated (series_ptr sp) {
+  series_ptr unrepeated (series_ptr sp, dateset_ptr dates) {
     auto s = sp.get();
     series_builder builder;
     double prev = default_value();
-    for (auto dt : *current_dates::active()){
+    for (auto dt : *dates){
       auto val = s->at(dt);
       if(val == prev){
 	;

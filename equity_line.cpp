@@ -23,7 +23,8 @@ namespace merkatilo {
   series_ptr equity_line(series_ptr investment_sp,
 			 series_ptr signals_sp,
 			 series_ptr alternate_investment_sp,
-			 double initial_value)
+			 double initial_value,
+			 dateset_ptr dates)
   {
     auto investment = investment_sp.get();
     auto signals = signals_sp.get();
@@ -37,7 +38,7 @@ namespace merkatilo {
 
     series_builder builder;
 
-    for (auto dt : *current_dates::active()){
+    for (auto dt : *dates){
 
       const auto inv_val = investment->at(dt);
       const auto sig_val = signals->at(dt);

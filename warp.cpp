@@ -11,9 +11,9 @@ namespace merkatilo {
 * on daily signals.
 */
 
-  series_ptr warp (series_ptr sp, int N) {
+  series_ptr warp (series_ptr sp, int N, dateset_ptr dates) {
 
-    auto obs = sp->observations_by_date(current_dates::active());
+    auto obs = sp->observations_by_date(dates);
     series_builder builder;
 
     int ndx=-1;

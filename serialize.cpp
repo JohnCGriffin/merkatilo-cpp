@@ -4,7 +4,8 @@
 namespace merkatilo {
 
 /**
- @brief read series from text strem
+ @brief read series from text stream.
+ *
  * Given an input stream with lines containing 
  * two space-separated fields in the form 
  * YYYY-MM-DD DOUBLE, convert into a series.

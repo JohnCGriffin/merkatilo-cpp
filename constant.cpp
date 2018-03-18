@@ -5,7 +5,7 @@
 namespace merkatilo {
 
 /**
-@brief return a constant value/
+@brief return a constant value.
 */
 
   series_ptr constant(double N){

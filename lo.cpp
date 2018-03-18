@@ -45,7 +45,24 @@ namespace merkatilo {
     return id;
   }
 
-  static thread_local std::function<series_ptr(std::string)> loader = default_loader;
+  using loader_t = std::function<series_ptr(std::string)>;
+
+  static thread_local loader_t loader = default_loader;
+
+  /**
+     @brief set new series loader
+  */
+  void set_loader(loader_t ldr){
+    loader = ldr;
+  }
+
+  /**
+     @brief return current series loader.
+  */
+  loader_t get_loader(){
+    return loader;
+  }
+  
 
   /**
      @brief load a series.

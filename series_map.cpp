@@ -14,7 +14,8 @@ namespace merkatilo {
 
   series_ptr series_map (std::vector<series_ptr> sps,
 			 std::function<double(const std::vector<double>&)> f,
-			 bool missing_data_permitted)
+			 bool missing_data_permitted,
+			 dateset_ptr dates)
   {
     if(!sps.size()){
       throw std::runtime_error("series_map requires at least one input series");
@@ -27,7 +28,7 @@ namespace merkatilo {
 
     series_builder builder;
 
-    for(auto dt : *current_dates::active()){
+    for(auto dt : *dates){
       
       std::vector<double> v;
 

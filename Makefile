@@ -11,7 +11,7 @@ OBS = jdate.o dates.o lo.o current_dates.o dump.o series_builder.o \
 	performance.o conviction.o filter.o overload_series_operators.o \
 	window_series.o series_map.o serialize.o
 
-test: testing.o testing_main.o $(OBS)
+test: merkatilo.hpp.gch testing.o testing_main.o $(OBS)
 	g++ testing.o testing_main.o $(OBS) -o testing && ./testing
 
 benchmark: merkatilo.hpp.gch benchmark.o $(OBS)

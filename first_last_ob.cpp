@@ -7,9 +7,9 @@ namespace merkatilo {
  *@brief first observation in a series
  */
 
-  observation first_ob(series_ptr sp){
+  observation first_ob(series_ptr sp, dateset_ptr dates){
     auto s = sp.get();
-    for(auto dt : *current_dates::active()){
+    for(auto dt : *dates){
       auto val = s->at(dt);
       if(valid(val)){
 	return { dt, val };
@@ -22,10 +22,9 @@ namespace merkatilo {
  *@brief last observation in a series
  */
 
-  observation last_ob(series_ptr sp){
+  observation last_ob(series_ptr sp, dateset_ptr dates){
     auto s = sp.get();
-    auto dts = current_dates::active();
-    for(auto it = dts->rbegin(); it != dts->rend(); ++it){
+    for(auto it = dates->rbegin(); it != dates->rend(); ++it){
       auto dt = *it;
       auto val = s->at(dt);
       if(valid(val)){

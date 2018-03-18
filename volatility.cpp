@@ -31,10 +31,10 @@ namespace merkatilo {
      * the ratio (new/old) where old is 'days' earlier.  
      */
   
-  double volatility (series_ptr sp, unsigned days) {
+  double volatility (series_ptr sp, unsigned days, dateset_ptr dates) {
 
     auto changes = mo_days(sp, days);
-    auto obs = changes->observations_by_date(current_dates::active());
+    auto obs = changes->observations_by_date(dates);
 
     std::vector<double> v;
     for (const auto& ob : *obs){

@@ -3,16 +3,7 @@
 
 namespace merkatilo {
 
-/**
-@brief exponential moving average
-*
-* Using N > 1, a fraction is calculated FRAC = (2 / (N+1)).  That weight
-* is given to a current value with the remainder (1-FRAC) given to the 
-* preceding date's calculation.  Observations with no immediately preceding
-* observation simply pass through the current value.
-*/
-
-  series_ptr ema(series_ptr s, unsigned N)
+  series_ptr ema(series_ptr s, unsigned N, dateset_ptr dates)
   {
     if(N < 2){
       throw std::runtime_error("ema require N > 1");
@@ -23,7 +14,7 @@ namespace merkatilo {
     series_builder builder;
     value_type prev = default_value();
 
-    auto obs = s->observations_by_date(current_dates::active());
+    auto obs = s->observations_by_date(dates);
 
     for (auto ob : *obs){
       auto dt = ob.dt;

@@ -3,7 +3,7 @@
 
 ## Background
 
-The merkatilo time-series library implementations address my personal
+The merkatilo time-series library implementations address personal
 financial computing research requirements.  This is the C++
 implementation.  As a C++ library, it's not useful interactively; for
 that, use the Python or Racket implementation.  However, because the
@@ -41,7 +41,7 @@ julian.
 Here’s an example that loads the SPY ETF adjusted closing price, does
 a cross of that series with its 200-period moving average, generating
 buy (+1) and sell (-1) signals. Finally, it dumps them out in date
-order, like a dumped spreadsheet.
+order, like a printed spreadsheet.
 
 ```
 

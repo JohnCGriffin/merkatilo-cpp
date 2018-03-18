@@ -5,10 +5,11 @@ namespace merkatilo {
 
   
   static series_ptr reversals_worker (dateset_ptr dates,
-			       series_ptr sp,
-			       double down_factor,
-			       double up_factor,
-			       bool nostradamus)
+				      series_ptr sp,
+				      double down_factor,
+				      double up_factor,
+				      bool nostradamus)
+
   {
     enum STATE { NOSIG=0, BUY=1, SELL=-1 };
     auto min_ob = first_ob(sp);
@@ -48,19 +49,20 @@ namespace merkatilo {
     return builder.construct();
   }
 
-/**
-@brief identify when local loss or gain has occurred
-* When a series ascends above up-factor multiplied 
-* by a preceding local minimum, a buy (1) signal is produced.                  
-* Upon descending below the product of a local maximum and 
-* down-factor, a sell (-1) signal is produced.                         
-*/
+  /**
+     @brief identify when local loss or gain has occurred
+     * When a series ascends above up-factor multiplied 
+     * by a preceding local minimum, a buy (1) signal is produced.                  
+     * Upon descending below the product of a local maximum and 
+     * down-factor, a sell (-1) signal is produced.                         
+     */
 
   series_ptr reversals(series_ptr sp,
 		       double down_factor,
-		       double up_factor)
+		       double up_factor,
+		       dateset_ptr dates)
   {
-    return reversals_worker(current_dates::active(), sp, down_factor,up_factor, false);
+    return reversals_worker(dates, sp, down_factor,up_factor, false);
   }
 
   /**
@@ -73,10 +75,11 @@ namespace merkatilo {
      */
 
   series_ptr nostradamus(series_ptr sp,
-		       double down_factor,
-		       double up_factor)
+			 double down_factor,
+			 double up_factor,
+			 dateset_ptr dates)
   {
-    return reversals_worker(current_dates::active(), sp, down_factor,up_factor, true);
+    return reversals_worker(dates, sp, down_factor,up_factor, true);
   }
 
 }

@@ -13,13 +13,13 @@ namespace merkatilo {
 */
 
 
-  series_ptr repeated (series_ptr sp, bool repeat_last){
+  series_ptr repeated (series_ptr sp, bool repeat_last, dateset_ptr dates){
 
     auto s = sp.get();
     observations obs;
     observation last_ob { 0, default_value() };
 
-    for (auto dt : *current_dates::active()){
+    for (auto dt : *dates){
 
       auto val = s->at(dt);
 

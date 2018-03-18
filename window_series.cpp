@@ -16,13 +16,14 @@ namespace merkatilo {
   series_ptr window_series (series_ptr sp,
 			    unsigned N,
 			    std::function<double(const std::vector<double>&)> window_function,
-			    bool missing_data_permitted)
+			    bool missing_data_permitted,
+			    dateset_ptr dates)
   {
     auto s = sp.get();
     std::vector<double> in;
     series_builder builder;
     
-    for(auto dt : *current_dates::active()){
+    for(auto dt : *dates){
       auto val = s->at(dt);
       in.push_back(val);
       if(!missing_data_permitted && !valid(val)){
