@@ -49,13 +49,10 @@ namespace merkatilo {
     return builder.construct();
   }
 
-  /**
-     @brief identify when local loss or gain has occurred
-     * When a series ascends above up-factor multiplied 
-     * by a preceding local minimum, a buy (1) signal is produced.                  
-     * Upon descending below the product of a local maximum and 
-     * down-factor, a sell (-1) signal is produced.                         
-     */
+  /// When a series ascends above up-factor multiplied 
+  /// by a preceding local minimum, a buy (1) signal is produced.                  
+  /// Upon descending below the product of a local maximum and 
+  /// down-factor, a sell (-1) signal is produced.                         
 
   series_ptr reversals(series_ptr sp,
 		       double down_factor,
@@ -65,14 +62,12 @@ namespace merkatilo {
     return reversals_worker(dates, sp, down_factor,up_factor, false);
   }
 
-  /**
-     @brief show local minima and maxima.
-     *
-     * An offshoot of reversals, nostradamus assigns signal values into the past at exact local
-     * maxima and minima.  The name is intended to underscore the preposterousness of treating
-     * this as a trading signal.  Its purpose is only for displaying historical 
-     * local peaks and troughs.
-     */
+
+  /// An offshoot of reversals, nostradamus assigns signal values into the
+  /// past at exact local maxima and minima.  The name is intended to
+  /// underscore the preposterousness of treating this as a trading
+  /// signal.  Its purpose is only for displaying historical local peaks
+  /// and troughs.
 
   series_ptr nostradamus(series_ptr sp,
 			 double down_factor,

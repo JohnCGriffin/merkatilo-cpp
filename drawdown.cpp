@@ -5,7 +5,7 @@
 namespace merkatilo {
 
 /**
-@brief identify largest loss in equity series.
+@brief 
 *
 * Drawdown contains two observations, the earlier being the higher valued observation 
 * and the latter being a lesser valued observation such that that combination of 

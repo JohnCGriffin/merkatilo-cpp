@@ -3,22 +3,24 @@
 
 namespace merkatilo {
 
-  /**
-     @brief construct value of signal-traded series.
-     *
-     * If an alternate investment is not specified, it is set to constant(1) and funds are                                 
-     * set to initial_value dollars.  When a buy signal arrives, all funds purchase the series                              
-     * at its price (the value of the series at that signal date), resulting in shares.  Upon                                    
-     * a sell signal, the shares are liquidated and used to purchase the alternate investment at                                 
-     * its price.  With initial_value at its default of 100, the value of the output series                                 
-     * should the accumulated percentage value related to the original investment.  Until the                                    
-     * first signal is encountered, funds are idle, invested in neither the primary nor alternate                                
-     * investment.  A graphed equity line will therefore always start with a flat zone before                                    
-     * the first signal, as funds are in neither in the primary nor alternate investments.                                       
-                                                                                                                              
-     * The output of equity_line is what you will likely use with the performance measures                                  
-     * of gain, drawdown and volatility.                                                                                         
-     */
+
+  /// If an alternate investment is not specified, it is set to
+  /// constant(1) and funds are set to initial_value dollars.  When a
+  /// buy signal arrives, all funds purchase the series at its price
+  /// (the value of the series at that signal date), resulting in
+  /// shares.  Upon a sell signal, the shares are liquidated and used to
+  /// purchase the alternate investment at its price.  With
+  /// initial_value at its default of 100, the value of the output
+  /// series should the accumulated percentage value related to the
+  /// original investment.  Until the first signal is encountered, funds
+  /// are idle, invested in neither the primary nor alternate
+  /// investment.  A graphed equity line will therefore always start
+  /// with a flat zone before the first signal, as funds are in neither
+  /// in the primary nor alternate investments.
+  ///                                                                                                                        
+  /// The output of equity_line is what you will likely use with the
+  /// performance measures of gain, drawdown and volatility.
+
   
   series_ptr equity_line(series_ptr investment_sp,
 			 series_ptr signals_sp,
@@ -70,7 +72,7 @@ namespace merkatilo {
 	buy = !(sig_val < 0);
       }
 
-      builder.insert({dt, product * initial_value});
+      builder.insert({dt, productinitial_value});
     }
     
     return builder.construct();

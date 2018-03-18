@@ -3,6 +3,11 @@
 
 namespace merkatilo {
 
+  /// Using N > 1, a fraction is calculated FRAC = (2 / (N+1)).  That weight
+  /// is given to a current value with the remainder (1-FRAC) given to the 
+  /// preceding date's calculation.  Observations with no immediately preceding
+  ///observation simply pass through the current value.
+
   series_ptr ema(series_ptr s, unsigned N, dateset_ptr dates)
   {
     if(N < 2){

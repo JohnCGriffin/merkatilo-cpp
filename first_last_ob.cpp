@@ -3,10 +3,6 @@
 
 namespace merkatilo {
 
-/**
- *@brief first observation in a series
- */
-
   observation first_ob(series_ptr sp, dateset_ptr dates){
     auto s = sp.get();
     for(auto dt : *dates){
@@ -17,10 +13,6 @@ namespace merkatilo {
     }
     throw std::runtime_error("no observations");
   }
-
-/**
- *@brief last observation in a series
- */
 
   observation last_ob(series_ptr sp, dateset_ptr dates){
     auto s = sp.get();

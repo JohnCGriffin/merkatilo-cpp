@@ -3,13 +3,6 @@
 
 namespace merkatilo {
 
-  /**
-     @brief return minimum and maximum valued observations.
-     * 
-     * Return a std::pair<observation,observation> representing
-     * (min_observation, max_observation).
-     */
-  
   obpair min_max_obs (series_ptr sp, dateset_ptr dates) {
 
     auto s = sp.get();

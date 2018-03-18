@@ -4,14 +4,10 @@
 
 namespace merkatilo {
 
-  /**
-     @brief Suppress unstable signal changes.
-     *
-     * The conviction operator reduces whipsaw signals by delaying the signal 
-     * then producing it only if it is not flipped with the specified number 
-     * of periods.  As a small side benefit, any practical trading strategy 
-     * receives a "heads-up" that a signal is imminent.  
-     */
+  /// The conviction operator reduces whipsaw signals by delaying the signal 
+  /// then producing it only if it is not flipped with the specified number 
+  /// of periods.  As a small side benefit, any practical trading strategy 
+  /// receives a "heads-up" that a signal is imminent.  
 
   series_ptr conviction (series_ptr sp, unsigned N, dateset_ptr dates) {
 

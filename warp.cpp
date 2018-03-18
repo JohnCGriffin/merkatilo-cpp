@@ -3,13 +3,10 @@
 
 namespace merkatilo {
 
-/**
-@brief shift data backward or forward by N periods.
-*
-* A common and valid use of warp is to shift signals when generating 
-* an equity line because it may better reflect next day trading on 
-* on daily signals.
-*/
+  /// A common and valid use of warp is to shift signals when generating
+  /// an equity line because it may better reflect next day trading on on
+  /// daily signals.
+
 
   series_ptr warp (series_ptr sp, int N, dateset_ptr dates) {
 

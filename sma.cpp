@@ -5,12 +5,8 @@
 
 namespace merkatilo {
 
-/**
-@brief moving average
-*
-* For N > 1, calculate the average of the last N observations at each
-* date.  Any missing value with the last N periods results in NaN output.
-*/
+  /// For N > 1, calculate the average of the last N observations at each
+  /// date.  Any missing value with the last N periods results in NaN output.
 
   series_ptr sma(series_ptr s, unsigned N, dateset_ptr dates)
   {

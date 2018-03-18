@@ -11,10 +11,8 @@ namespace merkatilo {
     return (val / old_val) - 1.0;
   }
 
-/**
- *@brief periodic ratio of (new/old)-1.  Thus, a 10% gain is 0.1 and a 2% loss
- * is -0.02.  
- */
+ ///  periodic ratio of (new/old)-1.  Thus, a 10% gain is 0.1 and a 2% loss
+ /// is -0.02.  
 
   series_ptr mo (series_ptr sp, unsigned N, dateset_ptr dates) {
 
@@ -45,11 +43,13 @@ namespace merkatilo {
   }
 
 
-/**
- *@brief Looking back specified number of days, calculate ratio of (new/old)-1.  Thus, a 10% gain is 0.1 and a 2% loss
- * is -0.02.  Thus, one year change is mo_days(some_price_series, 365).  If the earlier date falls on a non-market day,
- * the previous market day is used.
- */
+  /// Looking back specified number of days, calculate ratio of
+  /// (new/old)-1.  Thus, a 10% gain is 0.1 and a 2% loss is -0.02.  Thus,
+  /// one year change is mo_days(some_price_series, 365).  If the earlier
+  /// date falls on a non-market day, the previous market day is used.
+  /// This is very similar to momentum except for the selection of
+  /// a comparable observation calendar days back rather than a fixed
+  /// number of periods.
 
   series_ptr mo_days (series_ptr sp, unsigned days, dateset_ptr dates) {
     

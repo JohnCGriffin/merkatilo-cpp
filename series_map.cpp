@@ -3,14 +3,10 @@
 
 namespace merkatilo {
 
-  /**
-   @brief convert values of one or more series into a scalar at each date
-
-   * Each input series takes part in a vector<double> set of values which the supplied
-   * transformation function f converts to a single scalar on each date.  If missing_data_permitted
-   * is false then only dates where every series has a value will call the function.  When true,
-   * the function must handle NaN inputs.
-   */
+  /// Each input series takes part in a vector<double> set of values which the supplied
+  /// transformation function f converts to a single scalar on each date.  If missing_data_permitted
+  /// is false then only dates where every series has a value will call the function.  When true,
+  /// the function must handle NaN inputs.
 
   series_ptr series_map (std::vector<series_ptr> sps,
 			 std::function<double(const std::vector<double>&)> f,

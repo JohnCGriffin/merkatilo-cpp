@@ -4,10 +4,6 @@
 
 namespace merkatilo {
 
-/**
-@brief remove contiguous repeated values.
-*/
-
   series_ptr unrepeated (series_ptr sp, dateset_ptr dates) {
     auto s = sp.get();
     series_builder builder;

@@ -24,12 +24,8 @@ namespace merkatilo {
     return std::sqrt(avg(squaredDiffs));
   }
 
-  /**
-     @brief measure of variation in returns.
-     *
-     * Defaulting to 365 days, return the standard deviation of
-     * the ratio (new/old) where old is 'days' earlier.  
-     */
+  /// Defaulting to 365 days, return the standard deviation of
+  /// the ratio (new/old) where old is 'days' earlier.  
   
   double volatility (series_ptr sp, unsigned days, dateset_ptr dates) {
 
