@@ -48,39 +48,31 @@ namespace merkatilo {
   };
 
 
+  struct overloaded_operator_variant {
+    series_ptr s;
+    overloaded_operator_variant(series_ptr);
+    overloaded_operator_variant(double);
+  };
   
   // NORMAL arithmetic at every date.  If the second
   // argument is a number, it is converted with
   // constant to make it a series.
 
-  series_ptr operator+(series_ptr a, series_ptr b);
-  series_ptr operator+(series_ptr a, double b);
-  
-  series_ptr operator-(series_ptr a, series_ptr b);
-  series_ptr operator-(series_ptr a, double b);
+  series_ptr operator+(series_ptr a, overloaded_operator_variant b);
+  series_ptr operator-(series_ptr a, overloaded_operator_variant b);
+  series_ptr operator*(series_ptr a, overloaded_operator_variant b);
+  series_ptr operator/(series_ptr a, overloaded_operator_variant b);
 
-  series_ptr operator*(series_ptr a, series_ptr b);
-  series_ptr operator*(series_ptr a, double b);
-  
-  series_ptr operator/(series_ptr a, series_ptr b);
-  series_ptr operator/(series_ptr a, double b);
 
   // Inequalities are handy shortcuts to filtering
   // series A if the inequality over A and B holds
   // true.  Thus, (IBM > 100) means to copy all
   // IBM values greater than 100.
   
-  series_ptr operator<(series_ptr a, series_ptr b);
-  series_ptr operator<(series_ptr a, double b);
-  
-  series_ptr operator<=(series_ptr a, series_ptr b);
-  series_ptr operator<=(series_ptr a, double b);
-  
-  series_ptr operator>(series_ptr a, series_ptr b);
-  series_ptr operator>(series_ptr a, double b);
-  
-  series_ptr operator>=(series_ptr a, series_ptr b);
-  series_ptr operator>=(series_ptr a, double b);
+  series_ptr operator< (series_ptr a, overloaded_operator_variant b);
+  series_ptr operator<=(series_ptr a, overloaded_operator_variant b);
+  series_ptr operator> (series_ptr a, overloaded_operator_variant b);
+  series_ptr operator>=(series_ptr a, overloaded_operator_variant b);
 
   // The 'or' function composes two series, returning the first
   // if available, else the second.  The 'and' function returns
@@ -88,12 +80,10 @@ namespace merkatilo {
   // as the arithmetic overloads, the second argument can
   // be a number.
 
-  series_ptr series_or (series_ptr a, series_ptr b);
-  series_ptr series_or (series_ptr a, double b);
+  series_ptr series_or (series_ptr a, overloaded_operator_variant b);
+  series_ptr series_and (series_ptr a, overloaded_operator_variant b);
 
-  series_ptr series_and (series_ptr a, series_ptr b);
-  series_ptr series_and (series_ptr a, double b);
-
+  
   /// @brief restate series in different units
   /// @param s series
   /// @param init initial value
