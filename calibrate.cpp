@@ -14,6 +14,12 @@ namespace merkatilo {
     }
   };
 
+  /// To calibrate a series is to make it value-compatible with another.
+  /// For example, a spider graph picks a point at which multiple time
+  /// series are the same value.  The default date is the beginning of the
+  /// dateset and the default value of the series there is 100, making any
+  /// value in the series equivalent to the percentage of the beginning.
+    
   series_ptr calibrate (series_ptr s, double init, jdate d)
   {
     auto date = d ? d : (current_dates::active()->at(0));
