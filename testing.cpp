@@ -166,6 +166,14 @@ TEST_CASE("TO-SIGNALS"){
     REQUIRE(verify_equivalency(literal,sigs));
   }
 
+  SECTION("to_signals(to_signals(..)) return same object"){
+    auto sig1 = to_signals(mo(TEST_SERIES,240));
+    auto sig2 = to_signals(mo(TEST_SERIES,240));
+    auto sig3 = to_signals(sig1);
+    REQUIRE(sig1.get() != sig2.get());
+    REQUIRE(sig1.get() == sig3.get());
+  }
+
 }
 
 TEST_CASE("DRAWDOWN"){
