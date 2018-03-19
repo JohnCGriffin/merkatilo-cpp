@@ -94,6 +94,12 @@ namespace merkatilo {
   series_ptr series_and (series_ptr a, series_ptr b);
   series_ptr series_and (series_ptr a, double b);
 
+  /// @brief restate series in different units
+  /// @param s series
+  /// @param init initial value
+  /// @param date date at which initial value is applied
+
+  series_ptr calibrate (series_ptr s, double init=100, jdate date=0);
 
   /// @brief decorate series that finds exact or nearest preceding observtion
   /// @param s series

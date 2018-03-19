@@ -374,5 +374,26 @@ TEST_CASE("SERIES_MAP"){
   REQUIRE_THROWS(series_map(sum));
 }
 
+TEST_CASE("CALIBRATE"){
+
+  current_dates active(TEST_SERIES);
+  auto fd = current_dates::active()->at(0);
+  {
+    auto ratio = 100 / TEST_SERIES->at(fd);
+    auto cal = calibrate(TEST_SERIES);
+    REQUIRE(verify_equivalency(cal, TEST_SERIES * ratio));
+  }
+  {
+    auto ratio = 22 / TEST_SERIES->at(fd);
+    auto cal = calibrate(TEST_SERIES,22);
+    REQUIRE(verify_equivalency(cal, TEST_SERIES * ratio));
+  }
+  {
+    auto new_years_eve = parse_jdate("2014-12-31");
+    auto ratio = 22 / TEST_SERIES->at(new_years_eve);
+    auto cal = calibrate(TEST_SERIES,22,new_years_eve);
+    REQUIRE(verify_equivalency(cal, TEST_SERIES * ratio));
+  }
+}
 
 
