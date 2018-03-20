@@ -57,13 +57,17 @@ TEST_CASE("Test that load worked"){
   REQUIRE(series_count(TEST_SERIES) == 754);
 }
 
-TEST_CASE("EMA"){
+TEST_CASE("EMA-FRACTIONAL"){
 
   auto EMA_3_SERIES = test_lo("ema-3");
   current_dates active(TEST_SERIES);
 
   SECTION("ema generates known correct values"){
     REQUIRE(verify_equivalency(ema(TEST_SERIES,3), EMA_3_SERIES));
+  }
+
+  SECTION("ema is same as fractional"){
+    REQUIRE(verify_equivalency(ema(TEST_SERIES,3), fractional(TEST_SERIES,0.5)));
   }
 
   SECTION("ema length is equivalent to input"){
@@ -164,14 +168,6 @@ TEST_CASE("TO-SIGNALS"){
     };
     auto literal = obs_to_series(std::make_shared<observations>(obs));
     REQUIRE(verify_equivalency(literal,sigs));
-  }
-
-  SECTION("to_signals(to_signals(..)) return same object"){
-    auto sig1 = to_signals(mo(TEST_SERIES,240));
-    auto sig2 = to_signals(mo(TEST_SERIES,240));
-    auto sig3 = to_signals(sig1);
-    REQUIRE(sig1.get() != sig2.get());
-    REQUIRE(sig1.get() == sig3.get());
   }
 
 }

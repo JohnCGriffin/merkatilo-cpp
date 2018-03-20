@@ -3,18 +3,15 @@
 
 namespace merkatilo {
 
-  /// Using N > 1, a fraction is calculated FRAC = (2 / (N+1)).  That weight
-  /// is given to a current value with the remainder (1-FRAC) given to the 
-  /// preceding date's calculation.  Observations with no immediately preceding
-  ///observation simply pass through the current value.
-
-  series_ptr ema(series_ptr s, unsigned N, dateset_ptr dates)
+  /// Each output is (fraction * value) + ((1-fraction) * previous_result).
+  
+  series_ptr fractional(series_ptr s, double fraction, dateset_ptr dates)
   {
-    if(N < 2){
-      throw std::runtime_error("ema require N > 1");
+    if(fraction <= 0 || fraction > 1){
+      throw std::runtime_error("fractional require fraction 0 <= fraction < 1.");
     }
-    double new_fraction = 2.0 / (N+1.0);
-    double old_fraction = 1.0 - new_fraction;
+    
+    double old_fraction = 1.0 - fraction;
 
     series_builder builder;
     value_type prev = default_value();
@@ -25,7 +22,7 @@ namespace merkatilo {
       auto dt = ob.dt;
       auto val = ob.val;
       if(valid(val) && valid(prev)){
-	prev = new_fraction * val + old_fraction * prev;
+	prev = fraction * val + old_fraction * prev;
       } else {
 	prev = val;
       }
@@ -34,6 +31,18 @@ namespace merkatilo {
       }
     }
     return builder.construct();
+  }
+
+
+  /// Using N > 1, a fraction is calculated FRAC = (2 / (N+1)).  That fraction
+  /// is then supplied to 'fractional'.
+
+  series_ptr ema(series_ptr s, unsigned N, dateset_ptr dates)
+  {
+    if(N < 2){
+      throw std::runtime_error("ema require N > 1");
+    }
+    return fractional(s, 2.0 / (N+1.0), dates);
   }
   
 }

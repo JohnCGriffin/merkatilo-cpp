@@ -42,9 +42,6 @@ namespace merkatilo {
     virtual observations_ptr observations_by_date (jdate_v_ptr dates);
   };
 
-  class signal_series : public series {
-  };
-
   /// @brief all series are passed by shared_ptr
   typedef std::shared_ptr<series> series_ptr;
 

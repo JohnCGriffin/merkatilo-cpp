@@ -15,9 +15,6 @@ namespace merkatilo {
   
   series_ptr to_signals(series_ptr sp, dateset_ptr dates)
   {
-    if(dynamic_cast<signal_series*>(sp.get())){
-      return sp;
-    }
     auto s = sp.get();
     auto prev = 0.0;
     series_builder builder;

@@ -21,8 +21,7 @@ namespace merkatilo {
 
   typedef std::pair<jdate_v_ptr,observations_ptr> obs_cache;
 
-  template <typename Base>
-  struct series_builder_series : public Base {
+  struct series_builder_series : public series {
     std::unique_ptr<obs_cache> cache;
     const value_type_v v;
     jdate fd;
@@ -81,10 +80,7 @@ namespace merkatilo {
       v.at(slot) = ob.val;
     }
     last_build_size = obs.size();
-    if(is_signal_series){
-      return std::make_shared<series_builder_series<signal_series>>(v,fd,ld);
-    }
-    return std::make_shared<series_builder_series<series>>(v,fd,ld);
+    return std::make_shared<series_builder_series>(v,fd,ld);
   }
   
 }

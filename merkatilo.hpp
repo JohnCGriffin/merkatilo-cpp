@@ -126,7 +126,15 @@ namespace merkatilo {
 
   ///////// DATES TRAVERSING SERIES OPS //////////////
 
-  /// @brief exponential smoothing
+  /// @brief fractional smoothing
+  /// @param s series to smooth
+  /// @param fraction between 0 and 1
+  /// @param dates dates to traverse (defaulted to current dates)
+  /// @return smoothed series
+
+  series_ptr fractional (series_ptr s, double fraction, dateset_ptr dates=current_dates::active());
+
+  /// @brief exponential smoothing 
   /// @param s series to smooth
   /// @param N used to create fraction 2/(N+1)
   /// @param dates dates to traverse (defaulted to current dates)
