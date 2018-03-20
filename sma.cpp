@@ -15,7 +15,7 @@ namespace merkatilo {
     }
     double total = 0;
     unsigned count = 0;
-    double cycle[N];
+    std::vector<double> cycle(N);
 
     series_builder builder;
 

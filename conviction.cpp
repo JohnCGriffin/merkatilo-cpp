@@ -19,7 +19,7 @@ namespace merkatilo {
     auto sigs = to_signals(sp);
     auto s = sigs.get();
 
-    double sig_vals[len];
+    std::vector<double> sig_vals(len);
 
     int last_sig_ndx = -1;
     for(int i=0; i<len; i++){

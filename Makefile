@@ -1,7 +1,7 @@
 
 CXX=g++
 CXXFLAGS=-no-pie -g -pg --std=c++14 
-CXXFLAGS=-O3 --std=c++14 
+CXXFLAGS=-Wpedantic -Wall -fPIC -O3 --std=c++14 
 
 OBS = jdate.o dates.o lo.o current_dates.o dump.o series_builder.o \
 	ema.o sma.o series.o series_count.o min_max.o \
@@ -11,11 +11,19 @@ OBS = jdate.o dates.o lo.o current_dates.o dump.o series_builder.o \
 	performance.o conviction.o filter.o overload_series_operators.o \
 	window_series.o series_map.o serialize.o calibrate.o 
 
-test: merkatilo-test-data merkatilo.hpp.gch testing.o testing_main.o $(OBS)
-	g++ testing.o testing_main.o $(OBS) -o testing && ./testing
+libs: libmerkatilo.so libmerkatilo.a
 
-benchmark: merkatilo.hpp.gch benchmark.o $(OBS)
-	$(CXX) $(CXXFLAGS) benchmark.o $(OBS) -o benchmark 
+libmerkatilo.so: $(OBS)
+	$(CXX) -shared -fPIC -o $@ $(OBS)
+
+libmerkatilo.a: $(OBS)
+	ar q $@ $(OBS)
+
+test: merkatilo-test-data merkatilo.hpp.gch testing.o testing_main.o libs
+	$(CXX) -static testing.o testing_main.o -L. -lmerkatilo -o testing && ./testing
+
+benchmark: merkatilo.hpp.gch benchmark.o libmerkatilo.a
+	$(CXX) -static benchmark.o -L. -lmerkatilo -o benchmark 
 
 bench: benchmark
 	./benchmark
@@ -23,14 +31,14 @@ bench: benchmark
 merkatilo.hpp.gch: merkatilo.hpp
 	$(CXX) $(CXXFLAGS) -c merkatilo.hpp
 
-jdate.o: merkatilo.hpp.gch jdate.cpp
-	$(CXX) $(CXXFLAGS) -c jdate.cpp
+%.o: %.cpp merkatilo.hpp.gch
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 doc:
 	doxygen && echo '.contents { max-width : 960px }' >> html/doxygen.css
 
 clean:
-	rm -f *.o *.out *.gch benchmark testing && rm -rf html
+	rm -f libmerkatilo.* *.o *.out *.gch benchmark testing && rm -rf html
 
 /tmp/merkatilo-test-data/ema-3.txt:
 	@rm -rf /tmp/merkatilo-test-data && (cd /tmp && git clone https://github.com/JohnCGriffin/merkatilo-test-data)

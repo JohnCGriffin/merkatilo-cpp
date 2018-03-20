@@ -22,7 +22,7 @@ namespace merkatilo {
     
     auto s = sp.get();
     series_builder builder;
-    value_type cycle[N];
+    std::vector<double> cycle(N);
     size_t count = 0;
     
     for(auto dt : *dates){
