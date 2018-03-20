@@ -27,7 +27,7 @@ jdate.o: merkatilo.hpp.gch jdate.cpp
 	$(CXX) $(CXXFLAGS) -c jdate.cpp
 
 doc:
-	doxygen
+	doxygen && echo '.contents { max-width : 960px }' >> html/doxygen.css
 
 clean:
 	rm -f *.o *.out *.gch benchmark testing && rm -rf html

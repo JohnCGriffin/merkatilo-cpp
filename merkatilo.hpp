@@ -20,6 +20,7 @@ namespace merkatilo {
   typedef const std::vector<jdate> dateset;
   typedef std::shared_ptr<dateset> dateset_ptr;
 
+  /// @brief incremental constructor of dateset
   class dateset_builder {
     std::set<jdate> _so_far;
     jdate _low;
@@ -37,6 +38,7 @@ namespace merkatilo {
     dateset construct();
   };
 
+  /// @brief adds lexical scope to thread local dateset
   class current_dates {
     std::shared_ptr<dateset> previous;
   public:
@@ -285,6 +287,7 @@ namespace merkatilo {
 			 double initial_value = 100,
 			 dateset_ptr dates=current_dates::active());
 
+  /// @brief collection of investment performance statistics
   struct performance {
     /// volatility residual = 1 - volatility
     double volatility_residual;

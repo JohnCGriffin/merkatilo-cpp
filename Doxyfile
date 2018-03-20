@@ -904,6 +904,9 @@ EXCLUDE_SYMBOLS        = fudge_series
 EXCLUDE_SYMBOLS += series_builder_series
 EXCLUDE_SYMBOLS += binop_series
 EXCLUDE_SYMBOLS += filter_series
+EXCLUDE_SYMBOLS += signal_series
+EXCLUDE_SYMBOLS += overloaded_operator_variant
+EXCLUDE_SYMBOLS += calibrate_series
 
 # The EXAMPLE_PATH tag can be used to specify one or more files or directories
 # that contain example code fragments that are included (see the \include

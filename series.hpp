@@ -19,6 +19,7 @@ namespace merkatilo {
   typedef std::vector<value_type> value_type_v;
   typedef std::shared_ptr<value_type_v> value_type_v_ptr;
 
+  /// @brief date/value pair
   struct observation {
     jdate dt;
     value_type val;
