@@ -8,7 +8,7 @@ namespace merkatilo {
   /// passing a vector<double> of those observations to a supplied
   /// window_function.  For instance, given an average function,
   /// the result of using it as a window function will be identical 
-  /// to calling 'sma'.
+  /// to calling 'ma'.
 
   series_ptr window_series (series_ptr sp,
 			    unsigned N,

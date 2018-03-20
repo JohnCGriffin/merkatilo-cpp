@@ -8,10 +8,10 @@ namespace merkatilo {
   /// For N > 1, calculate the average of the last N observations at each
   /// date.  Any missing value with the last N periods results in NaN output.
 
-  series_ptr sma(series_ptr s, unsigned N, dateset_ptr dates)
+  series_ptr ma(series_ptr s, unsigned N, dateset_ptr dates)
   {
     if(N < 2){
-      throw std::runtime_error("sma require N > 1");
+      throw std::runtime_error("ma require N > 1");
     }
     double total = 0;
     unsigned count = 0;

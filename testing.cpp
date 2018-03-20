@@ -79,22 +79,22 @@ TEST_CASE("EMA-FRACTIONAL"){
   }
 }
 
-TEST_CASE("SMA"){
+TEST_CASE("MA"){
 
-  auto SMA_3_SERIES = test_lo("sma-3");
+  auto MA_3_SERIES = test_lo("ma-3");
   current_dates active(TEST_SERIES);
 
-  SECTION("sma generates known correct values"){
-    REQUIRE(verify_equivalency(sma(TEST_SERIES,3), SMA_3_SERIES));
+  SECTION("ma generates known correct values"){
+    REQUIRE(verify_equivalency(ma(TEST_SERIES,3), MA_3_SERIES));
   }
 
-  SECTION("sma generate len(input)-N+1 output values"){
+  SECTION("ma generate len(input)-N+1 output values"){
     unsigned N = 10;
-    REQUIRE(series_count(sma(TEST_SERIES,N)) == series_count(TEST_SERIES)-N+1);
+    REQUIRE(series_count(ma(TEST_SERIES,N)) == series_count(TEST_SERIES)-N+1);
   }
 
   SECTION("handling bad period argument"){
-    REQUIRE_THROWS(sma(TEST_SERIES,1));
+    REQUIRE_THROWS(ma(TEST_SERIES,1));
   }
   
 }
@@ -139,7 +139,7 @@ TEST_CASE("MOMENTUM"){
     REQUIRE(verify_equivalency(mo(TEST_SERIES,3), MO_3_SERIES));
   }
 
-  SECTION("sma generate len(input)-N output values"){
+  SECTION("ma generate len(input)-N output values"){
     unsigned N = 10;
     REQUIRE(series_count(mo(TEST_SERIES,N)) == series_count(TEST_SERIES)-N);
   }
@@ -345,7 +345,7 @@ TEST_CASE("WINDOW_SERIES"){
     return total / v.size();
   };
 
-  REQUIRE(verify_equivalency(sma(TEST_SERIES,20), window_series(TEST_SERIES,20,avg)));
+  REQUIRE(verify_equivalency(ma(TEST_SERIES,20), window_series(TEST_SERIES,20,avg)));
   
 }
 

@@ -26,11 +26,11 @@ int main()
     timeit("drawdown", [&](){ drawdown(IBM); });
     timeit("momentum", [&](){ mo(IBM,20); });
     timeit("ema", [&](){ ema(IBM,20); });
-    timeit("sma", [&](){ sma(IBM,20); });
+    timeit("ma", [&](){ ma(IBM,20); });
     auto mo5 = mo(IBM,5);
     timeit("conviction", [&](){ conviction(mo5,4); });
     timeit("to_signals", [&](){ to_signals(mo5); });
-    auto sm200 = sma(IBM,200);
+    auto sm200 = ma(IBM,200);
     timeit("cross", [&](){ cross(sm200,IBM); });
     timeit("volatility", [&](){ volatility(IBM); });
     timeit("mo_days", [&](){ mo_days(IBM,20); });

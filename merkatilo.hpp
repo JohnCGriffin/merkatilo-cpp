@@ -149,7 +149,7 @@ namespace merkatilo {
   /// @param dates dates to traverse (defaulted to current dates)
   /// @return series containing rolling N-period averages
   
-  series_ptr sma (series_ptr s, unsigned period, dateset_ptr dates=current_dates::active());
+  series_ptr ma (series_ptr s, unsigned period, dateset_ptr dates=current_dates::active());
 
 
   /// @brief periodic gains or declines
