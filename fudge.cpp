@@ -8,7 +8,7 @@ namespace merkatilo {
     unsigned days;
   public:
     fudge_series(series_ptr base, unsigned days) : base(base), days(days){}
-    value_type at(jdate dt) const override {
+    double at(jdate dt) const override {
       auto s = base.get();
       for(unsigned i=0; i<=days; i++){
 	auto back_date = dt - i;

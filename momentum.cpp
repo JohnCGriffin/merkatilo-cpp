@@ -4,7 +4,7 @@
 
 namespace merkatilo {
 
-  static value_type change (value_type val, value_type old_val){
+  static double change (double val, double old_val){
     if(!valid(old_val) || !valid(val) || old_val == 0){
       return default_value();
     }

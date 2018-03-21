@@ -12,7 +12,7 @@ namespace merkatilo {
     struct constant_series : public series {
       double N;
       constant_series(double N) : N(N){}
-      value_type at(jdate) const override {
+      double at(jdate) const override {
 	return N;
       };
     };

@@ -5,7 +5,7 @@ namespace merkatilo {
 
   series::~series(){}
 
-  value_type series::at(jdate) const { return default_value(); }
+  double series::at(jdate) const { return default_value(); }
 
   observations_ptr series::observations_by_date(jdate_v_ptr dates) {
     observations result;

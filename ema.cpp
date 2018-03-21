@@ -14,7 +14,7 @@ namespace merkatilo {
     double old_fraction = 1.0 - fraction;
 
     series_builder builder;
-    value_type prev = default_value();
+    double prev = default_value();
 
     auto obs = s->observations_by_date(dates);
 

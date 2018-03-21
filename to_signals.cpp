@@ -3,7 +3,7 @@
 
 namespace merkatilo {
 
-  value_type sign(value_type x)
+  double sign(double x)
   {
     return (x < 0) ? -1.0 : 1.0;
   }

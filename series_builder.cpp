@@ -23,12 +23,12 @@ namespace merkatilo {
 
   struct series_builder_series : public series {
     std::unique_ptr<obs_cache> cache;
-    const value_type_v v;
+    const double_v v;
     jdate fd;
     jdate ld;
-    series_builder_series(const value_type_v& v, jdate fd, jdate ld)
+    series_builder_series(const double_v& v, jdate fd, jdate ld)
       : v(v), fd(fd), ld(ld) {}
-    value_type at(jdate jd) const override {
+    double at(jdate jd) const override {
       if(jd < fd || ld < jd){
 	return default_value();
       }
@@ -71,7 +71,7 @@ namespace merkatilo {
     }
     auto fd = obs.begin()->dt;
     auto ld = obs.rbegin()->dt;
-    value_type_v v;
+    double_v v;
     for(auto dt = fd; dt <= ld; dt = dt+1){
       v.push_back(default_value());
     }

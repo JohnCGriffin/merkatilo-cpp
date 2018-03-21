@@ -12,17 +12,16 @@
 
 namespace merkatilo {
 
-  typedef double value_type;
-  inline bool valid(value_type v){ return v == v; }
-  inline value_type default_value() { return std::numeric_limits<double>::quiet_NaN(); }
+  inline bool valid(double v){ return v == v; }
+  inline double default_value() { return std::numeric_limits<double>::quiet_NaN(); }
 
-  typedef std::vector<value_type> value_type_v;
-  typedef std::shared_ptr<value_type_v> value_type_v_ptr;
+  typedef std::vector<double> double_v;
+  typedef std::shared_ptr<double_v> double_v_ptr;
 
   /// @brief date/value pair
   struct observation {
     jdate dt;
-    value_type val;
+    double val;
     bool operator<(const observation& another) const {
       return dt < another.dt;
     }
@@ -37,7 +36,7 @@ namespace merkatilo {
   public:
     virtual ~series();
     /// get the double value at a date
-    virtual value_type at(jdate) const;
+    virtual double at(jdate) const;
     /// map given dates to values
     virtual observations_ptr observations_by_date (jdate_v_ptr dates);
   };
