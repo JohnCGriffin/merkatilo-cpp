@@ -41,24 +41,29 @@ namespace merkatilo {
 	return dd.second.val / dd.first.val;
       })();
     result.annualized_gain = gpa(equity, dates);
-    result.trades = series_count(signals);
-    result.long_ratio = ([&](){
-	auto filled = repeated(signals, true);
-	auto f = filled.get();
-	double longs = 0;
+    auto pair = ([&]() -> std::pair<size_t,double> {
+	size_t sig_count = 0;
 	double total = 0;
-	for (auto dt : *dates){
-	  auto val = f->at(dt);
-	  if(!valid(val)){
-	    continue;
+	double longs = 0;
+	double state = 0;
+	auto s = signals.get();
+	for(auto dt : *dates){
+	  auto val = s->at(dt);
+	  if(valid(val) && val){
+	    state = val;
+	    sig_count++;
 	  }
-	  if(val > 0){
-	    longs++;
-	  } 
-	  total++;
+	  if(state){
+	    total++;
+	    if (state > 0){
+	      longs++;
+	    }
+	  }
 	}
-	return longs / total;
+	return std::make_pair(sig_count, (longs/total));
       })();
+    result.trades = pair.first;
+    result.long_ratio = pair.second;
     return result;
   }
 
