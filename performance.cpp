@@ -60,7 +60,7 @@ namespace merkatilo {
 	    }
 	  }
 	}
-	return std::make_pair(sig_count, (longs/total));
+	return std::make_pair(sig_count, (total>0) ? (longs/total) : 0.0);
       })();
     result.trades = pair.first;
     result.long_ratio = pair.second;
