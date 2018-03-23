@@ -12,7 +12,7 @@ namespace merkatilo {
   series_ptr conviction (series_ptr sp, unsigned N, dateset_ptr dates) {
 
     if(N < 1){
-      throw std::runtime_error("N must be >= 1");
+      throw std::invalid_argument("N must be >= 1");
     }
 
     const int len = dates->size();

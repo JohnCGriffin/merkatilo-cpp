@@ -13,7 +13,7 @@ namespace merkatilo {
     auto l_ob = last_ob(s, dates);
 
     if(l_ob.dt == f_ob.dt){
-      std::runtime_error("no data available to calculate gpa");
+      std::out_of_range("no data available to calculate gpa");
     }
 
     auto days = l_ob.dt - f_ob.dt;

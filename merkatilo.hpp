@@ -371,7 +371,7 @@ namespace merkatilo {
   /// @param s series
   /// @param dates dates to traverse (defaulted to current dates)
   /// @return first observation
-  /// @throws std::runtime_error upon finding no observation
+  /// @throws std::out_of_range upon finding no observation
   
   observation first_ob(series_ptr s, dateset_ptr dates=current_dates::active());
 
@@ -380,7 +380,7 @@ namespace merkatilo {
   /// @param s series
   /// @param dates dates to traverse (defaulted to current dates)
   /// @return last observation
-  /// @throws std::runtime_error upon finding no observation
+  /// @throws std::out_of_range upon finding no observation
   
   observation last_ob(series_ptr s, dateset_ptr dates=current_dates::active());
 

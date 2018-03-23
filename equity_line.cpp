@@ -48,10 +48,12 @@ namespace merkatilo {
 
       if(valid(sig_val)){
 	if(!valid(inv_val)){
-	  throw std::runtime_error("investment has no observation on signal date " + jdate_to_string(dt));
+	  throw std::out_of_range("investment has no observation on signal date "
+				  + jdate_to_string(dt));
 	}
 	if(!valid(alt_val)){
-	  throw std::runtime_error("alternate investment has no observation on signal date " + jdate_to_string(dt));
+	  throw std::out_of_range("alternate investment has no observation on signal date "
+				  + jdate_to_string(dt));
 	}
       }
 

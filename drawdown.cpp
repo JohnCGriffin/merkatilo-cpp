@@ -17,7 +17,7 @@ namespace merkatilo {
     auto obs = series_to_obs(sp, dates);
 
     if(obs->empty()){
-      throw std::runtime_error("no observations");
+      throw std::out_of_range("no observations");
     }
       
 

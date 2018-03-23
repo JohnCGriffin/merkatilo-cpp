@@ -17,7 +17,7 @@ namespace merkatilo {
       };
     };
     if(!valid(N)){
-      throw std::runtime_error("constant(N) parameter was NaN");
+      throw std::invalid_argument("constant(N) parameter was NaN");
     }
     return std::make_shared<constant_series>(N);
   }

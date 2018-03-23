@@ -8,7 +8,7 @@ namespace merkatilo {
   series_ptr fractional(series_ptr s, double fraction, dateset_ptr dates)
   {
     if(fraction <= 0 || fraction > 1){
-      throw std::runtime_error("fractional require fraction 0 <= fraction < 1.");
+      throw std::invalid_argument("fractional require fraction 0 <= fraction < 1.");
     }
     
     double old_fraction = 1.0 - fraction;
@@ -40,7 +40,7 @@ namespace merkatilo {
   series_ptr ema(series_ptr s, unsigned N, dateset_ptr dates)
   {
     if(N < 2){
-      throw std::runtime_error("ema require N > 1");
+      throw std::invalid_argument("ema require N > 1");
     }
     return fractional(s, 2.0 / (N+1.0), dates);
   }

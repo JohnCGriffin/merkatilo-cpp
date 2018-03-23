@@ -11,7 +11,7 @@ namespace merkatilo {
   series_ptr ma(series_ptr s, unsigned N, dateset_ptr dates)
   {
     if(N < 2){
-      throw std::runtime_error("ma require N > 1");
+      throw std::invalid_argument("ma require N > 1");
     }
     double total = 0;
     unsigned count = 0;

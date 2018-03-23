@@ -11,7 +11,7 @@ namespace merkatilo {
 	return { dt, val };
       }
     }
-    throw std::runtime_error("no observations");
+    throw std::out_of_range("no observations");
   }
 
   observation last_ob(series_ptr sp, dateset_ptr dates){
@@ -23,7 +23,7 @@ namespace merkatilo {
 	return { dt, val };
       }
     }
-    throw std::runtime_error("no observations");
+    throw std::out_of_range("no observations");
   }
 
 }

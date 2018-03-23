@@ -78,7 +78,7 @@ namespace merkatilo {
   series_ptr lo(std::string id)
   {
     if(id.size() == 0){
-      throw std::runtime_error("empty string given to lo.");
+      throw std::invalid_argument("empty string given to lo.");
     }
     return loader(normalize_id(id));
   }

@@ -17,7 +17,7 @@ namespace merkatilo {
   series_ptr mo (series_ptr sp, unsigned N, dateset_ptr dates) {
 
     if(N < 1){
-      throw std::runtime_error("mo requires period >= 1");
+      throw std::invalid_argument("mo requires period >= 1");
     }
     
     auto s = sp.get();
@@ -54,7 +54,7 @@ namespace merkatilo {
   series_ptr mo_days (series_ptr sp, unsigned days, dateset_ptr dates) {
     
     if (days < 1){
-      throw std::runtime_error("mo_days require days >= 1");
+      throw std::invalid_argument("mo_days require days >= 1");
     }
 
     auto fs = fudge(sp);

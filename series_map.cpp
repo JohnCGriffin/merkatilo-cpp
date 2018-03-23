@@ -14,7 +14,7 @@ namespace merkatilo {
 			 dateset_ptr dates)
   {
     if(!sps.size()){
-      throw std::runtime_error("series_map requires at least one input series");
+      throw std::invalid_argument("series_map requires at least one input series");
     }
     // faster native series pointers
     std::vector<series*> ss;

@@ -27,7 +27,7 @@ namespace merkatilo {
       if(value < low || value > high){
 	std::ostringstream oss;
 	oss << name << " of " << value << " outside reasonable [" << low << "," << high << "]";
-	throw std::runtime_error(oss.str());
+	throw std::invalid_argument(oss.str());
       }
     };
 

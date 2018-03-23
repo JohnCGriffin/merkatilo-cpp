@@ -27,7 +27,7 @@ namespace merkatilo {
     if(!valid(val)){
       std::ostringstream oss;
       oss << "missing observation at " << jdate_to_string(date);
-      throw std::runtime_error(oss.str());
+      throw std::out_of_range(oss.str());
     }
     auto ratio = init / val;
     return std::make_shared<calibrate_series>(s,ratio);
