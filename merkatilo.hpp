@@ -473,6 +473,9 @@ namespace merkatilo {
     allocation (jdate date, std::vector<portion>& portions);
   };
 
+
+  /// @brief create equity line from vector<allocation> where each allocation
+  /// has a date and a list of series weights.
   
   series_ptr allocation_equity_line (std::vector<allocation>& allocations, double initial_value);
 
