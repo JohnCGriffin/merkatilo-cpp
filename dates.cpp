@@ -5,6 +5,28 @@
 
 namespace merkatilo {
 
+  jdate first_date(dateset_ptr ds){
+    return ds->at(0);
+  }
+
+  /// @brief first date of current date set
+  jdate first_date(){
+    return first_date(current_dates::active());
+  }
+
+  /// @brief last date of date set
+  jdate last_date(dateset_ptr ds){
+    return ds->at(ds->size()-1);
+  }
+
+  /// @brief last date of current date set
+  jdate last_date() {
+    return last_date(current_dates::active());
+  }
+
+  
+
+
   static std::set<jdate> series_to_set(const series_ptr s)
   {
     std::set<jdate> result;

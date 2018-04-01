@@ -1,7 +1,7 @@
 
 CXX=g++
-CXXFLAGS=-Wpedantic -Wall -fPIC -O3 --std=c++14 
 CXXFLAGS=-no-pie -g -pg -fPIC --std=c++14 
+CXXFLAGS=-Wpedantic -Wall -fPIC -O3 --std=c++14 
 
 OBS = jdate.o dates.o lo.o current_dates.o dump.o series_builder.o \
 	ema.o ma.o series.o series_count.o min_max.o \

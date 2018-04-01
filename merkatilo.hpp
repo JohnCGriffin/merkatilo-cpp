@@ -49,6 +49,19 @@ namespace merkatilo {
     static const /* thread_local */ dateset_ptr active();
   };
 
+  /// @brief first date of date set
+  jdate first_date(dateset_ptr);
+
+  /// @brief first date of current date set
+  jdate first_date();
+
+  /// @brief last date of date set
+  jdate last_date(dateset_ptr);
+
+  /// @brief last date of current date set
+  jdate last_date();
+
+  
 
   struct overloaded_operator_variant {
     series_ptr s;

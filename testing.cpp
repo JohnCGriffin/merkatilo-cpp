@@ -129,6 +129,13 @@ TEST_CASE("FIRST-LAST"){
   SECTION("check last observation"){
     REQUIRE(jdate_to_string(last_ob(TEST_SERIES).dt) == "2014-12-31");
   }
+
+  SECTION("check first and last dates"){
+    REQUIRE(first_date() == dts->at(0));
+    REQUIRE(first_date(dts) == dts->at(0));
+    REQUIRE(last_date() == dts->at(dts->size()-1));
+    REQUIRE(last_date() == last_date(dts));
+  }
   
 }
 
