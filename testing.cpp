@@ -5,7 +5,8 @@
 #include "merkatilo.hpp"
 #include <sstream>
 #include <exception>
-
+#include <iostream>
+#include <iomanip>
 
 using namespace merkatilo;
 
@@ -302,10 +303,10 @@ TEST_CASE("PERFORMANCE"){
   auto magical_performance = investment_performance(TEST_SERIES, magical_sigs);
 
   REQUIRE(approximates(gpa(TEST_SERIES), 0.07688365986138823));
-  
-  REQUIRE(approximates(0.48832261262864174, magical_performance.annualized_gain));
-  REQUIRE(approximates(0.9712643678160918, magical_performance.drawdown_residual));
-  REQUIRE(approximates(0.9278986478200268, magical_performance.volatility_residual));
+
+  REQUIRE(approximates(0.49379739499778585454, magical_performance.annualized_gain));
+  REQUIRE(approximates(0.97126436781609182258, magical_performance.drawdown_residual));
+  REQUIRE(approximates(0.92783565627193753667, magical_performance.volatility_residual));
   REQUIRE(approximates(0.67828418230563, magical_performance.long_ratio));
   REQUIRE(approximates(31,magical_performance.trades));
   

@@ -42,6 +42,10 @@ namespace merkatilo {
 
     for (auto dt : *dates){
 
+      if(dt < first_sig_date){
+	continue;
+      }
+
       const auto inv_val = investment->at(dt);
       const auto sig_val = signals->at(dt);
       const auto alt_val = alternate_investment->at(dt);
