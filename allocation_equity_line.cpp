@@ -101,6 +101,9 @@ namespace merkatilo {
     return result;
   }
 
+  /// Given a vector of allocations and an initial value (default 100), develop
+  /// an equity line that reflects the continuous value of the allocation system.
+  
   series_ptr allocation_equity_line (std::vector<allocation>& allocations, double initial_value)
   {
     auto portfolio_history = allocation_history_to_portfolio_history(allocations);
