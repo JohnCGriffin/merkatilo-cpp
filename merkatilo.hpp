@@ -442,6 +442,23 @@ namespace merkatilo {
   /// @brief write series to output stream
   
   void write_series(series_ptr, dateset_ptr, std::ostream&);
+
+
+  struct portion {
+    series_ptr sp;
+    double amount;
+    portion (series_ptr sp, double amount);
+  };
+
+  struct allocation {
+    jdate date;
+    std::vector<portion> portions;
+    allocation (jdate date, std::vector<portion>& portions);
+  };
+
+  
+  series_ptr allocation_equity_line (std::vector<allocation>& allocations, double initial_value);
+
 }
 
 #endif

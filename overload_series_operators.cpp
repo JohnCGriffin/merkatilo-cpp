@@ -27,9 +27,9 @@ namespace merkatilo {
       (a,b,[](double v1, double v2){ return v1 SYM v2; }); }
 
   series_ptr operator+(series_ptr a, overloaded_operator_variant b) ARITHMETIC(+)
-    series_ptr operator-(series_ptr a, overloaded_operator_variant b) ARITHMETIC(-)
-    series_ptr operator*(series_ptr a, overloaded_operator_variant b) ARITHMETIC(*)
-    series_ptr operator/(series_ptr a, overloaded_operator_variant b)
+  series_ptr operator-(series_ptr a, overloaded_operator_variant b) ARITHMETIC(-)
+  series_ptr operator*(series_ptr a, overloaded_operator_variant b) ARITHMETIC(*)
+  series_ptr operator/(series_ptr a, overloaded_operator_variant b)
   {
     return std::make_shared<binop_series>
       (a,b,[](double v1, double v2){ return v2 ? (v1/v2) : default_value(); });
@@ -42,9 +42,9 @@ namespace merkatilo {
   series_ptr operator< (series_ptr a, overloaded_operator_variant b) INEQUALITY(<)
   series_ptr operator<=(series_ptr a, overloaded_operator_variant b) INEQUALITY(<=)
   series_ptr operator> (series_ptr a, overloaded_operator_variant b) INEQUALITY(>)
-    series_ptr operator>=(series_ptr a, overloaded_operator_variant b) INEQUALITY(>=)
+  series_ptr operator>=(series_ptr a, overloaded_operator_variant b) INEQUALITY(>=)
 
-    series_ptr series_or (series_ptr a, overloaded_operator_variant b){
+  series_ptr series_or (series_ptr a, overloaded_operator_variant b){
     return std::make_shared<binop_series>(a,b,[](double v1, double v2){
 	if(valid(v1)){
 	  return v1;

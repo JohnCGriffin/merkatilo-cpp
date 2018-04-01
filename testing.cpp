@@ -51,6 +51,8 @@ static series_ptr test_lo (std::string name){
 }
 
 static auto TEST_SERIES = test_lo("test-series");
+static auto AAA_SERIES = test_lo("aaa");
+static auto BBB_SERIES = test_lo("bbb");
 
 TEST_CASE("Test that load worked"){
   current_dates active(TEST_SERIES);
@@ -389,6 +391,22 @@ TEST_CASE("CALIBRATE"){
     auto ratio = 22 / TEST_SERIES->at(new_years_eve);
     auto cal = calibrate(TEST_SERIES,22,new_years_eve);
     REQUIRE(verify_equivalency(cal, TEST_SERIES * ratio));
+  }
+}
+
+TEST_CASE("ALLOCATION"){
+
+  current_dates active(AAA_SERIES);
+  auto fd = current_dates::active()->at(0);
+
+  {
+    std::vector<portion> portions;
+    portions.push_back({ AAA_SERIES, 5000});
+    portions.push_back({ BBB_SERIES, 5000});
+    allocation a { fd, portions };
+    std::vector<allocation> allocations { a };
+    REQUIRE(verify_equivalency(allocation_equity_line(allocations, 100) * 2,
+			       calibrate(AAA_SERIES) + calibrate(BBB_SERIES)));
   }
 }
 
