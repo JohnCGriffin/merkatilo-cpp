@@ -457,12 +457,16 @@ namespace merkatilo {
   void write_series(series_ptr, dateset_ptr, std::ostream&);
 
 
+  /// @brief portion describes the weight of a series in an allocation
   struct portion {
+    /// total return series	
     series_ptr sp;
+    /// weight relative to siblings in an allocation.
     double amount;
     portion (series_ptr sp, double amount);
   };
 
+  /// @brief allocation contains weights of investment on a particular date.
   struct allocation {
     jdate date;
     std::vector<portion> portions;
