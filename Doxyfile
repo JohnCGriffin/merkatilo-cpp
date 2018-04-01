@@ -907,6 +907,8 @@ EXCLUDE_SYMBOLS += filter_series
 EXCLUDE_SYMBOLS += signal_series
 EXCLUDE_SYMBOLS += overloaded_operator_variant
 EXCLUDE_SYMBOLS += calibrate_series
+EXCLUDE_SYMBOLS += holding
+EXCLUDE_SYMBOLS += portfolio
 
 # The EXAMPLE_PATH tag can be used to specify one or more files or directories
 # that contain example code fragments that are included (see the \include
