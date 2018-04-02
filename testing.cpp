@@ -416,6 +416,14 @@ TEST_CASE("ALLOCATION"){
     REQUIRE(verify_equivalency(allocation_equity_line(allocations, 100) * 2,
 			       calibrate(AAA_SERIES) + calibrate(BBB_SERIES)));
   }
+
+  {
+    std::vector<portion> portions;
+    portions.push_back({ AAA_SERIES, 5000});
+    portions.push_back({ AAA_SERIES, 1000});
+    portions.push_back({ BBB_SERIES, 5000});
+    REQUIRE_THROWS(allocation{ fd, portions });
+  }
 }
 
 

@@ -60,8 +60,24 @@ namespace merkatilo {
     return allocation { a.date, new_portions };
   }
 
+  double holding_valuations(jdate date, const std::vector<holding>& holdings)
+  {
+    double total = 0.0;
+    for (const auto& h : holdings){
+      auto shares = h.shares;
+      auto sp = h.sp;
+      auto price = sp->at(date);
+      if(valid(price)){
+	total += (shares * price);
+      } else {
+	return 0;
+      }
+    }
+    return total;
+  }
+
   std::vector<portfolio>
-  allocation_history_to_portfolio_history (std::vector<allocation>& _allocations)
+  allocations_to_portfolios (std::vector<allocation>& _allocations)
   {
     std::vector<allocation> allocations;
     std::transform(_allocations.begin(),
@@ -75,13 +91,7 @@ namespace merkatilo {
 
     for (const auto &a : allocations){
 
-      double portfolio_value = 0.0;
-
-      for(const auto& h : holdings){
-	auto price = h.sp->at(a.date);
-	auto shares = h.shares;
-	portfolio_value += (shares * price);
-      }
+      double portfolio_value = holding_valuations(a.date, holdings);
 
       holdings.clear();
       
@@ -106,7 +116,7 @@ namespace merkatilo {
   
   series_ptr allocation_equity_line (std::vector<allocation>& allocations, double initial_value)
   {
-    auto portfolio_history = allocation_history_to_portfolio_history(allocations);
+    auto portfolio_history = allocations_to_portfolios(allocations);
 
     std::map<jdate,std::vector<holding>> holdings_by_date;
     for(const auto& p : portfolio_history){
@@ -119,16 +129,7 @@ namespace merkatilo {
     series_builder builder;
     
     for (auto dt = fd; dt < today(); dt++){
-      double portfolio_valuation = 0.0;
-      for (auto& h : holdings){
-	auto shares = h.shares;
-	auto price = h.sp->at(dt);
-	if(!valid(price)){
-	  portfolio_valuation = 0;
-	  break;
-	}
-	portfolio_valuation += (shares * price);
-      }
+      double portfolio_valuation = holding_valuations(dt, holdings);
       auto find = holdings_by_date.find(dt);
       if(find != holdings_by_date.end()){
 	if(!portfolio_valuation){
