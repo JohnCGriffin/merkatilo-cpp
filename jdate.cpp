@@ -70,6 +70,7 @@ namespace merkatilo {
   }
 
   std::tuple<int,int,int> ymd(jdate JD) {
+	// http://www.stiltner.org/book/bookcalc.htm
     int L = JD + 68569;
     int N = (4 * L) / 146097;
 
