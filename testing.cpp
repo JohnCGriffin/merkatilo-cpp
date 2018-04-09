@@ -200,15 +200,15 @@ TEST_CASE("DRAWDOWN"){
   current_dates active(TEST_SERIES);
 
   SECTION("drawdown generates known correct values"){
-    auto dd = drawdown(TEST_SERIES);
-    REQUIRE(jdate_to_string(dd.first.dt) == "2014-09-18");
-    REQUIRE(jdate_to_string(dd.second.dt) == "2014-12-16");
+    auto dd = series_drawdown(TEST_SERIES);
+    REQUIRE(jdate_to_string(dd.max.dt) == "2014-09-18");
+    REQUIRE(jdate_to_string(dd.min.dt) == "2014-12-16");
   }
 
   SECTION("drawdowns"){
-    auto dds = drawdowns(TEST_SERIES, .92);
+    auto dds = series_drawdowns(TEST_SERIES, .92);
     std::vector<double> vals;
-    std::transform(dds.begin(), dds.end(), std::back_inserter(vals), drawdown_residual);
+    std::transform(dds.begin(), dds.end(), std::back_inserter(vals), [](const drawdown& dd){ return dd.residual(); });
     std::vector<double> test_values { 0.889196675900277, 0.9038461538461539, 0.9046052631578947 };
     REQUIRE(approximates(vals, test_values));
   }

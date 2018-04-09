@@ -37,8 +37,8 @@ namespace merkatilo {
     performance result;
     result.volatility_residual = 1.0 - volatility(equity);
     result.drawdown_residual = ([&](){
-	auto dd = drawdown(equity);
-	return dd.second.val / dd.first.val;
+	auto dd = series_drawdown(equity);
+	return dd.residual();
       })();
     result.annualized_gain = gpa(equity, dates);
     auto pair = ([&]() -> std::pair<size_t,double> {

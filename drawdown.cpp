@@ -4,7 +4,7 @@
 
 namespace merkatilo {
 
-  static obpair dd_worker (observations_ptr obs){
+  static drawdown dd_worker (observations_ptr obs){
   
     auto reversed_minima = ([&](){
 	auto mn_ob = *(obs->rbegin());
@@ -33,11 +33,7 @@ namespace merkatilo {
 	return acc;
       })();
 
-    auto dd_ratio = [](obpair dd){
-      return dd.second.val / dd.first.val;
-    };
-
-    auto dd = std::make_pair(maxima.at(0),maxima.at(0));
+    auto dd = drawdown { maxima.at(0),maxima.at(0) };
     auto minima_it = reversed_minima.begin();
 
     for(const auto& mx : maxima){
@@ -47,8 +43,8 @@ namespace merkatilo {
       if(minima_it == reversed_minima.end()){
 	break;
       }
-      auto test_dd = std::make_pair(mx,*minima_it);
-      if(dd_ratio(test_dd) < dd_ratio(dd)){
+      auto test_dd = drawdown { mx,*minima_it };
+      if(test_dd.residual() < dd.residual()){
 	dd = test_dd;
       }
     }
@@ -64,7 +60,7 @@ namespace merkatilo {
 * observed date-value pairs represents the greatest loss in value.
 */
 
-  obpair drawdown(series_ptr sp, dateset_ptr dates)
+  drawdown series_drawdown(series_ptr sp, dateset_ptr dates)
   {
     auto obs = series_to_obs(sp, dates);
 
@@ -75,26 +71,26 @@ namespace merkatilo {
     return dd_worker(obs);
   }
 
-  static std::vector<obpair> dds_worker(observations_ptr obs, double max_residual)
+  static std::vector<drawdown> dds_worker(observations_ptr obs, double max_residual)
   {
-    std::vector<obpair> result;
+    std::vector<drawdown> result;
     if(obs->size() < 2){
       return result;
     }
     auto dd = dd_worker(obs);
-    if(dd.first.dt == dd.second.dt){
+    if(dd.max.dt == dd.min.dt){
       return result;
     }
-    if(drawdown_residual(dd) > max_residual){
+    if(dd.residual() > max_residual){
       return result;
     }
     result.push_back(dd);
 
     observations left_collector, right_collector;
     for(auto ob : *obs){
-      if(ob.dt <= dd.first.dt){
+      if(ob.dt <= dd.max.dt){
 	left_collector.push_back(ob);
-      } else if(ob.dt >= dd.second.dt){
+      } else if(ob.dt >= dd.min.dt){
 	right_collector.push_back(ob);
       }
     }
@@ -113,7 +109,7 @@ namespace merkatilo {
     return result;
   }
 
-  std::vector<obpair> drawdowns(series_ptr sp, double max_residual, dateset_ptr dates)
+  std::vector<drawdown> series_drawdowns(series_ptr sp, double max_residual, dateset_ptr dates)
   {
     auto obs = series_to_obs(sp, dates);
 
@@ -124,15 +120,15 @@ namespace merkatilo {
     auto dds = dds_worker(obs, max_residual);
     std::sort(dds.begin(),
 	      dds.end(),
-	      [](const obpair& a, const obpair& b){
-		return (a.second.val/a.first.val) < (b.second.val/b.first.val);
+	      [](const drawdown& a, const drawdown& b){
+		return a.residual() < b.residual();
 	      });
     return dds;
   }
 
-  double drawdown_residual(obpair ob_pair)
+  double drawdown::residual() const
   {
-    return ob_pair.second.val / ob_pair.first.val;
+    return this->min.val / this->max.val;
   }
 
 }

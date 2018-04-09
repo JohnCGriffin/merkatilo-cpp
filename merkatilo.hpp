@@ -353,27 +353,24 @@ namespace merkatilo {
 
   double gpa(series_ptr s, dateset_ptr dates=current_dates::active());
 
+  struct drawdown {
+    observation max;
+    observation min;
+    double residual() const;
+  };
 
   /// @brief identify largest loss in equity series.
   /// @param s series
   /// @param dates dates to traverse (defaulted to current dates)
   /// @return largest drop in equity value, e.g. 0.4 means a 40% loss.
   
-  obpair drawdown(series_ptr s, dateset_ptr dates=current_dates::active());
+  drawdown series_drawdown(series_ptr s, dateset_ptr dates=current_dates::active());
 
   /// @brief handy shortcut to get ratio of second.val / first.val
   /// @param op obpair
   /// @return 1.0 - drawdown amount
   
-  double drawdown_residual(obpair op);
-
-  /// @brief find all non-overlapping drawdowns
-  /// @param s series
-  /// @param max_residual filters results to include only where max_residual >= drawdown_residual
-  /// @param dates dates to traverse (defaulted to current dates)
-  /// @return vector of drawdowns
-  
-  std::vector<obpair> drawdowns(series_ptr s, double max_residual=1.0, dateset_ptr dates=current_dates::active());
+  std::vector<drawdown> series_drawdowns(series_ptr s, double max_residual=1.0, dateset_ptr dates=current_dates::active());
 
   /// @brief down capture
   /// @param s series
