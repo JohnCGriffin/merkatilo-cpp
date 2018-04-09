@@ -375,7 +375,22 @@ namespace merkatilo {
   
   std::vector<obpair> drawdowns(series_ptr s, double max_residual=1.0, dateset_ptr dates=current_dates::active());
 
+  /// @brief down capture
+  /// @param s series
+  /// @param benchmark benchmark series is usually some market like SPY
+  /// @param period number of periods used by mo() call to generate gains/losses
+  /// @param dates dates to traverse (defaulted to current dates)
+  /// @return down-capture 
+  
   double down_capture (series_ptr s, series_ptr benchmark, uint period, dateset_ptr dates=current_dates::active());
+  
+  /// @brief up capture
+  /// @param s series
+  /// @param benchmark benchmark series is usually some market like SPY
+  /// @param period number of periods used by mo() call to generate gains/losses
+  /// @param dates dates to traverse (defaulted to current dates)
+  /// @return up-capture
+  
   double up_capture (series_ptr s, series_ptr benchmark, uint period, dateset_ptr dates=current_dates::active());
 
 
