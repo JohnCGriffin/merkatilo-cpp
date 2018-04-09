@@ -10,7 +10,7 @@ OBS = jdate.o dates.o lo.o current_dates.o dump.o series_builder.o \
 	warp.o cross.o constant.o equity_line.o reversals.o \
 	performance.o conviction.o filter.o overload_series_operators.o \
 	window_series.o series_map.o serialize.o calibrate.o \
-	allocation_equity_line.o
+	allocation_equity_line.o capture.o
 
 libs: libmerkatilo.so libmerkatilo.a
 

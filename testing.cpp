@@ -447,4 +447,11 @@ TEST_CASE("ALLOCATION"){
   }
 }
 
+TEST_CASE("CAPTURE"){
+  current_dates active(TEST_SERIES);
 
+  // regression tests
+  REQUIRE(approximates(down_capture(TEST_SERIES, warp(TEST_SERIES,10), 63), 0.5898654044835749));
+  REQUIRE(approximates(up_capture(TEST_SERIES, warp(TEST_SERIES,10), 21), 0.4715927637890245));
+  
+}

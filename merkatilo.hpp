@@ -375,6 +375,9 @@ namespace merkatilo {
   
   std::vector<obpair> drawdowns(series_ptr s, double max_residual=1.0, dateset_ptr dates=current_dates::active());
 
+  double down_capture (series_ptr s, series_ptr benchmark, uint period, dateset_ptr dates=current_dates::active());
+  double up_capture (series_ptr s, series_ptr benchmark, uint period, dateset_ptr dates=current_dates::active());
+
 
   ////////////// MISC ////////////////
 
