@@ -7,6 +7,7 @@
 #include <exception>
 #include <iostream>
 #include <iomanip>
+#include <algorithm>
 
 using namespace merkatilo;
 
@@ -15,6 +16,18 @@ static bool approximates(double a, double b, double epsilon=0.00001){
   return (std::abs(a-b) < epsilon);
 }
 
+static bool approximates (const std::vector<double>& a, const std::vector<double>& b)
+{
+  if(a.size() != b.size()){
+    return false;
+  }
+  for(size_t i=0; i<a.size(); i++){
+    if(!(approximates(a.at(i),b.at(i)))){
+      return false;
+    }
+  }
+  return true;
+}
 
 static bool verify_equivalency(series_ptr a, series_ptr b)
 {
@@ -190,6 +203,14 @@ TEST_CASE("DRAWDOWN"){
     auto dd = drawdown(TEST_SERIES);
     REQUIRE(jdate_to_string(dd.first.dt) == "2014-09-18");
     REQUIRE(jdate_to_string(dd.second.dt) == "2014-12-16");
+  }
+
+  SECTION("drawdowns"){
+    auto dds = drawdowns(TEST_SERIES, .92);
+    std::vector<double> vals;
+    std::transform(dds.begin(), dds.end(), std::back_inserter(vals), drawdown_residual);
+    std::vector<double> test_values { 0.889196675900277, 0.9038461538461539, 0.9046052631578947 };
+    REQUIRE(approximates(vals, test_values));
   }
 
 }

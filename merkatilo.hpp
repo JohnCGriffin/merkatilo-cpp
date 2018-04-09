@@ -361,6 +361,20 @@ namespace merkatilo {
   
   obpair drawdown(series_ptr s, dateset_ptr dates=current_dates::active());
 
+  /// @brief handy shortcut to get ratio of second.val / first.val
+  /// @param op obpair
+  /// @return 1.0 - drawdown amount
+  
+  double drawdown_residual(obpair op);
+
+  /// @brief find all non-overlapping drawdowns
+  /// @param s series
+  /// @param max_residual filters results to include only where max_residual >= drawdown_residual
+  /// @param dates dates to traverse (defaulted to current dates)
+  /// @return vector of drawdowns
+  
+  std::vector<obpair> drawdowns(series_ptr s, double max_residual=1.0, dateset_ptr dates=current_dates::active());
+
 
   ////////////// MISC ////////////////
 
