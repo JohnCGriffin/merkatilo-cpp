@@ -31,7 +31,7 @@ static bool approximates (const std::vector<double>& a, const std::vector<double
 
 static bool verify_equivalency(series_ptr a, series_ptr b)
 {
-  for(auto dt : *current_dates::active()){
+  for(const auto dt : *current_dates::active()){
     if(valid(a->at(dt)) != valid(b->at(dt))){
       if(valid(a->at(dt))){
 	throw std::logic_error(("second series missing data at ")
@@ -45,11 +45,11 @@ static bool verify_equivalency(series_ptr a, series_ptr b)
 			       + std::to_string(b->at(dt)));
       }
     }
-    auto a_val = a->at(dt);
+    const auto a_val = a->at(dt);
     if(!valid(a_val)){
       continue;
     }
-    auto b_val = b->at(dt);
+    const auto b_val = b->at(dt);
     if(!approximates(a_val,b_val)){
       std::ostringstream oss;
       oss << "mismatched series at " << jdate_to_string(dt)
@@ -75,7 +75,7 @@ TEST_CASE("Test that load worked"){
 
 TEST_CASE("EMA-FRACTIONAL"){
 
-  auto EMA_3_SERIES = test_lo("ema-3");
+  const auto EMA_3_SERIES = test_lo("ema-3");
   current_dates active(TEST_SERIES);
 
   SECTION("ema generates known correct values"){
@@ -118,7 +118,7 @@ TEST_CASE("MA"){
 TEST_CASE("MIN-MAX"){
 
   current_dates active(TEST_SERIES);
-  auto mm = min_max_obs(TEST_SERIES);
+  const auto mm = min_max_obs(TEST_SERIES);
 
   SECTION("check max observation"){
     REQUIRE(jdate_to_string(mm.second.dt) == "2014-09-18");
@@ -133,7 +133,7 @@ TEST_CASE("MIN-MAX"){
 TEST_CASE("FIRST-LAST"){
 
   dateset_builder builder(parse_jdate("2010-1-1"),today());
-  auto dts = std::make_shared<dateset>(builder.construct());
+  const auto dts = std::make_shared<dateset>(builder.construct());
   current_dates active(dts);
 
   SECTION("check first observation"){
@@ -155,7 +155,7 @@ TEST_CASE("FIRST-LAST"){
 
 TEST_CASE("MOMENTUM"){
 
-  auto MO_3_SERIES = test_lo("mo-3");
+  const auto MO_3_SERIES = test_lo("mo-3");
   current_dates active(TEST_SERIES);
 
   SECTION("mo generates known correct values"){
@@ -181,15 +181,15 @@ TEST_CASE("TO-SIGNALS"){
   current_dates active(TEST_SERIES);
 
   SECTION("to_signals generates known correct values"){
-    auto sigs = to_signals(mo(TEST_SERIES,240));
-    auto obs = observations {
+    const auto sigs = to_signals(mo(TEST_SERIES,240));
+    const auto obs = observations {
       { parse_jdate("2012-12-17"), 1 },
       { parse_jdate("2013-08-30"), -1 },
       { parse_jdate("2013-9-3"), 1},
       { parse_jdate("2014-12-12"), -1 },
       { parse_jdate("2014-12-19"), 1}
     };
-    auto literal = obs_to_series(std::make_shared<observations>(obs));
+    const auto literal = obs_to_series(std::make_shared<observations>(obs));
     REQUIRE(verify_equivalency(literal,sigs));
   }
 
@@ -200,13 +200,13 @@ TEST_CASE("DRAWDOWN"){
   current_dates active(TEST_SERIES);
 
   SECTION("drawdown generates known correct values"){
-    auto dd = series_drawdown(TEST_SERIES);
+    const auto dd = series_drawdown(TEST_SERIES);
     REQUIRE(jdate_to_string(dd.max.dt) == "2014-09-18");
     REQUIRE(jdate_to_string(dd.min.dt) == "2014-12-16");
   }
 
   SECTION("drawdowns"){
-    auto dds = series_drawdowns(TEST_SERIES, .92);
+    const auto dds = series_drawdowns(TEST_SERIES, .92);
     std::vector<double> vals;
     std::transform(dds.begin(), dds.end(), std::back_inserter(vals), [](const drawdown& dd){ return dd.residual(); });
     std::vector<double> test_values { 0.889196675900277, 0.9038461538461539, 0.9046052631578947 };
@@ -237,7 +237,7 @@ TEST_CASE("REPEATED"){
 
   current_dates active(TEST_SERIES);
 
-  auto unrptd = unrepeated(TEST_SERIES);
+  const auto unrptd = unrepeated(TEST_SERIES);
 
   REQUIRE(series_count(unrptd) < series_count(TEST_SERIES));
   REQUIRE(verify_equivalency(repeated(unrptd, true),TEST_SERIES));
@@ -250,8 +250,8 @@ TEST_CASE("WARP"){
 
   current_dates active(TEST_SERIES);
 
-  auto wa1 = warp(TEST_SERIES,1);
-  auto back_again = warp(wa1, -1);
+  const auto wa1 = warp(TEST_SERIES,1);
+  const auto back_again = warp(wa1, -1);
 
   REQUIRE(series_count(TEST_SERIES) == series_count(back_again)+1);
 
@@ -264,7 +264,7 @@ TEST_CASE("WARP"){
 TEST_CASE("CROSS"){
 
   current_dates active(TEST_SERIES);
-  auto CROSS_EMA_30 = test_lo("cross-ema-30");
+  const auto CROSS_EMA_30 = test_lo("cross-ema-30");
 
   SECTION("cross generates known correct values"){
     REQUIRE(verify_equivalency(cross(ema(TEST_SERIES,30), TEST_SERIES), CROSS_EMA_30));
@@ -286,7 +286,7 @@ TEST_CASE("CROSS"){
 
 TEST_CASE("CONSTANT"){
 
-  auto test_date = parse_jdate("2000-1-1");
+  const auto test_date = parse_jdate("2000-1-1");
   
   REQUIRE(constant(123.456)->at(test_date) == 123.456);
   REQUIRE_THROWS(constant(default_value()));
@@ -295,8 +295,8 @@ TEST_CASE("CONSTANT"){
 TEST_CASE("EQUITYLINE"){
 
  current_dates active(TEST_SERIES);
- auto EQUITYLINE_EMA_10 = test_lo("equityline-ema-10");
- auto crossed = cross(ema(TEST_SERIES,10), TEST_SERIES);
+ const auto EQUITYLINE_EMA_10 = test_lo("equityline-ema-10");
+ const auto crossed = cross(ema(TEST_SERIES,10), TEST_SERIES);
  REQUIRE(verify_equivalency(equity_line(TEST_SERIES,crossed),
 			    EQUITYLINE_EMA_10));
 
@@ -306,8 +306,8 @@ TEST_CASE("EQUITYLINE"){
 TEST_CASE("REVERSE"){
 
   current_dates active(TEST_SERIES);
-  auto REVERSALS_95_105 = test_lo("reversals-95-105");
-  auto REVERSALS_91_109 = test_lo("reversals-91-109");
+  const auto REVERSALS_95_105 = test_lo("reversals-95-105");
+  const auto REVERSALS_91_109 = test_lo("reversals-91-109");
 
   REQUIRE(verify_equivalency(reversals(TEST_SERIES,0.95,1.05),
 			     REVERSALS_95_105));
@@ -320,8 +320,8 @@ TEST_CASE("REVERSE"){
 TEST_CASE("PERFORMANCE"){
 
   current_dates active(TEST_SERIES);
-  auto magical_sigs = nostradamus(TEST_SERIES, .97, 1.03);
-  auto magical_performance = investment_performance(TEST_SERIES, magical_sigs);
+  const auto magical_sigs = nostradamus(TEST_SERIES, .97, 1.03);
+  const auto magical_performance = investment_performance(TEST_SERIES, magical_sigs);
 
   REQUIRE(approximates(gpa(TEST_SERIES), 0.07688365986138823));
 
@@ -336,7 +336,7 @@ TEST_CASE("PERFORMANCE"){
 TEST_CASE("CONVICTION"){
 
   current_dates active(TEST_SERIES);
-  auto MO_5_CONVICTION_4 = test_lo("mo-5-conviction-4");
+  const auto MO_5_CONVICTION_4 = test_lo("mo-5-conviction-4");
 
   REQUIRE(verify_equivalency(conviction(mo(TEST_SERIES,5),4),
 			     MO_5_CONVICTION_4));
@@ -354,9 +354,9 @@ TEST_CASE("FILTER"){
 TEST_CASE("ARITHMETIC OPERATORS"){
 
   current_dates active(TEST_SERIES);
-  auto doubled = TEST_SERIES + TEST_SERIES;
-  auto times_two = TEST_SERIES * 2;
-  auto fo = first_ob(TEST_SERIES);
+  const auto doubled = TEST_SERIES + TEST_SERIES;
+  const auto times_two = TEST_SERIES * 2;
+  const auto fo = first_ob(TEST_SERIES);
 
   REQUIRE(TEST_SERIES->at(fo.dt) * 2 == doubled->at(fo.dt));
   REQUIRE(doubled->at(fo.dt) == times_two->at(fo.dt));
@@ -368,9 +368,9 @@ TEST_CASE("ARITHMETIC OPERATORS"){
 TEST_CASE("WINDOW_SERIES"){
 
   current_dates active(TEST_SERIES);
-  auto avg = [](const std::vector<double>& v){
+  const auto avg = [](const std::vector<double>& v){
     double total = 0;
-    for(auto n : v){
+    for(const auto n : v){
       total += n;
     }
     return total / v.size();
@@ -384,11 +384,11 @@ TEST_CASE("WINDOW_SERIES"){
 TEST_CASE("SERIES_MAP"){
 
   current_dates active(TEST_SERIES);
-  auto S = TEST_SERIES;
+  const auto S = TEST_SERIES;
   
-  auto sum = [](const std::vector<double>& nums){
+  const auto sum = [](const std::vector<double>& nums){
     double total=0;
-    for(auto n : nums){
+    for(const auto n : nums){
       total += n;
     }
     return total;
@@ -404,21 +404,21 @@ TEST_CASE("SERIES_MAP"){
 TEST_CASE("CALIBRATE"){
 
   current_dates active(TEST_SERIES);
-  auto fd = current_dates::active()->at(0);
+  const auto fd = current_dates::active()->at(0);
   {
-    auto ratio = 100 / TEST_SERIES->at(fd);
-    auto cal = calibrate(TEST_SERIES);
+    const auto ratio = 100 / TEST_SERIES->at(fd);
+    const auto cal = calibrate(TEST_SERIES);
     REQUIRE(verify_equivalency(cal, TEST_SERIES * ratio));
   }
   {
-    auto ratio = 22 / TEST_SERIES->at(fd);
-    auto cal = calibrate(TEST_SERIES,22);
+    const auto ratio = 22 / TEST_SERIES->at(fd);
+    const auto cal = calibrate(TEST_SERIES,22);
     REQUIRE(verify_equivalency(cal, TEST_SERIES * ratio));
   }
   {
-    auto new_years_eve = parse_jdate("2014-12-31");
-    auto ratio = 22 / TEST_SERIES->at(new_years_eve);
-    auto cal = calibrate(TEST_SERIES,22,new_years_eve);
+    const auto new_years_eve = parse_jdate("2014-12-31");
+    const auto ratio = 22 / TEST_SERIES->at(new_years_eve);
+    const auto cal = calibrate(TEST_SERIES,22,new_years_eve);
     REQUIRE(verify_equivalency(cal, TEST_SERIES * ratio));
   }
 }
@@ -426,7 +426,7 @@ TEST_CASE("CALIBRATE"){
 TEST_CASE("ALLOCATION"){
 
   current_dates active(AAA_SERIES);
-  auto fd = current_dates::active()->at(0);
+  const auto fd = current_dates::active()->at(0);
 
   {
     std::vector<portion> portions;

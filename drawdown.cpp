@@ -87,7 +87,7 @@ namespace merkatilo {
     result.push_back(dd);
 
     observations left_collector, right_collector;
-    for(auto ob : *obs){
+    for(const auto ob : *obs){
       if(ob.dt <= dd.max.dt){
 	left_collector.push_back(ob);
       } else if(ob.dt >= dd.min.dt){
@@ -95,14 +95,16 @@ namespace merkatilo {
       }
     }
 
-    auto left_result = dds_worker(std::make_shared<observations>(left_collector), max_residual);
-    auto right_result = dds_worker(std::make_shared<observations>(right_collector), max_residual);
+    const auto left_result = dds_worker(std::make_shared<observations>(left_collector),
+					max_residual);
+    const auto right_result = dds_worker(std::make_shared<observations>(right_collector),
+					 max_residual);
 
-    for(auto ob : left_result){
+    for(const auto ob : left_result){
       result.push_back(ob);
     }
 
-    for(auto ob : right_result){
+    for(const auto ob : right_result){
       result.push_back(ob);
     }
 
@@ -111,7 +113,7 @@ namespace merkatilo {
 
   std::vector<drawdown> series_drawdowns(series_ptr sp, double max_residual, dateset_ptr dates)
   {
-    auto obs = series_to_obs(sp, dates);
+    const auto obs = series_to_obs(sp, dates);
 
     if(obs->empty()){
       throw std::out_of_range("no observations");

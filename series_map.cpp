@@ -18,18 +18,18 @@ namespace merkatilo {
     }
     // faster native series pointers
     std::vector<series*> ss;
-    for(auto sp : sps){
+    for(const auto sp : sps){
       ss.push_back(sp.get());
     }
 
     series_builder builder;
 
-    for(auto dt : *dates){
+    for(const auto dt : *dates){
       
       std::vector<double> v;
 
-      for(auto s : ss){
-	auto val = s->at(dt);
+      for(const auto s : ss){
+	const auto val = s->at(dt);
 	if(!missing_data_permitted && !valid(val)){
 	  break;
 	}
@@ -37,7 +37,7 @@ namespace merkatilo {
       }
       
       if(v.size() == ss.size()){
-	auto result = f(v);
+	const auto result = f(v);
 	if(valid(result)){
 	  builder.insert ({dt, result });
 	}

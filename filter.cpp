@@ -5,13 +5,13 @@ namespace merkatilo {
 
 
   class filter_series : public series {
-    series_ptr sp;
-    std::function<bool(double)> predicate;
+    const series_ptr sp;
+    const std::function<bool(double)> predicate;
   public:
     filter_series (series_ptr sp, std::function<bool(double)> predicate)
       : sp(sp), predicate(predicate){}
     double at(jdate dt) const override {
-      auto val = sp->at(dt);
+      const auto val = sp->at(dt);
       return (valid(val) && predicate(val)) ? val : default_value();
     }
   };

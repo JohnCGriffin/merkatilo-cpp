@@ -4,15 +4,15 @@
 namespace merkatilo {
 
   class fudge_series : public series {
-    series_ptr base;
-    unsigned days;
+    const series_ptr base;
+    const unsigned days;
   public:
     fudge_series(series_ptr base, unsigned days) : base(base), days(days){}
     double at(jdate dt) const override {
-      auto s = base.get();
+      const auto s = base.get();
       for(unsigned i=0; i<=days; i++){
-	auto back_date = dt - i;
-	auto val = s->at(back_date);
+	const auto back_date = dt - i;
+	const auto val = s->at(back_date);
 	if(valid(val)){
 	  return val;
 	}

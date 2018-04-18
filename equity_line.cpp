@@ -28,9 +28,9 @@ namespace merkatilo {
 			 double initial_value,
 			 dateset_ptr dates)
   {
-    auto investment = investment_sp.get();
-    auto signals = signals_sp.get();
-    auto alternate_investment = alternate_investment_sp.get();
+    const auto investment = investment_sp.get();
+    const auto signals = signals_sp.get();
+    const auto alternate_investment = alternate_investment_sp.get();
     
     const jdate first_sig_date = first_ob(signals_sp).dt;
     double product = 1.0;
@@ -40,7 +40,7 @@ namespace merkatilo {
 
     series_builder builder;
 
-    for (auto dt : *dates){
+    for (const auto dt : *dates){
 
       if(dt < first_sig_date){
 	continue;
@@ -65,7 +65,7 @@ namespace merkatilo {
 	continue;
       }
 
-      double change
+      const double change
 	= (dt <= first_sig_date) ? 1.0
 	: (buy && prev_inv)     ? (inv_val / prev_inv)
 	: (!buy && prev_alt)    ? (alt_val / prev_alt)

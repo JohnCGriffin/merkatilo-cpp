@@ -35,9 +35,9 @@ namespace merkatilo {
 
   void write_series(series_ptr sp, dateset_ptr dts, std::ostream& os)
   {
-    auto s = sp.get();
-    for(auto dt : *dts){
-      auto val = s->at(dt);
+    const auto s = sp.get();
+    for(const auto dt : *dts){
+      const auto val = s->at(dt);
       if(valid(val)){
 	os << jdate_to_string(dt) << " " << val << "\n";
       }

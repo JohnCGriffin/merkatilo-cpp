@@ -16,14 +16,14 @@ namespace merkatilo {
     }
 
     const int len = dates->size();
-    auto sigs = to_signals(sp);
-    auto s = sigs.get();
+    const auto sigs = to_signals(sp);
+    const auto s = sigs.get();
 
     std::vector<double> sig_vals(len);
 
     int last_sig_ndx = -1;
     for(int i=0; i<len; i++){
-      auto val = s->at(dates->at(i));
+      const auto val = s->at(dates->at(i));
       sig_vals[i] = val;
       if(valid(val)){
 	if(last_sig_ndx >= 0 && (i-last_sig_ndx) <= int(N)){
@@ -35,7 +35,7 @@ namespace merkatilo {
 
     series_builder builder;
     for(int i=0; i+int(N)<len; i++){
-      auto val = sig_vals[i];
+      const auto val = sig_vals[i];
       if(valid(val)){
 	builder.insert({ dates->at(i+N), val });
       }

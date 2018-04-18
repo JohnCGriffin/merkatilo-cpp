@@ -9,9 +9,9 @@ namespace merkatilo {
 
   size_t series_count(series_ptr sp, dateset_ptr dates)
   {
-    auto p = sp.get();
+    const auto p = sp.get();
     size_t result = 0;
-    for(auto dt : *dates){
+    for(const auto dt : *dates){
       if(valid(p->at(dt))){
 	result++;
       }

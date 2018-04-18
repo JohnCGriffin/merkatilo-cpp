@@ -19,18 +19,18 @@ namespace merkatilo {
 
     series_builder builder;
 
-    auto obs = s->observations_by_date(dates);
+    const auto obs = s->observations_by_date(dates);
 
     for (const auto& ob : *obs){
 
-      auto dt = ob.dt;
-      auto val = ob.val;
+      const auto dt = ob.dt;
+      const auto val = ob.val;
       
       if(!valid(val)){
 	total = count = 0;
 	
       } else {
-	int slot = count % N;
+	const int slot = count % N;
 	count++;
 	total += val;
 	if(count > N){

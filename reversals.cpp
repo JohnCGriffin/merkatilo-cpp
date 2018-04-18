@@ -18,20 +18,20 @@ namespace merkatilo {
     STATE state = NOSIG;
     series_builder builder;
 
-    for (auto ob : *obs){
+    for (const auto ob : *obs){
 
       if(!valid(ob.val)){
 	continue;
       }
 
       if (state != BUY && ob.val > (up_factor * min_ob.val)){
-	auto dt = nostradamus ? min_ob.dt : ob.dt;
+	const auto dt = nostradamus ? min_ob.dt : ob.dt;
 	min_ob = max_ob = ob;
 	state = BUY;
 	builder.insert({dt, double(state)});
 	
       } else if(state != SELL && ob.val < (down_factor * max_ob.val)){
-	auto dt = nostradamus ? max_ob.dt : ob.dt;
+	const auto dt = nostradamus ? max_ob.dt : ob.dt;
 	min_ob = max_ob = ob;
 	state = SELL;
 	builder.insert({dt, double(state)});

@@ -10,7 +10,7 @@ namespace merkatilo {
   observations_ptr series::observations_by_date(jdate_v_ptr dates) {
     observations result;
     result.reserve(dates->size());
-    for (auto dt : *dates){
+    for (const auto dt : *dates){
       result.push_back({dt, this->at(dt) });
     }
     return std::make_shared<const observations>(result);

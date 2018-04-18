@@ -8,14 +8,14 @@ namespace merkatilo {
   static double capture (series_ptr s, series_ptr benchmark, uint period, dateset_ptr dates,
 			 std::function<bool(double)> predicate)
   {
-    auto s_mo = mo(s,period,dates);
-    auto b_mo = mo(benchmark, period, dates);
+    const auto s_mo = mo(s,period,dates);
+    const auto b_mo = mo(benchmark, period, dates);
     double total_B = 0;
     double total_S = 0;
-    for (auto dt : *dates){
-      auto B_val = b_mo->at(dt);
+    for (const auto dt : *dates){
+      const auto B_val = b_mo->at(dt);
       if(valid(B_val) && predicate(B_val)){
-	auto S_val = s_mo->at(dt);
+	const auto S_val = s_mo->at(dt);
 	if(valid(S_val)){
 	  total_B += B_val;
 	  total_S += S_val;

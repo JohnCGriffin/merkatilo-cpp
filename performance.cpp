@@ -9,16 +9,16 @@ namespace merkatilo {
 
   double gpa(series_ptr s, dateset_ptr dates)
   {
-    auto f_ob = first_ob(s, dates);
-    auto l_ob = last_ob(s, dates);
+    const auto f_ob = first_ob(s, dates);
+    const auto l_ob = last_ob(s, dates);
 
     if(l_ob.dt == f_ob.dt){
       std::out_of_range("no data available to calculate gpa");
     }
 
-    auto days = l_ob.dt - f_ob.dt;
-    auto years = days / 365.2425;
-    auto gain = l_ob.val / f_ob.val;
+    const auto days = l_ob.dt - f_ob.dt;
+    const auto years = days / 365.2425;
+    const auto gain = l_ob.val / f_ob.val;
     return std::pow(gain, 1.0 / years) - 1.0;
   }
 
@@ -32,7 +32,7 @@ namespace merkatilo {
 				      series_ptr alternate_investment,
 				      dateset_ptr dates)
   {
-    auto equity = equity_line(sp,signals,alternate_investment);
+    const auto equity = equity_line(sp,signals,alternate_investment);
 
     performance result;
     result.volatility_residual = 1.0 - volatility(equity);
@@ -41,13 +41,13 @@ namespace merkatilo {
 	return dd.residual();
       })();
     result.annualized_gain = gpa(equity, dates);
-    auto pair = ([&]() -> std::pair<size_t,double> {
+    const auto pair = ([&]() -> std::pair<size_t,double> {
 	size_t sig_count = 0;
 	double total = 0;
 	double longs = 0;
 	double state = 0;
 	auto s = signals.get();
-	for(auto dt : *dates){
+	for(const auto dt : *dates){
 	  auto val = s->at(dt);
 	  if(valid(val) && val){
 	    state = val;

@@ -36,14 +36,14 @@ namespace merkatilo {
 
   static auto CASH = constant(1.0);
 
-  allocation normalize_allocation (const allocation& a)
+  static allocation normalize_allocation (const allocation& a)
   {
     double total = 0.0;
-    for (auto &p : a.portions){
+    for (const auto &p : a.portions){
       total += p.amount;
     }
     std::vector<portion> new_portions;
-    for(auto &p : a.portions){
+    for(const auto &p : a.portions){
       new_portions.push_back({p.sp, p.amount / total});
     }
     if(!new_portions.size()){
@@ -60,13 +60,13 @@ namespace merkatilo {
     return allocation { a.date, new_portions };
   }
 
-  double holding_valuations(jdate date, const std::vector<holding>& holdings)
+  static double holding_valuations(jdate date, const std::vector<holding>& holdings)
   {
     double total = 0.0;
     for (const auto& h : holdings){
-      auto shares = h.shares;
-      auto sp = h.sp;
-      auto price = sp->at(date);
+      const auto shares = h.shares;
+      const auto sp = h.sp;
+      const auto price = sp->at(date);
       if(valid(price)){
 	total += (shares * price);
       } else {
@@ -76,8 +76,8 @@ namespace merkatilo {
     return total;
   }
 
-  std::vector<portfolio>
-  allocations_to_portfolios (std::vector<allocation>& _allocations)
+  static std::vector<portfolio>
+  allocations_to_portfolios (const std::vector<allocation>& _allocations)
   {
     std::vector<allocation> allocations;
     std::transform(_allocations.begin(),
@@ -91,17 +91,17 @@ namespace merkatilo {
 
     for (const auto &a : allocations){
 
-      double portfolio_value = holding_valuations(a.date, holdings);
+      const double portfolio_value = holding_valuations(a.date, holdings);
 
       holdings.clear();
       
       for(const auto& p : a.portions){
-	auto price = p.sp->at(a.date);
+	const auto price = p.sp->at(a.date);
 	if (!valid(price)){
 	  throw std::runtime_error("missing price at " + jdate_to_string(a.date));
 	}
-	auto dollars_for_buy = p.amount * portfolio_value;
-	auto shares_to_buy = dollars_for_buy / price;
+	const auto dollars_for_buy = p.amount * portfolio_value;
+	const auto shares_to_buy = dollars_for_buy / price;
 	holdings.push_back ( {p.sp, shares_to_buy});
       }
 
@@ -116,24 +116,25 @@ namespace merkatilo {
   
   series_ptr allocation_equity_line (std::vector<allocation>& allocations, double initial_value)
   {
-    auto portfolio_history = allocations_to_portfolios(allocations);
+    const auto portfolio_history = allocations_to_portfolios(allocations);
 
     std::map<jdate,std::vector<holding>> holdings_by_date;
     for(const auto& p : portfolio_history){
       holdings_by_date.insert ({ p.date, p.holdings });
     }
 
-    auto fd = holdings_by_date.begin()->first;
+    const auto fd = holdings_by_date.begin()->first;
     std::vector<holding> holdings { holding { CASH, 1 }};
 
     series_builder builder;
     
     for (auto dt = fd; dt < today(); dt++){
-      double portfolio_valuation = holding_valuations(dt, holdings);
-      auto find = holdings_by_date.find(dt);
+      const double portfolio_valuation = holding_valuations(dt, holdings);
+      const auto find = holdings_by_date.find(dt);
       if(find != holdings_by_date.end()){
 	if(!portfolio_valuation){
-	  std::runtime_error("missing series observation at allocation date " + jdate_to_string(dt));
+	  std::runtime_error("missing series observation at allocation date "
+			     + jdate_to_string(dt));
 	}
 	holdings = find->second;
       }	

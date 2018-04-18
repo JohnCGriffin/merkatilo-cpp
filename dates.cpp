@@ -61,7 +61,7 @@ namespace merkatilo {
   static std::set<jdate> _intersect(std::set<jdate> initial, std::function<bool(jdate)> f)
   {
     std::set<jdate> result;
-    for(auto jd : initial){
+    for(const auto jd : initial){
       if(valid(f(jd))){
 	result.insert(jd);
       }
@@ -81,7 +81,7 @@ namespace merkatilo {
   }
 
   dateset_builder& dateset_builder::add(dateset_ptr ds){
-    for(auto jd : *ds){
+    for(const auto jd : *ds){
       if(_low && jd < _low){
 	continue;
       }

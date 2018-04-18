@@ -15,14 +15,14 @@ namespace merkatilo {
   
   series_ptr to_signals(series_ptr sp, dateset_ptr dates)
   {
-    auto s = sp.get();
+    const auto s = sp.get();
     auto prev = 0.0;
     series_builder builder;
     
-    for(auto dt : *dates){
-      auto val = s->at(dt);
+    for(const auto dt : *dates){
+      const auto val = s->at(dt);
       if(valid(val)){
-	auto sig = sign(val);
+	const auto sig = sign(val);
 	if(sig != prev){
 	  prev = sig;
 	  builder.insert({dt, sig});

@@ -11,7 +11,7 @@ namespace merkatilo {
   {
     std::vector<std::string> result;
     for(auto pos = s.find(delimiter); pos != std::string::npos; pos = s.find(delimiter)){
-      auto token = s.substr(0,pos);
+      const auto token = s.substr(0,pos);
       s = s.substr(pos+1);
       if(token.size()){
 	result.push_back(token);
@@ -30,7 +30,7 @@ namespace merkatilo {
     for(auto token : split(id,":")){
       oss << "/" << token;
     }
-    std::string the_file = (id[0] == '/') ? id : oss.str();
+    const std::string the_file = (id[0] == '/') ? id : oss.str();
     std::ifstream ifs(the_file);
     return read_series(ifs);
   }

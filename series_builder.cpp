@@ -9,7 +9,7 @@ namespace merkatilo {
   static size_t last_build_size = 0;
   
   void series_builder::insert(observation ob){
-    auto sz = obs.size();
+    const auto sz = obs.size();
     if(!sz && last_build_size){
       obs.reserve(last_build_size);
     }
@@ -69,14 +69,14 @@ namespace merkatilo {
     if(obs.empty()){
       return std::make_shared<series>();
     }
-    auto fd = obs.begin()->dt;
-    auto ld = obs.rbegin()->dt;
+    const auto fd = obs.begin()->dt;
+    const auto ld = obs.rbegin()->dt;
     double_v v;
     for(auto dt = fd; dt <= ld; dt = dt+1){
       v.push_back(default_value());
     }
     for(const auto& ob : obs){
-      int slot = ob.dt - fd;
+      const int slot = ob.dt - fd;
       v.at(slot) = ob.val;
     }
     last_build_size = obs.size();

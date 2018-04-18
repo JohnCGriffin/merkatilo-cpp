@@ -12,15 +12,15 @@ namespace merkatilo {
   
   void dump(std::initializer_list<series_ptr> seriesz)
   {
-    for(auto dt : *current_dates::active()){
+    for(const auto dt : *current_dates::active()){
       bool valid_row = false;
       std::ostringstream oss;
       oss << jdate_to_string(dt) << " ";
-      for (auto s : seriesz){
+      for (const auto s : seriesz){
 	oss << " ";
 	oss.width(12);
 	oss.precision(4);
-	auto val = s->at(dt);
+	const auto val = s->at(dt);
 	if(valid(val)){
 	  valid_row = true;
 	  oss << std::fixed << val;

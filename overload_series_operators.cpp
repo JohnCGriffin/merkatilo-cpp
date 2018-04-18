@@ -7,17 +7,17 @@ namespace merkatilo {
   overloaded_operator_variant::overloaded_operator_variant(double val) : s(constant(val)){}
 
   class binop_series : public series {
-    series_ptr a;
-    series_ptr b;
-    std::function<double(double,double)> op;
+    const series_ptr a;
+    const series_ptr b;
+    const std::function<double(double,double)> op;
   public:
     binop_series(series_ptr a,
 		 overloaded_operator_variant b,
 		 std::function<double(double,double)> op)
       : a(a), b(b.s), op(op) {}
     double at(jdate dt) const override {
-      auto a_val = a->at(dt);
-      auto b_val = b->at(dt);
+      const auto a_val = a->at(dt);
+      const auto b_val = b->at(dt);
       return (valid(a_val) && valid(b_val)) ? op(a_val,b_val) : default_value();
     }
   };

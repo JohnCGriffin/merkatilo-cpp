@@ -12,10 +12,10 @@ namespace merkatilo {
   }
 
   observations_ptr series_to_obs(series_ptr sp, dateset_ptr dates){
-    auto s = sp.get();
+    const auto s = sp.get();
     observations obs;
-    for(auto dt : *dates){
-      auto val = s->at(dt);
+    for(const auto dt : *dates){
+      const auto val = s->at(dt);
       if(valid(val)){
 	obs.push_back({dt, val});
       }

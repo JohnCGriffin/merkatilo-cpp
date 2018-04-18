@@ -15,10 +15,10 @@ namespace merkatilo {
 
   static double stddev (const std::vector<double>& v)
   {
-    auto mean = avg(v);
+    const auto mean = avg(v);
     std::vector<double> squaredDiffs;
     for (const auto& val : v){
-      auto diff = mean - val;
+      const auto diff = mean - val;
       squaredDiffs.push_back(diff * diff);
     }
     return std::sqrt(avg(squaredDiffs));
@@ -29,8 +29,8 @@ namespace merkatilo {
   
   double volatility (series_ptr sp, unsigned days, dateset_ptr dates) {
 
-    auto changes = mo_days(sp, days);
-    auto obs = changes->observations_by_date(dates);
+    const auto changes = mo_days(sp, days);
+    const auto obs = changes->observations_by_date(dates);
 
     std::vector<double> v;
     for (const auto& ob : *obs){

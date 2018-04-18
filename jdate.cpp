@@ -48,9 +48,9 @@ namespace merkatilo {
       throw std::invalid_argument("invalid month");
     }
   
-    int a = (14 - month) / 12;
-    int y = year + 4800 - a;
-    int m = (month + (12 * a) -3);
+    const int a = (14 - month) / 12;
+    const int y = year + 4800 - a;
+    const int m = (month + (12 * a) -3);
 
     return day
       + (((153 * m) + 2) / 5)
@@ -98,7 +98,7 @@ namespace merkatilo {
   }
 
   std::string jdate_to_string(jdate jd) {
-    auto tmp = ymd(jd);
+    const auto tmp = ymd(jd);
     char buf[32];
     sprintf(buf, "%04d-%02d-%02d", std::get<0>(tmp), std::get<1>(tmp), std::get<2>(tmp));
     return std::string(buf);
@@ -106,8 +106,8 @@ namespace merkatilo {
 
 
   jdate today(void) {
-    auto t = std::time(nullptr);
-    std::tm* tmstr = localtime(&t);
+    const auto t = std::time(nullptr);
+    const auto tmstr = localtime(&t);
     return ymd_to_jdate(tmstr->tm_year + 1900, tmstr->tm_mon+1, tmstr->tm_mday);
   }
 

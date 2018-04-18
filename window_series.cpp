@@ -16,19 +16,19 @@ namespace merkatilo {
 			    bool missing_data_permitted,
 			    dateset_ptr dates)
   {
-    auto s = sp.get();
+    const auto s = sp.get();
     std::vector<double> in;
     series_builder builder;
     
-    for(auto dt : *dates){
-      auto val = s->at(dt);
+    for(const auto dt : *dates){
+      const auto val = s->at(dt);
       in.push_back(val);
       if(!missing_data_permitted && !valid(val)){
 	in.clear();
       }
       if(in.size() >= N){
-	std::vector<double> section(in.begin()+(in.size()-N),in.end());
-	auto result = window_function(section);
+	const std::vector<double> section(in.begin()+(in.size()-N),in.end());
+	const auto result = window_function(section);
 	if(valid(result)){
 	  builder.insert({dt, result});
 	}

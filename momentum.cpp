@@ -20,17 +20,17 @@ namespace merkatilo {
       throw std::invalid_argument("mo requires period >= 1");
     }
     
-    auto s = sp.get();
+    const auto s = sp.get();
     series_builder builder;
     std::vector<double> cycle(N);
     size_t count = 0;
     
-    for(auto dt : *dates){
-      auto val = s->at(dt);
-      auto slot = count % N;
+    for(const auto dt : *dates){
+      const auto val = s->at(dt);
+      const auto slot = count % N;
       if(count >= N){
-	auto old_val = cycle[slot];
-	auto ratio = change(val, old_val);
+	const auto old_val = cycle[slot];
+	const auto ratio = change(val, old_val);
 	if(valid(ratio)){
 	  builder.insert({ dt, ratio});
 	}
@@ -57,14 +57,14 @@ namespace merkatilo {
       throw std::invalid_argument("mo_days require days >= 1");
     }
 
-    auto fs = fudge(sp);
-    auto s = fs.get();
+    const auto fs = fudge(sp);
+    const auto s = fs.get();
     series_builder builder;
 
-    for (auto dt : *dates){
-      auto now = s->at(dt);
-      auto then = s->at(dt - days);
-      auto ratio = change(now, then);
+    for (const auto dt : *dates){
+      const auto now = s->at(dt);
+      const auto then = s->at(dt - days);
+      const auto ratio = change(now, then);
       if(valid(ratio)){
 	builder.insert({dt, ratio});
       }

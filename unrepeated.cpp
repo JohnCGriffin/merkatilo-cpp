@@ -5,11 +5,11 @@
 namespace merkatilo {
 
   series_ptr unrepeated (series_ptr sp, dateset_ptr dates) {
-    auto s = sp.get();
+    const auto s = sp.get();
     series_builder builder;
     double prev = default_value();
-    for (auto dt : *dates){
-      auto val = s->at(dt);
+    for (const auto dt : *dates){
+      const auto val = s->at(dt);
       if(val == prev){
 	;
       } else if(valid(val)){
