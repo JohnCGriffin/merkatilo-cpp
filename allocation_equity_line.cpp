@@ -3,6 +3,7 @@
 #include <iostream>
 #include <algorithm>
 #include <map>
+#include <cmath>
 #include "merkatilo.hpp"
 
 namespace merkatilo {
@@ -54,7 +55,7 @@ namespace merkatilo {
     for(const auto &p : new_portions){
       total += p.amount;
     }
-    if(std::abs(total - 1) > 0.00001){
+    if(std::fabs(total - 1.0) > 0.00001){
       throw std::logic_error("weights of allocation should sum to 1");
     }
     return allocation { a.date, new_portions };
