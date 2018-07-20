@@ -14,7 +14,7 @@ static series_ptr test_lo (std::string name){
 
 void measure(std::string name, std::function<series_ptr(void)> thunk)
 {
-  const int ITERATIONS = 200;
+  const int ITERATIONS = 500;
   auto start = high_resolution_clock::now();
   for(int i=0; i<ITERATIONS; i++){
     auto s = thunk();

@@ -54,10 +54,11 @@ namespace merkatilo {
 
   series_ptr series_builder::construct()
   {
-    bool is_signal_series = true;
+    //bool is_signal_series = true;
     if(!ordered){
       std::sort(obs.begin(), obs.end());
     }
+    /*
     for(unsigned int i=0; i<obs.size() && is_signal_series; i++){
       if(std::abs(obs.at(i).val) != 1.0){
 	is_signal_series = false;
@@ -66,15 +67,19 @@ namespace merkatilo {
 	is_signal_series = false;
       }
     }
+    */
     if(obs.empty()){
       return std::make_shared<series>();
     }
     const auto fd = obs.begin()->dt;
     const auto ld = obs.rbegin()->dt;
-    double_v v;
+    double_v v(1 + (ld-fd), default_value());
+    /*
+    v.reserve(1 + (ld - fd));
     for(auto dt = fd; dt <= ld; dt = dt+1){
       v.push_back(default_value());
     }
+    */
     for(const auto& ob : obs){
       const int slot = ob.dt - fd;
       v.at(slot) = ob.val;
