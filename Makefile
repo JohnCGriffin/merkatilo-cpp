@@ -26,9 +26,6 @@ test: merkatilo-test-data merkatilo.hpp.gch testing.o testing_main.o libs
 benchmark: merkatilo.hpp.gch benchmark.o libmerkatilo.a
 	$(CXX) $(CXXFLAGS) -static benchmark.o -L. -lmerkatilo -o benchmark 
 
-bench: benchmark
-	./benchmark
-
 merkatilo.hpp.gch: merkatilo.hpp
 	$(CXX) $(CXXFLAGS) -c merkatilo.hpp
 
@@ -46,3 +43,6 @@ clean:
 
 merkatilo-test-data: /tmp/merkatilo-test-data/ema-3.txt
 	@test -d /tmp/merkatilo-test-data
+
+bench: libmerkatilo.a standard_bench.cpp
+	g++ -O3 --std=c++14 standard_bench.cpp libmerkatilo.a && ./a.out
