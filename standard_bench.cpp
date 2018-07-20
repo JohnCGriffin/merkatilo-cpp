@@ -34,6 +34,7 @@ void measure(std::string name, std::function<series_ptr(void)> thunk)
 int main(int argc, char** argv)
 {
   auto BENCHMARK = test_lo("benchmark");
+  auto TEST_SERIES = test_lo("test-series");
   current_dates active(BENCHMARK);
   auto EMA = ema(BENCHMARK,10);
   auto SIGS = cross(EMA,BENCHMARK);
@@ -44,4 +45,18 @@ int main(int argc, char** argv)
   measure("equity", [&]() { return equity_line(BENCHMARK,SIGS); });
   measure("fudge", [&]() { return fudge(BENCHMARK); });
   measure("ma", [&](){ return ma(BENCHMARK,10); });
+  measure("math-add", [&](){ return BENCHMARK+BENCHMARK; });
+  measure("math-div", [&](){ return BENCHMARK/BENCHMARK; });
+  measure("math-mul", [&](){ return BENCHMARK*BENCHMARK; });
+  measure("math-sub", [&](){ return BENCHMARK-BENCHMARK; });
+  measure("min-max", [&](){ min_max_obs(BENCHMARK); return constant(1.3); });
+  measure("mo", [&](){ return mo(BENCHMARK,10); });
+  measure("mo-days", [&](){ return mo_days(BENCHMARK,10); });
+  measure("repeated", [&](){ return repeated(BENCHMARK); });
+  measure("reversal", [&](){ return reversals(BENCHMARK,0.9,1.1); });
+  measure("signal", [&](){ return to_signals(SIGS); });
+  measure("unrepeated", [&](){ return unrepeated(BENCHMARK); });
+  measure("volatility", [&](){ volatility(BENCHMARK); return constant(3.2); });
+  measure("warp", [&](){ return warp(BENCHMARK,10); });
+
 }
