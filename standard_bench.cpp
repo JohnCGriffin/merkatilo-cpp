@@ -31,7 +31,7 @@ void measure(std::string name, std::function<series_ptr(void)> thunk)
 }
 
 
-int main(int argc, char** argv)
+int main()
 {
   auto BENCHMARK = test_lo("benchmark");
   auto TEST_SERIES = test_lo("test-series");

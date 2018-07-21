@@ -48,7 +48,7 @@ namespace merkatilo {
   struct series_builder {
     bool ordered = true;
     std::vector<observation> obs;
-    void insert(observation);
+    series_builder& insert(observation);
     series_ptr construct();
   };
 

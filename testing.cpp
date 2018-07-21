@@ -8,6 +8,7 @@
 #include <iostream>
 #include <iomanip>
 #include <algorithm>
+#include <memory>
 
 using namespace merkatilo;
 
@@ -294,11 +295,11 @@ TEST_CASE("CONSTANT"){
 
 TEST_CASE("EQUITYLINE"){
 
- current_dates active(TEST_SERIES);
- const auto EQUITYLINE_EMA_10 = test_lo("equityline-ema-10");
- const auto crossed = cross(ema(TEST_SERIES,10), TEST_SERIES);
- REQUIRE(verify_equivalency(equity_line(TEST_SERIES,crossed),
-			    EQUITYLINE_EMA_10));
+  current_dates active(TEST_SERIES);
+  const auto EQUITYLINE_EMA_10 = test_lo("equityline-ema-10");
+  const auto crossed = cross(ema(TEST_SERIES,10), TEST_SERIES);
+  REQUIRE(verify_equivalency(equity_line(TEST_SERIES,crossed),
+			     EQUITYLINE_EMA_10));
 
 }
 
@@ -455,3 +456,78 @@ TEST_CASE("CAPTURE"){
   REQUIRE(approximates(up_capture(TEST_SERIES, warp(TEST_SERIES,10), 21), 0.4715927637890245));
   
 }
+
+TEST_CASE("PREPEND"){
+  const auto dt_2000_01_01 = parse_jdate("2000-1-1");
+  const auto dt_2012_01_01 = parse_jdate("2012-1-1");
+  const auto dt_2013_01_01 = parse_jdate("2013-1-1");
+  const auto dt_2013_02_01 = parse_jdate("2013-2-1");
+  const auto dt_2013_03_01 = parse_jdate("2013-3-1");
+  const auto dt_2013_06_01 = parse_jdate("2013-6-1");
+  const auto dt_2014_01_01 = parse_jdate("2014-1-1");
+  const auto dt_2015_01_01 = parse_jdate("2015-1-1");
+  const auto dt_2016_01_01 = parse_jdate("2016-1-1");
+
+  const auto earlier = ([&](){
+      series_builder builder;
+      return (builder.insert({dt_2013_01_01, 80})
+	      .insert({dt_2013_02_01, 90})
+	      .insert({dt_2013_03_01, 100})
+	      .construct());
+    })();
+
+  const auto later = ([&](){
+      series_builder builder;
+      return (builder.insert({dt_2013_03_01,1000})
+	      .insert({dt_2013_06_01,1130})
+	      .construct());
+    })();
+
+  const auto too_much_later = ([&](){
+      series_builder builder;
+      return (builder.insert({dt_2014_01_01, 10000})
+	      .insert({dt_2016_01_01, 11111})
+	      .construct());
+    })();
+
+  {
+    auto literal = ([&](){
+			   series_builder builder;
+			   return (builder.insert({dt_2013_01_01,800})
+				   .insert({dt_2013_02_01,900})
+				   .insert({dt_2013_03_01, 1000})
+				   .insert({dt_2013_06_01, 1130})
+				   .construct());
+      })();
+  
+    dateset_builder b(dt_2012_01_01, dt_2015_01_01);
+    current_dates active(std::make_shared<dateset>(b.construct()));
+    REQUIRE_THROWS(prepend(too_much_later,earlier));
+    REQUIRE(verify_equivalency(prepend(later,earlier),literal));
+  }
+
+}
+
+/*
+  (module* test racket/base
+  (require rackunit
+  (submod "..")
+  "private/test-support.rkt")
+  (with-dates (dates #:first '2012-1-1 #:last '2015-1-1)
+  (define EARLIER (literal-series '((2013-1-1 80) (2013-2-1 90) (2013-3-1 100))))
+  (define LATER (literal-series '((2013-3-1 1000) (2013-6-1 1130))))
+  (define TOO-MUCH-LATER (literal-series '((2014-1-1 10000) (2016-1-1 11111))))
+  (check-exn
+  exn?
+  (λ ()
+  (with-dates (dates #:first '2000-1-1 #:last (today))
+  (prepend TOO-MUCH-LATER #:with-surrogate EARLIER))))
+  (check-not-exn
+  (λ ()
+  (verify-equivalency
+  (prepend LATER #:with-surrogate EARLIER)
+  (literal-series '((2013-1-1 800) (2013-2-1 900) (2013-3-1 1000) (2013-6-1 1130))))))))
+
+*/
+
+

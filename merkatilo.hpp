@@ -113,6 +113,13 @@ namespace merkatilo {
   
   series_ptr fudge (series_ptr s, unsigned days=6);
 
+  /// @prepend prepends series with surrogate starting prior to common point
+  /// @param base the base series
+  /// @param surrogate the predated series scaled to match the base
+  /// @dates date range to find common point
+
+  series_ptr prepend (series_ptr base, series_ptr surrogate,
+		      dateset_ptr dates=current_dates::active());
 
   /// @brief series that returns N for any date
   /// @param N the returned value for any date

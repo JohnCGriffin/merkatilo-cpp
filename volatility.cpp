@@ -16,12 +16,13 @@ namespace merkatilo {
   static double stddev (const std::vector<double>& v)
   {
     const auto mean = avg(v);
-    std::vector<double> squaredDiffs;
-    for (const auto& val : v){
-      const auto diff = mean - val;
-      squaredDiffs.push_back(diff * diff);
+    double totalDiff = 0.0;
+    for (const auto val : v){
+      auto diff = mean - val;
+      totalDiff += (diff * diff);
     }
-    return std::sqrt(avg(squaredDiffs));
+    auto avgDiff = totalDiff / v.size();
+    return std::sqrt(avgDiff);
   }
 
   /// Defaulting to 365 days, return the standard deviation of
@@ -33,6 +34,8 @@ namespace merkatilo {
     const auto obs = changes->observations_by_date(dates);
 
     std::vector<double> v;
+    v.reserve(obs->size());
+    
     for (const auto& ob : *obs){
       if(valid(ob.val)){
 	v.push_back(ob.val);

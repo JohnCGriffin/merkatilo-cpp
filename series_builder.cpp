@@ -8,7 +8,7 @@ namespace merkatilo {
 
   static size_t last_build_size = 0;
   
-  void series_builder::insert(observation ob){
+  series_builder& series_builder::insert(observation ob){
     const auto sz = obs.size();
     if(!sz && last_build_size){
       obs.reserve(last_build_size);
@@ -17,6 +17,7 @@ namespace merkatilo {
       ordered = false;
     }
     obs.push_back(ob);
+    return *this;
   }
 
   typedef std::pair<jdate_v_ptr,observations_ptr> obs_cache;
