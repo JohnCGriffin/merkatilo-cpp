@@ -46,9 +46,6 @@ int main()
   measure("fudge", [&]() { return fudge(BENCHMARK); });
   measure("ma", [&](){ return ma(BENCHMARK,10); });
   measure("math-add", [&](){ return BENCHMARK+BENCHMARK; });
-  measure("math-div", [&](){ return BENCHMARK/BENCHMARK; });
-  measure("math-mul", [&](){ return BENCHMARK*BENCHMARK; });
-  measure("math-sub", [&](){ return BENCHMARK-BENCHMARK; });
   measure("min-max", [&](){ min_max_obs(BENCHMARK); return constant(1.3); });
   measure("mo", [&](){ return mo(BENCHMARK,10); });
   measure("mo-days", [&](){ return mo_days(BENCHMARK,10); });
