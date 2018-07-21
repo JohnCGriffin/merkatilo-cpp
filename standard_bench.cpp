@@ -52,6 +52,7 @@ int main()
   measure("min-max", [&](){ min_max_obs(BENCHMARK); return constant(1.3); });
   measure("mo", [&](){ return mo(BENCHMARK,10); });
   measure("mo-days", [&](){ return mo_days(BENCHMARK,10); });
+  measure("prepend", [&](){ return prepend(TEST_SERIES, BENCHMARK); });
   measure("repeated", [&](){ return repeated(BENCHMARK); });
   measure("reversal", [&](){ return reversals(BENCHMARK,0.9,1.1); });
   measure("signal", [&](){ return to_signals(SIGS); });
