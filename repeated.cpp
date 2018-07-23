@@ -11,8 +11,9 @@ namespace merkatilo {
   series_ptr repeated (series_ptr sp, bool repeat_last, dateset_ptr dates){
 
     const auto s = sp.get();
-    observations obs;
     observation last_ob { 0, default_value() };
+
+    series_builder builder;
 
     for (const auto dt : *dates){
 
@@ -20,21 +21,13 @@ namespace merkatilo {
 
       if(valid(val)){
 	last_ob = { dt, val };
-	obs.push_back(last_ob);
+	builder.insert(last_ob);
 	
       } else if (last_ob.dt) {
-	obs.push_back({ dt, last_ob.val });
+	builder.insert({ dt, last_ob.val });
 	
       }
       
-    }
-
-    series_builder builder;
-
-    for (const auto& ob : obs){
-      if(repeat_last || ob.dt <= last_ob.dt){
-	builder.insert(ob);
-      }
     }
 
     return builder.construct();
