@@ -10,6 +10,8 @@ namespace merkatilo {
 
   series_ptr repeated (series_ptr sp, bool repeat_last, dateset_ptr dates){
 
+    auto boundary_date = repeat_last ? (last_date(dates)+1) : (last_ob(sp,dates).dt+1);
+
     const auto s = sp.get();
     observation last_ob { 0, default_value() };
 
@@ -17,7 +19,11 @@ namespace merkatilo {
 
     for (const auto dt : *dates){
 
-     const auto val = s->at(dt);
+      if (dt >= boundary_date){
+	break;
+      }
+
+      const auto val = s->at(dt);
 
       if(valid(val)){
 	last_ob = { dt, val };
